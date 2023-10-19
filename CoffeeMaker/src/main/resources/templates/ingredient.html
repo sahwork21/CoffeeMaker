@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Ingredient</title>
+	<link rel="stylesheet" href="css/bootstrap.css" />
+	<link rel="stylesheet" href="css/app.css" />
+	<style>
+		input.ng-valid {
+			background-color: lightgreen;
+		}
+
+		input.ng-dirty.ng-invalid-required,
+		input.ng-dirty.ng-invalid-number {
+			background-color: red;
+		}
+
+		input.ng-dirty.ng-invalid-min {
+			background-color: yellow;
+		}
+	</style>
+</head>
+
+<body>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+	<script>
+		/*<![CDATA[*/
+		var app = angular.module('myApp', []);
+		app.controller('inventoryCtrl', function ($scope, $http) {
+			
+			$scope.ingredient = {
+				name : '',
+				amount : '',
+				isInventory: false
+			}
+			
+
+			$scope.putInventory = function() {
+				$scope.success = false;
+				$scope.failure = false;
+				
+				$http.put("/api/v1/inventory/ingredients", $scope.ingredient).then(
+					function (response) {
+						
+					}, function(rejection) {
+						$scope.failure = true;
+						$scope.success = false;
+						console.error("Error while updating inventory");
+					});
+				
+				$scope.success = !($scope.failure);
+			}
+
+			$scope.submit = function () {
+				
+				
+				$scope.putInventory();
+				
+				$scope.reset();
+			}
+			
+			
+		
+
+			$scope.reset = function() {
+				$scope.ingredient = {
+					name : '',
+					amount : '',
+					isInventory: false
+				}
+
+				if (undefined != $scope.addIngredientForm) {
+					$scope.addIngredientForm.$setPristine(); //reset Form
+				}
+			}
+
+			$scope.reset();
+
+
+		});
+		/*]]>*/
+	</script>
+
+
+
+	<div class="generic-container ng-cloak" ng-app="myApp" ng-controller="inventoryCtrl as ctrl">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="lead">Add Ingredient</span>
+			</div>
+
+			<div class="panel-heading">
+				<span class="lead">Create a new ingredient to be added to the inventory</span>
+			</div>
+			<div class="formcontainer">
+				<form ng-submit="submit()" name="addIngredientForm" class="form-horizontal">
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Name</label>
+							<div class="col-md-7">
+								<input type = "text" ng-model="ingredient.name" name = "name" placeholder="Enter Ingredient Name" required="0" min="0" />
+								<div class="has-error" ng-show="addIngredientForm.$dirty">
+									<span ng-show="addIngredientForm.name.$error.required">This
+										is a required field.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Initial Amount</label>
+							<div class="col-md-7">
+								<input type="number" ng-model="ingredient.amount" name = "amount" placeholder="Enter Initial Ingredient Amount"
+									required="0" min="0" />
+								<div class="has-error" ng-show="addIngredientForm.$dirty">
+									<span ng-show="addIngredientForm.amount.$error.required">This
+										is a required field.</span> <span
+										ng-show="addIngredientForm.amount.$error.min">Minimum
+										amount is 0.</span> <span ng-show="addIngredientForm.amount.$invalid">This
+										field is invalid.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-actions floatRight">
+							<input type="submit" value="Submit"
+								class="btn btn-primary btn-sm"
+								ng-disabled="addIngredientForm.$invalid" />
+							<button type="button" ng-click="reset()" class="btn btn-warning btn-sm"
+								ng-disabled="addIngredientForm.$pristine">Reset Form</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div ng-show="success">Inventory Successfully Updated. Ingredient added.</div>
+			<div ng-show="failure">Error while updating inventory. Ingredient of the same name already exists.</div>
+		</div>
+		
+
+		<a href="/index">Home</a>
+	</div>
+
+
+
+</body>
+
+</html>

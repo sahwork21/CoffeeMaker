@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<!--- Header information about the page -->
+
+<body>
+	<div layout:fragment="content">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+		<script>
+			/* Without these comments, Thymeleaf will try to parse the Javascript as XML and break itself sometimes */
+			/*<![CDATA[*/
+			var app = angular.module('myApp', []);
+			app.controller('populateCtrl', function ($scope, $http, $q) {
+				let x = 10;
+				let y = 15;
+
+				$scope.sum = x + y;
+				console.log($scope);
+
+
+				$scope.myFunction = function () {
+					alert("You entered" + $scope.x);
+				}
+
+				$scope.math = function (a, b) {return (20*a) - 5*b;}
+
+
+				$http.get("/api/v1/recipes").then(function (response) {
+					$scope.recipes = response.data;
+				});
+
+				$scope.timeIntervals = [
+					{value: 1, display: 'Seconds'},
+					{value: 2, display: 'Minutes'},
+					{value: 3, display: 'Hours'},
+					{value: 4, display: 'Days'}
+				];
+
+				$scope.branches = ["blue", "red", "green", "yellow",
+					"orange", "purple", "pink"];
+
+				$scope.selectedBranches = []
+				/* Logic that handles controlling your page goes here */
+
+
+				$scope.commitData = {
+					"Julian Madrigal (jmadrig@ncsu.edu)":
+						[
+							{"count": 0, "display": "01/03/2020 00:00", "timestamp": 15038800100},
+							{"count": 0, "display": "03/03/2020 00:00", "timestamp": 15832600100}
+						],
+					"Sean Hinton (shint2@ncsu.edu)":
+						[
+							{"count": 0, "display": "01/03/2020 00:00", "timestamp": 158303800100},
+							{"count": 0, "display": "03/03/2020 00:00", "timestamp": 158321600000},
+							{"count": 0, "display": "05/03/2020 00:00", "timestamp": 15833800000}
+						]
+				};
+
+			});
+
+
+
+			/* Without these comments, Thymeleaf will try to parse the Javascript as XML and break itself sometimes */
+			/*]]>*/
+		</script>
+
+		<div ng-app="myApp" ng-controller="populateCtrl">
+			<input type="text" ng-model="x" required="true" />
+			<input type="text" ng-model="y" required="true" />
+			<button type="button" ng-click="myFunction()">Click me</button>
+			The result is {{math(x,y)}}
+			<p></p>
+
+			<div class="col-sm">
+				Select time <br />
+				<select ng-model="interval" ng-options="item as item.display for item in timeIntervals" required="true">
+					<option value="">Select time for viewing data</option>
+				</select>
+			</div>
+
+			<div class="col-sm">
+				(Optional)  Select colors <br />
+				<div ng-repeat="branch in branches track by $index">
+					<input type="checkbox" ng-model="$parent.selectedBranches[branch]">
+					<tt> {{branch}}</tt> <!-- remove the extra spaces -->
+					</input>
+				</div>
+			</div>
+
+			<div ng-repeat="(user, commits) in commitData track by $index">
+				Commits for {{user}}:<br />
+				<div id="{{user}}">
+					<li ng-repeat="commit in commits">{{commit.display}}</li>
+				</div>
+			</div>
+
+			<!--- Various HTML elements, with extra tags telling Angular how to work with them, go here -->
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>
