@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Inventory</title>
+	<link rel="stylesheet" href="css/bootstrap.css" />
+	<link rel="stylesheet" href="css/app.css" />
+	<style>
+		input.ng-valid {
+			background-color: lightgreen;
+		}
+
+		input.ng-dirty.ng-invalid-required,
+		input.ng-dirty.ng-invalid-number {
+			background-color: red;
+		}
+
+		input.ng-dirty.ng-invalid-min {
+			background-color: yellow;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+</head>
+
+<body>
+
+
+	<script>
+		/*<![CDATA[*/
+		var app = angular.module('myApp', []);
+		app.controller('inventoryCtrl', function ($scope, $http) {
+
+			//Inventory of ingredient objects we want to show off
+			$scope.inventoryIngredients = {};
+
+			$scope.inventory = {};
+
+
+			
+
+
+			//Get the inventory of ingredients
+			$scope.getInventory = function () {
+				$http.get("/api/v1/inventory").then(function (response) {
+					let ingredients = response.data.ingredients;
+					console.log(ingredients);
+					//Now push on the objects to the other inventory
+					for (let i = 0; i < ingredients.length; i++) {
+						//This also takes care of resets
+						$scope.inventoryIngredients[ingredients[i].name] = {
+							'id': ingredients[i].id,
+							'name': ingredients[i].name,
+							'amount': ingredients[i].amount,
+							'display': ingredients[i].name,
+							'newAmount': ''
+						}
+					}
+				}, function (rejection) {
+					console.error("Error while getting Inventory");
+				});
+
+				console.log($scope.inventoryIngredients);
+			}
+
+			$scope.updateInventory = function () {
+				$scope.success = false;
+				$scope.failure = false;
+
+				//Allow null values for ingredients
+				//We can do this by changing the amount to equal newAmount and ignoring empties
+				for (ingredient in $scope.inventoryIngredients) {
+
+					//Iterate over the keys and push new ojects to our list 
+					console.log(ingredient);
+					let newValue = $scope.inventoryIngredients[ingredient].newAmount;
+					if ($scope.inventoryIngredients[ingredient].newAmount != null) {
+						$scope.inventory.ingredients.push({
+							name: ingredient,
+							amount: newValue,
+							isInventory: true
+						})
+					}
+					else {
+						$scope.inventory.ingredients.push({
+							name: ingredient,
+							amount: 0,
+							isInventory: true
+						})
+					}
+				}
+
+				console.log($scope.inventory);
+
+
+
+				$http.put("/api/v1/inventory", $scope.inventory).then(
+					function (response) {
+						$scope.getInventory();
+						console.log("Inventory Added")
+					}, function (rejection) {
+						$scope.failure = true;
+						$scope.success = false;
+						console.error("Error while updating Inventory!");
+					});
+				$scope.success = !($scope.failure);
+			}
+
+			$scope.submit = function () {
+				$scope.updateInventory();
+
+				$scope.reset();
+
+			}
+
+
+			//Get the inventory of ingredients on start
+			//$scope.getInventory();
+
+
+			$scope.reset = function () {
+				//Reset our submission inventory placeholder
+				$scope.inventory = {
+					'ingredients': []
+				};
+				if (undefined != $scope.addInventoryForm) {
+					$scope.addInventoryForm.$setPristine(); //reset Form
+				}
+				$scope.getInventory();
+				
+			}
+
+			$scope.reset();
+			
+			
+
+		});
+		/*]]>*/
+	</script>
+
+
+
+	<div class="generic-container ng-cloak" ng-app="myApp" ng-controller="inventoryCtrl as ctrl">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="lead">View Inventory</span>
+			</div>
+			<!-- You cannot add a scroll bar to the spans since their heights are set -->
+
+			<!--Need to make alternate ingredients display correctly-->
+
+			<div ng-repeat="(inventoryIngredient, data) in inventoryIngredients track by $index">
+				{{inventoryIngredient}}: <span id="{{inventoryIngredient}}"
+					ng-bind="inventoryIngredients[inventoryIngredient].amount"></span><br />
+			</div>
+
+
+
+
+			<div class="panel-heading">
+				<span class="lead">Update Inventory Form </span>
+			</div>
+
+			<!--Added a scroll bar the form-->
+
+			<!--For the form required values for each ingredient have been removed-->
+			<div class="formcontainer" style="overflow-y: scroll; ">
+				<form ng-submit="submit()" name="addInventoryForm" class="form-horizontal">
+
+
+
+					<!--Ingredients rows that we want to update for the inventory-->
+					<div class="row" ng-repeat="(inventoryIngredient, data) in inventoryIngredients track by $index">
+						<div class="form-group col-md-12" id="{{inventoryIngredient}}">
+							<p class="col-md-2">{{inventoryIngredient}}</p>
+							<div class="col-md-7">
+								<input class="form-control input-sm" name="{{inventoryIngredient}}"
+									ng-model="inventoryIngredients[inventoryIngredient].newAmount" type="number"
+									placeholder="Enter amount of {{inventoryIngredient}} - optional" min="0">
+							</div>
+
+
+							<div class="has-error" ng-show="addInventoryForm.$dirty">
+								<span ng-show="addInventoryForm[inventoryIngredient].$error.invalid">Please enter a
+									number</span> <span
+									ng-show="addInventoryForm[inventoryIngredient].$error.min">Minimum
+									amount
+									is 0</span>
+							</div>
+
+						</div>
+					</div>
+
+
+
+
+					<div class="row">
+						<div class="form-actions floatRight">
+							<input type="submit" value="Submit" class="btn btn-primary btn-sm"
+								ng-disabled="addInventoryForm.$invalid" />
+							<button type="button" ng-click="reset()" class="btn btn-warning btn-sm"
+								ng-disabled="addInventoryForm.$pristine">Reset Form</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div ng-show="success">Inventory Successfully Updated</div>
+			<div ng-show="failure">Error while updating inventory.</div>
+		</div>
+
+		<a href="/index">Home</a>
+	</div>
+
+
+
+</body>
+
+</html>
