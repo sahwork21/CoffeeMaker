@@ -1,0 +1,82 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLGeneric</id><coordinates><x>0</x><y>0</y><w>100</w><h>30</h></coordinates><panel_attributes>Front End
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>500</x><y>0</y><w>100</w><h>30</h></coordinates><panel_attributes>User
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>200</x><y>0</y><w>120</w><h>30</h></coordinates><panel_attributes>APIUserController
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>640</x><y>0</y><w>100</w><h>30</h></coordinates><panel_attributes>UserService
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>820</x><y>0</y><w>100</w><h>30</h></coordinates><panel_attributes>UserRepository
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>20</y><w>30</w><h>610</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;590</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>250</x><y>120</y><w>20</w><h>610</h></coordinates><panel_attributes>
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>250</x><y>20</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>680</x><y>110</y><w>20</w><h>60</h></coordinates><panel_attributes>
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>540</x><y>360</y><w>20</w><h>30</h></coordinates><panel_attributes>
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>860</x><y>120</y><w>20</w><h>60</h></coordinates><panel_attributes>
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>100</y><w>230</w><h>50</h></coordinates><panel_attributes>createUser( username, password, role)
+lt=&lt;-
+</panel_attributes><additional_attributes>210;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>140</y><w>440</w><h>40</h></coordinates><panel_attributes>User
+lt=&lt;-</panel_attributes><additional_attributes>10;20;420;20</additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>110</y><w>440</w><h>40</h></coordinates><panel_attributes>     userService.findByName( username )
+lt=&lt;-</panel_attributes><additional_attributes>420;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>120</y><w>190</w><h>40</h></coordinates><panel_attributes>UserRepository.findOne()
+lt=&lt;-</panel_attributes><additional_attributes>170;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>140</y><w>190</w><h>40</h></coordinates><panel_attributes>DomainObject
+lt=&lt;-</panel_attributes><additional_attributes>10;20;170;20</additional_attributes></element><element><id>UMLFrame</id><coordinates><x>50</x><y>180</y><w>920</w><h>550</h></coordinates><panel_attributes>New user flow
+--
+[UserService.findByName() == null] This is a unique username
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-.
+
+[else]
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>540</y><w>230</w><h>40</h></coordinates><panel_attributes>ResponseEntity (200 OK)
+lt=&lt;-</panel_attributes><additional_attributes>10;20;210;20</additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>600</y><w>230</w><h>40</h></coordinates><panel_attributes>ResponseEntity (400 Bad Request)
+lt=&lt;-</panel_attributes><additional_attributes>10;20;210;20</additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>680</y><w>230</w><h>40</h></coordinates><panel_attributes>ResponseEntity (409 Conflict)
+lt=&lt;-</panel_attributes><additional_attributes>10;20;210;20</additional_attributes></element><element><id>Relation</id><coordinates><x>540</x><y>20</y><w>30</w><h>280</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;260</additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>20</y><w>30</w><h>110</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>860</x><y>20</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>170</y><w>30</w><h>350</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;330</additional_attributes></element><element><id>Relation</id><coordinates><x>860</x><y>170</y><w>30</w><h>360</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;340</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>540</x><y>280</y><w>20</w><h>40</h></coordinates><panel_attributes>
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>260</y><w>300</w><h>50</h></coordinates><panel_attributes>User.setUserData(username, password, role)
+lt=&lt;-
+</panel_attributes><additional_attributes>280;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>290</y><w>300</w><h>40</h></coordinates><panel_attributes>void (username, password, and role set)
+lt=&lt;-</panel_attributes><additional_attributes>10;20;280;20</additional_attributes></element><element><id>Relation</id><coordinates><x>540</x><y>310</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;50</additional_attributes></element><element><id>UMLFrame</id><coordinates><x>170</x><y>430</y><w>800</w><h>210</h></coordinates><panel_attributes>Verify User
+--
+[validUser == true] All the credentials and roles are valid
+
+
+
+
+
+
+
+
+-.
+[else]
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>370</y><w>300</w><h>40</h></coordinates><panel_attributes>validUser
+lt=&lt;-</panel_attributes><additional_attributes>10;20;280;20</additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>490</y><w>440</w><h>50</h></coordinates><panel_attributes>saveUser(user)
+lt=&lt;-
+</panel_attributes><additional_attributes>420;20;10;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>680</x><y>500</y><w>20</w><h>60</h></coordinates><panel_attributes>
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>530</y><w>190</w><h>40</h></coordinates><panel_attributes>void
+lt=&lt;-</panel_attributes><additional_attributes>10;20;170;20</additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>500</y><w>190</w><h>40</h></coordinates><panel_attributes>save(user)
+lt=&lt;-</panel_attributes><additional_attributes>170;20;10;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>860</x><y>510</y><w>20</w><h>60</h></coordinates><panel_attributes>
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>530</y><w>440</w><h>40</h></coordinates><panel_attributes>void
+lt=&lt;-</panel_attributes><additional_attributes>10;20;420;20</additional_attributes></element><element><id>Relation</id><coordinates><x>540</x><y>380</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>340</y><w>300</w><h>50</h></coordinates><panel_attributes>User.checkUser()
+lt=&lt;-
+</panel_attributes><additional_attributes>280;20;10;20</additional_attributes></element></diagram>
