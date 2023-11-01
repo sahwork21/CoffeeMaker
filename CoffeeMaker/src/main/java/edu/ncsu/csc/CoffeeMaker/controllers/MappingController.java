@@ -107,5 +107,8 @@ public class MappingController {
     public String makeCoffeeForm ( final Model model ) {
         return "makecoffee";
     }
+    
+    
+    
 
 }
