@@ -12,13 +12,4 @@ import javax.persistence.Entity;
 @Entity
 public class Customer extends AbstractUser {
 
-    /**
-     * Returns the id of the user
-     */
-    @Override
-    public Long getId () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

@@ -62,4 +62,27 @@ public abstract class AbstractUser extends DomainObject {
         this.roleType = roleType;
     }
 
+    /**
+     * Get the username of this class
+     *
+     * @return
+     */
+    public String getUsername () {
+        return username;
+    }
+
+    public String getPassword () {
+        return password;
+    }
+
+    public Role getRoleType () {
+        return roleType;
+    }
+
+    @Override
+    public Long getId () {
+        return id;
+
+    }
+
 }
