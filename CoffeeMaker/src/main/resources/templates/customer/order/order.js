@@ -22,5 +22,11 @@ app.controller('OrderController', function($scope, $http, $q) {
 		$scope.hidePopup = true;
 	}
 	
+	$scope.orderRecipe = function() {
+		// Check valid payment.
+		$scope.hidePopup = true;
+		// Send order request.
+	}
+	
 	$scope.fetchRecipes();
 });
