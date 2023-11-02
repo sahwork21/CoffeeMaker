@@ -81,10 +81,15 @@ public class APIInventoryController extends APIController {
             ingredientService.delete( i );
         }
 
-        inventoryCurrent.setIngredients( inventory.getIngredients() );
+        /* IMPORTANT **/
+
+        // Uncomment this and save the inventory current if things go wrong with
+        // ingredients
+        // inventoryCurrent.setIngredients( inventory.getIngredients() );
         // Delete the old inventory and save the new one
 
-        service.save( inventoryCurrent );
+        service.delete( inventoryCurrent );
+        service.save( inventory );
 
         return new ResponseEntity( inventoryCurrent, HttpStatus.OK );
     }
@@ -111,6 +116,11 @@ public class APIInventoryController extends APIController {
         }
 
         inventoryCurrent.addIngredient( ing );
+
+        // The change deletes the old inventory and replaces it
+        // This should resolve an issue with unlinked ingredients persisting
+        // .delete( inventoryCurrent );
+
         service.save( inventoryCurrent );
         return new ResponseEntity( inventoryCurrent, HttpStatus.OK );
     }
