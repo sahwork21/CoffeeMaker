@@ -40,9 +40,8 @@ public abstract class AbstractUser extends DomainObject {
 
     /** Constructor empty constructor */
     public AbstractUser () {
-        username = "";
-        password = "";
-        roleType = null;
+
+        this( "", "", null );
     }
 
     /**
@@ -60,23 +59,59 @@ public abstract class AbstractUser extends DomainObject {
         this.username = username;
         this.password = password;
         this.roleType = roleType;
+
     }
 
     /**
-     * Get the username of this class
+     * Get the username of this user
      *
-     * @return
+     * @return the user's username
      */
-    public String getUsername () {
+    public String getUserName () {
         return username;
     }
+    // There is no need for setter when we have a final keyword for the
+    // variables
+    // public void setUserName(String userName) {
+    // if(userName == null || "".equals(userName)) {
+    // throw new IllegalArgumentException("Invalid name.");
+    // }
+    //
+    // }
 
-    public String getPassword () {
-        return password;
+    private void hashPassword ( final String password ) {
+
     }
 
-    public Role getRoleType () {
+    private String decryptPassword ( final String password ) {
+        return "";
+    }
+
+    // There is no need for setter when we have a final keyword for the
+    // variables
+    // public void setPassword(String password) {
+    //
+    // }
+    /**
+     * gets the password of the specific username
+     *
+     * @return string
+     */
+    public String getPassword () {
+        return "";
+    }
+
+    /**
+     * get the role of the user
+     *
+     * @return roleType role of the user.
+     */
+    public Role getUserType () {
         return roleType;
+    }
+
+    public void setUserType () {
+
     }
 
     @Override
