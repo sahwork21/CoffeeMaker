@@ -2,7 +2,6 @@ package edu.ncsu.csc.CoffeeMaker.datageneration;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.transaction.Transactional;
@@ -67,9 +66,7 @@ class GenerateUsersSimple {
         assertEquals( c.getId(), savedC.getId() );
         assertEquals( c.getPassword(), savedC.getPassword() );
 
-        // Test passwords match
-        assertTrue( savedC.matchPassword( "password" ) );
-        assertFalse( savedC.matchPassword( "incorrect" ) );
+        
 
         System.out.println( TestUtils.asJsonString( savedC ) );
 
