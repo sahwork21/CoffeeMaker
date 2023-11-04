@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -89,26 +87,21 @@ public abstract class AbstractUser extends DomainObject {
     }
 
     /*
-    private void hashPassword ( final String password ) {
-        final PasswordEncoder encoder = new BCryptPasswordEncoder();
-        this.password = encoder.encode( password );
-    }
-    */
+     * private void hashPassword ( final String password ) { final
+     * PasswordEncoder encoder = new BCryptPasswordEncoder(); this.password =
+     * encoder.encode( password ); }
+     */
 
-    /**
+    /*
      * Check if the input password and the stored password are matching
-     *
-     * @param password2
-     *            the password input to compare to our password
+     * @param password2 the password input to compare to our password
      * @return true if the passwords match false if not
      */
     /*
-    public boolean matchPassword ( final String password2 ) {
-        final PasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.matches( password2, password );
-
-    }
-    */
+     * public boolean matchPassword ( final String password2 ) { final
+     * PasswordEncoder encoder = new BCryptPasswordEncoder(); return
+     * encoder.matches( password2, password ); }
+     */
 
     /**
      * Set and encrypt the password to save
@@ -118,7 +111,7 @@ public abstract class AbstractUser extends DomainObject {
      */
     @JsonProperty
     public void setPassword ( final String password ) {
-        this.password =password;
+        this.password = password;
     }
 
     /**
