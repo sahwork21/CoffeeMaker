@@ -2,6 +2,8 @@ package edu.ncsu.csc.CoffeeMaker.models;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 
 /**
@@ -12,6 +14,7 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
  * history of all orders.
  */
 @Entity
+@JsonIgnoreProperties ( value = { "password" } )
 public class Customer extends AbstractUser {
 
     /**
