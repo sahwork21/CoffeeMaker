@@ -4,8 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -89,10 +88,12 @@ public abstract class AbstractUser extends DomainObject {
 
     }
 
+    /*
     private void hashPassword ( final String password ) {
         final PasswordEncoder encoder = new BCryptPasswordEncoder();
         this.password = encoder.encode( password );
     }
+    */
 
     /**
      * Check if the input password and the stored password are matching
@@ -101,11 +102,13 @@ public abstract class AbstractUser extends DomainObject {
      *            the password input to compare to our password
      * @return true if the passwords match false if not
      */
+    /*
     public boolean matchPassword ( final String password2 ) {
         final PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.matches( password2, password );
 
     }
+    */
 
     /**
      * Set and encrypt the password to save
@@ -115,7 +118,7 @@ public abstract class AbstractUser extends DomainObject {
      */
     @JsonProperty
     public void setPassword ( final String password ) {
-        hashPassword( password );
+        this.password =password;
     }
 
     /**
