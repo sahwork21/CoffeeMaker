@@ -25,12 +25,12 @@ public abstract class AbstractUser extends DomainObject {
     /** User id */
     @Id
     @GeneratedValue
-    private Long         id;
+    private Long   id;
 
     /**
      * Username for the user to identify who they are in the system
      */
-    private final String username;
+    private String username;
 
     /**
      * Password for the user to allow login with the username. This value should
@@ -38,10 +38,10 @@ public abstract class AbstractUser extends DomainObject {
      * the front end does not expose the password
      */
     @JsonIgnore
-    private String       password;
+    private String password;
 
     /** The user's role and privileges */
-    private Role         roleType;
+    private Role   roleType;
 
     /** Constructor empty constructor */
     public AbstractUser () {
@@ -61,7 +61,7 @@ public abstract class AbstractUser extends DomainObject {
      */
     public AbstractUser ( final String username, final String password, final Role roleType ) {
 
-        this.username = username;
+        setUserName( username );
         setPassword( password );
         setUserType( roleType );
 
@@ -83,7 +83,7 @@ public abstract class AbstractUser extends DomainObject {
      *            the user's username that will be linked to them
      */
     public void setUserName ( final String userName ) {
-        if ( userName == null || "".equals( userName ) ) {
+        if ( userName == null ) {
             throw new IllegalArgumentException( "Invalid name." );
         }
 

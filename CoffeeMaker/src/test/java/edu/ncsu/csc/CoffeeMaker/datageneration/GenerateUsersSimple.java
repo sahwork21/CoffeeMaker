@@ -50,7 +50,7 @@ class GenerateUsersSimple {
      * Test that customers get generated properly
      */
     @Test
-    // @Transactional
+    @Transactional
     public void testCustomerGeneration () {
         final Customer c = new Customer( "jcharles", "password" );
         assertEquals( 0, cs.findAll().size() );
