@@ -2,7 +2,9 @@ package edu.ncsu.csc.CoffeeMaker.datageneration;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.transaction.Transactional;
 
@@ -50,16 +52,23 @@ class GenerateUsersSimple {
      * Test that customers get generated properly
      */
     @Test
-    // @Transactional
+    @Transactional
     public void testCustomerGeneration () {
         final Customer c = new Customer( "jcharles", "password" );
+        final Customer empty = new Customer();
+        assertEquals( "", empty.getUserName() );
+        assertEquals( "", empty.getPassword() );
+        assertEquals( Role.CUSTOMER, empty.getUserType() );
         assertEquals( 0, cs.findAll().size() );
 
+        empty.setUserType( Role.MANAGER );
+
         cs.save( c );
+        cs.save( empty );
 
-        assertEquals( 1, cs.findAll().size() );
+        assertEquals( 2, cs.findAll().size() );
 
-        final Customer savedC = (Customer) cs.findAll().get( 0 );
+        final Customer savedC = cs.findByUsername( "jcharles" );
         assertNotNull( savedC );
 
         assertEquals( c.getUserName(), savedC.getUserName() );
@@ -67,6 +76,9 @@ class GenerateUsersSimple {
         assertEquals( c.getId(), savedC.getId() );
         assertEquals( c.getPassword(), savedC.getPassword() );
         assertEquals( "jcharles", savedC.getUserName() );
+
+        assertTrue( savedC.checkPassword( "password" ) );
+        assertFalse( savedC.checkPassword( "wrong" ) );
 
         assertEquals( Role.CUSTOMER, savedC.getUserType() );
         assertNotNull( cs.findByUsername( "jcharles" ) );
