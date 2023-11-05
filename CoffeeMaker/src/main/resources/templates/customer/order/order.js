@@ -22,5 +22,18 @@ app.controller('OrderController', function($scope, $http, $q) {
 		$scope.hidePopup = true;
 	}
 	
+	$scope.orderRecipe = function() {
+		$scope.success = false;
+		$scope.failure = false;
+		$http.put("/api/v1/makecoffee/" + $scope.selectedRecipe.name, $scope.payment).then(function(success) {
+			$scope.success = true;
+			$scope.cancelPopup();
+		}, function (rejection) {
+			$scope.failure = true;
+			console.error("Error while ordering coffee.");
+		});
+		
+	}
+	
 	$scope.fetchRecipes();
 });

@@ -1,7 +1,7 @@
 var app = angular.module('myApp', []);
 
 
-app.controller('CustomerController', function($scope, $http, $q) {
+app.controller('ManagerController', function($scope, $http, $q) {
 	$scope.actions = [
 		{title: "Add inventory", description: "Running low?", "icon": ("<svg></svg>")},
 		{title: "Add Recipe", description: "Have a creative idea?", "icon": null}
@@ -14,4 +14,5 @@ app.controller('CustomerController', function($scope, $http, $q) {
 		});
 	}
 	
+	//$scope.fetchOrders();
 });
