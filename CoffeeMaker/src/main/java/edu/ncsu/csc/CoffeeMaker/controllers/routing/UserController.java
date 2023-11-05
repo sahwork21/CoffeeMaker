@@ -1,5 +1,6 @@
 package edu.ncsu.csc.CoffeeMaker.controllers.routing;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  *
  * @author Julian Madrigal
  */
+@Controller
 public class UserController {
     /**
      * On a GET request to /, the IndexController will return
@@ -22,6 +24,19 @@ public class UserController {
     @GetMapping ( { "/signin" } )
     public String signIn ( final Model model ) {
         return "/signin/signin";
+    }
+    
+    /**
+     * On a GET request to /, the IndexController will return
+     * /src/main/resources/templates/signup/signin.js
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/signin.js" } )
+    public String signInJS ( final Model model ) {
+        return "signin/signin.js";
     }
     
     /**
