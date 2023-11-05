@@ -4,6 +4,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import edu.ncsu.csc.CoffeeMaker.models.AbstractUser;
@@ -43,6 +45,21 @@ public class UserService <E extends AbstractUser> extends Service<AbstractUser, 
     public AbstractUser findByUsername ( final String username ) {
         return userRepository.findByUsername( username );
 
+    }
+
+    /**
+     * Save the user but encrypt the password first
+     */
+    @Override
+    public void save ( final AbstractUser user ) {
+        final PasswordEncoder pe = new BCryptPasswordEncoder();
+
+        final String encrypted = pe.encode( user.getPassword() );
+
+        user.setPassword( encrypted );
+
+        // We have encrypted the password now just call the parent save method
+        super.save( user );
     }
 
 }

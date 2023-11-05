@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -83,6 +86,7 @@ public abstract class AbstractUser extends DomainObject {
         if ( userName == null ) {
             throw new IllegalArgumentException( "Invalid name." );
         }
+        this.username = userName;
 
     }
 
@@ -149,6 +153,17 @@ public abstract class AbstractUser extends DomainObject {
 
     }
 
-    
+    /**
+     * See if the passwords match between what is saved and what is input This
+     * method should be used by the login API
+     *
+     * @param passwordInput
+     *            the input by the frontend to login to this user
+     * @return true if the passwords match false if not
+     */
+    public boolean checkPassword ( final String passwordInput ) {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches( passwordInput, password );
+    }
 
 }

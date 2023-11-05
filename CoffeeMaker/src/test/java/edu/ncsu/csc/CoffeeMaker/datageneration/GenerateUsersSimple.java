@@ -1,7 +1,10 @@
 package edu.ncsu.csc.CoffeeMaker.datageneration;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.transaction.Transactional;
 
@@ -17,6 +20,7 @@ import edu.ncsu.csc.CoffeeMaker.TestConfig;
 import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
 import edu.ncsu.csc.CoffeeMaker.models.Customer;
 import edu.ncsu.csc.CoffeeMaker.models.Manager;
+import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 import edu.ncsu.csc.CoffeeMaker.services.CustomerService;
 import edu.ncsu.csc.CoffeeMaker.services.ManagerService;
 
@@ -60,11 +64,18 @@ class GenerateUsersSimple {
     @Transactional
     public void testCustomerGeneration () {
         final Customer c = new Customer( "jcharles", "password" );
+        final Customer empty = new Customer();
+        assertEquals( "", empty.getUserName() );
+        assertEquals( "", empty.getPassword() );
+        assertEquals( Role.CUSTOMER, empty.getUserType() );
         assertEquals( 0, cs.findAll().size() );
 
-        cs.save( c );
+        empty.setUserType( Role.MANAGER );
 
-        assertEquals( 1, cs.findAll().size() );
+        cs.save( c );
+        cs.save( empty );
+
+        assertEquals( 2, cs.findAll().size() );
 
         final Customer savedC = cs.findByUsername( "jcharles" );
         assertNotNull( savedC );
@@ -73,8 +84,18 @@ class GenerateUsersSimple {
         assertEquals( c.getUserType(), savedC.getUserType() );
         assertEquals( c.getId(), savedC.getId() );
         assertEquals( c.getPassword(), savedC.getPassword() );
+        assertEquals( "jcharles", savedC.getUserName() );
+
+        assertTrue( savedC.checkPassword( "password" ) );
+        assertFalse( savedC.checkPassword( "wrong" ) );
+
+        assertEquals( Role.CUSTOMER, savedC.getUserType() );
+        assertNotNull( cs.findByUsername( "jcharles" ) );
+        assertNull( cs.findByUsername( "nothing" ) );
 
         System.out.println( TestUtils.asJsonString( savedC ) );
+
+        // Check that passwords match for a login
 
         // assertFalse( TestUtils.asJsonString( savedC ).contains( "password" )
         // );
