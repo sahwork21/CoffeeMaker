@@ -1,8 +1,6 @@
 package edu.ncsu.csc.CoffeeMaker.datageneration;
 
-
 import static org.junit.Assert.assertNull;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -21,11 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import edu.ncsu.csc.CoffeeMaker.TestConfig;
 import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
 import edu.ncsu.csc.CoffeeMaker.models.Customer;
-
-import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
-=======
 import edu.ncsu.csc.CoffeeMaker.models.Manager;
-
+import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 import edu.ncsu.csc.CoffeeMaker.services.CustomerService;
 import edu.ncsu.csc.CoffeeMaker.services.ManagerService;
 
@@ -94,11 +89,9 @@ class GenerateUsersSimple {
         assertTrue( savedC.checkPassword( "password" ) );
         assertFalse( savedC.checkPassword( "wrong" ) );
 
-
         assertEquals( Role.CUSTOMER, savedC.getUserType() );
         assertNotNull( cs.findByUsername( "jcharles" ) );
         assertNull( cs.findByUsername( "nothing" ) );
-
 
         System.out.println( TestUtils.asJsonString( savedC ) );
 
