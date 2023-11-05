@@ -1,6 +1,6 @@
 package edu.ncsu.csc.CoffeeMaker.datageneration;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import edu.ncsu.csc.CoffeeMaker.TestConfig;
 import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
 import edu.ncsu.csc.CoffeeMaker.models.Customer;
+import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 import edu.ncsu.csc.CoffeeMaker.services.CustomerService;
 
 @RunWith ( SpringRunner.class )
@@ -49,7 +50,7 @@ class GenerateUsersSimple {
      * Test that customers get generated properly
      */
     @Test
-    @Transactional
+    // @Transactional
     public void testCustomerGeneration () {
         final Customer c = new Customer( "jcharles", "password" );
         assertEquals( 0, cs.findAll().size() );
@@ -58,17 +59,22 @@ class GenerateUsersSimple {
 
         assertEquals( 1, cs.findAll().size() );
 
-        final Customer savedC = cs.findByUsername( "jcharles" );
+        final Customer savedC = (Customer) cs.findAll().get( 0 );
         assertNotNull( savedC );
 
         assertEquals( c.getUserName(), savedC.getUserName() );
         assertEquals( c.getUserType(), savedC.getUserType() );
         assertEquals( c.getId(), savedC.getId() );
         assertEquals( c.getPassword(), savedC.getPassword() );
+        assertEquals( "jcharles", savedC.getUserName() );
 
-        
+        assertEquals( Role.CUSTOMER, savedC.getUserType() );
+        assertNotNull( cs.findByUsername( "jcharles" ) );
+        assertNull( cs.findByUsername( "nothing" ) );
 
         System.out.println( TestUtils.asJsonString( savedC ) );
+
+        // Check that passwords match for a login
 
         // assertFalse( TestUtils.asJsonString( savedC ).contains( "password" )
         // );
