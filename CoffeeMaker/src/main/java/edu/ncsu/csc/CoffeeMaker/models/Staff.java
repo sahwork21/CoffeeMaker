@@ -13,13 +13,13 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
  */
 @Entity
 @JsonIgnoreProperties ( value = { "password" } )
-public class Manager extends Staff {
+public class Staff extends AbstractUser {
 
     /**
      * Generic customer generator. The role is fixed
      */
-    public Manager () {
-        super( "", "", Role.MANAGER );
+    public Staff ( final Role role ) {
+        super( "", "", role );
     }
 
     /**
@@ -31,8 +31,8 @@ public class Manager extends Staff {
      * @param password
      *            the password of the customer
      */
-    public Manager ( final String username, final String password ) {
-        super( username, password, Role.MANAGER );
+    public Staff ( final String username, final String password, final Role role ) {
+        super( username, password, role );
     }
 
 }
