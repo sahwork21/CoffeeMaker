@@ -17,6 +17,10 @@ public class Staff extends AbstractUser {
 
     /**
      * Generic customer generator. The role is fixed
+     *
+     * @param role
+     *            the role of the Staff we are creating they can be a Barist or
+     *            Manager
      */
     public Staff ( final Role role ) {
         super( "", "", role );
@@ -27,9 +31,11 @@ public class Staff extends AbstractUser {
      * AbstractUser super parent constructor for now, but we will eventually n
      *
      * @param username
-     *            the username of the customer
+     *            the username of the staff
      * @param password
-     *            the password of the customer
+     *            the password of the staff
+     * @param role
+     *            the role of the Staff member we are creating
      */
     public Staff ( final String username, final String password, final Role role ) {
         super( username, password, role );
