@@ -6,7 +6,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- *
+ * This is the class to allow certian pages to be visible on logins. Currently
+ * it allows a user to see any pages for login. If you want security you should
+ * go to the SecSecurity class to modify the login page to be signin.html and
+ * follow this tutorial. Tutorial:
+ * "https://www.tutorialspoint.com/spring_security/spring_security_form_login_with_database.htm"
+ * Just skip login limits for now since that is unneeded.
  */
 @Configuration
 @EnableWebSecurity
