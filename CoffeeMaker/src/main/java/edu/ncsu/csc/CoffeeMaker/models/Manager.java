@@ -16,10 +16,10 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 public class Manager extends Staff {
 
     /**
-     * Generic customer generator. The role is fixed
+     * Generic customer generator for spring
      */
     public Manager () {
-        super( "", "", Role.MANAGER );
+
     }
 
     /**

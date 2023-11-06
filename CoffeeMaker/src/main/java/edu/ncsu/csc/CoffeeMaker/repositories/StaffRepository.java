@@ -17,4 +17,5 @@ public interface StaffRepository extends UserRepository<Staff> {
      */
     @Override
     public Staff findByUsername ( final String username );
+
 }
