@@ -89,12 +89,12 @@ class GenerateUsersSimple {
         assertNotNull( savedC );
         assertNull( us.findByUsername( "newuser" ) );
 
-        assertEquals( "manager", savedM.getUserName() );
+        assertEquals( "manager", savedM.getUsername() );
 
-        assertEquals( Role.MANAGER, savedM.getUserType() );
+        assertEquals( Role.MANAGER, savedM.getRoleType() );
 
-        assertEquals( "customer", savedC.getUserName() );
-        assertEquals( Role.CUSTOMER, savedC.getUserType() );
+        assertEquals( "customer", savedC.getUsername() );
+        assertEquals( Role.CUSTOMER, savedC.getRoleType() );
 
         assertTrue( savedM.checkPassword( "password34" ) );
         assertTrue( savedC.checkPassword( "password12" ) );
@@ -111,12 +111,15 @@ class GenerateUsersSimple {
     public void testCustomerGeneration () {
         final Customer c = new Customer( "jcharles", "password" );
         final Customer empty = new Customer();
-        assertEquals( "", empty.getUserName() );
+        empty.setUsername( "" );
+        empty.setPassword( "" );
+        empty.setRoleType( Role.CUSTOMER );
+        assertEquals( "", empty.getUsername() );
         assertEquals( "", empty.getPassword() );
-        assertEquals( Role.CUSTOMER, empty.getUserType() );
+        assertEquals( Role.CUSTOMER, empty.getRoleType() );
         assertEquals( 0, cs.findAll().size() );
 
-        empty.setUserType( Role.MANAGER );
+        empty.setRoleType( Role.MANAGER );
 
         cs.save( c );
         cs.save( empty );
@@ -126,16 +129,16 @@ class GenerateUsersSimple {
         final Customer savedC = cs.findByUsername( "jcharles" );
         assertNotNull( savedC );
 
-        assertEquals( c.getUserName(), savedC.getUserName() );
-        assertEquals( c.getUserType(), savedC.getUserType() );
+        assertEquals( c.getUsername(), savedC.getUsername() );
+        assertEquals( c.getRoleType(), savedC.getRoleType() );
         assertEquals( c.getId(), savedC.getId() );
         assertEquals( c.getPassword(), savedC.getPassword() );
-        assertEquals( "jcharles", savedC.getUserName() );
+        assertEquals( "jcharles", savedC.getUsername() );
 
         assertTrue( savedC.checkPassword( "password" ) );
         assertFalse( savedC.checkPassword( "wrong" ) );
 
-        assertEquals( Role.CUSTOMER, savedC.getUserType() );
+        assertEquals( Role.CUSTOMER, savedC.getRoleType() );
         assertNotNull( cs.findByUsername( "jcharles" ) );
         assertNull( cs.findByUsername( "nothing" ) );
         assertNotNull( savedC.getId() );
@@ -164,8 +167,8 @@ class GenerateUsersSimple {
         final Manager savedM = ms.findByUsername( "jcharles" );
         assertNotNull( savedM );
 
-        assertEquals( m.getUserName(), savedM.getUserName() );
-        assertEquals( m.getUserType(), savedM.getUserType() );
+        assertEquals( m.getUsername(), savedM.getUsername() );
+        assertEquals( m.getRoleType(), savedM.getRoleType() );
         assertEquals( m.getId(), savedM.getId() );
         assertEquals( m.getPassword(), savedM.getPassword() );
 
@@ -196,12 +199,12 @@ class GenerateUsersSimple {
 
         // Check that the length of all users is the proper length
         assertEquals( 6, us.findAll().size() );
-        assertEquals( "bar1", us.findByUsername( "bar1" ).getUserName() );
-        assertEquals( "bar2", us.findByUsername( "bar2" ).getUserName() );
-        assertEquals( "man1", us.findByUsername( "man1" ).getUserName() );
-        assertEquals( "cus1", us.findByUsername( "cus1" ).getUserName() );
-        assertEquals( "cus2", us.findByUsername( "cus2" ).getUserName() );
-        assertEquals( "cus3", us.findByUsername( "cus3" ).getUserName() );
+        assertEquals( "bar1", us.findByUsername( "bar1" ).getUsername() );
+        assertEquals( "bar2", us.findByUsername( "bar2" ).getUsername() );
+        assertEquals( "man1", us.findByUsername( "man1" ).getUsername() );
+        assertEquals( "cus1", us.findByUsername( "cus1" ).getUsername() );
+        assertEquals( "cus2", us.findByUsername( "cus2" ).getUsername() );
+        assertEquals( "cus3", us.findByUsername( "cus3" ).getUsername() );
 
         // Test the find by role method
         assertEquals( 3, us.findByRoleType( Role.CUSTOMER ).size() );
