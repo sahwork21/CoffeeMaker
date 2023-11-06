@@ -1,14 +1,11 @@
 package edu.ncsu.csc.CoffeeMaker.services;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import edu.ncsu.csc.CoffeeMaker.models.Staff;
-import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 import edu.ncsu.csc.CoffeeMaker.repositories.StaffRepository;
 
 /**
@@ -41,15 +38,6 @@ public class StaffService extends UserService<Staff> {
     @Override
     public Staff findByUsername ( final String username ) {
         return staffRepo.findByUsername( username );
-    }
-
-    /**
-     * Finds all the Staff members by the user type
-     *
-     * @return a list of the staff members by barista or manager
-     */
-    public List<Staff> findByRoleType ( final Role roleType ) {
-        return staffRepo.findByRoleType( roleType );
     }
 
 }

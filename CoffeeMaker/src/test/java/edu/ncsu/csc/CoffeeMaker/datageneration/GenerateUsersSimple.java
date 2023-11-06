@@ -21,9 +21,11 @@ import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
 import edu.ncsu.csc.CoffeeMaker.models.AbstractUser;
 import edu.ncsu.csc.CoffeeMaker.models.Customer;
 import edu.ncsu.csc.CoffeeMaker.models.Manager;
+import edu.ncsu.csc.CoffeeMaker.models.Staff;
 import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 import edu.ncsu.csc.CoffeeMaker.services.CustomerService;
 import edu.ncsu.csc.CoffeeMaker.services.ManagerService;
+import edu.ncsu.csc.CoffeeMaker.services.StaffService;
 import edu.ncsu.csc.CoffeeMaker.services.UserService;
 
 @RunWith ( SpringRunner.class )
@@ -44,6 +46,12 @@ class GenerateUsersSimple {
     private ManagerService            ms;
 
     /**
+     * Repo to test CRUD operations for Staff classes
+     */
+    @Autowired
+    private StaffService              ss;
+
+    /**
      * Repo object to get CRUD operations for users as AbstractUsers This test
      * is important for the API endpoints.
      */
@@ -55,6 +63,7 @@ class GenerateUsersSimple {
         cs.deleteAll();
         ms.deleteAll();
         us.deleteAll();
+        ss.deleteAll();
     }
 
     /**
@@ -166,4 +175,38 @@ class GenerateUsersSimple {
         // );
     }
 
+    /**
+     * Test that we can find by role types are generated properly
+     */
+    @Test
+    @Transactional
+    public void testGeneration () {
+        final Staff s1 = new Staff( "bar1", "p1", Role.BARISTA );
+        final Staff s2 = new Staff( "bar2", "p2", Role.BARISTA );
+        final Manager m1 = new Manager( "man1", "m1" );
+        final Customer c1 = new Customer( "cus1", "c1" );
+        final Customer c2 = new Customer( "cus2", "c2" );
+        final Customer c3 = new Customer( "cus3", "c3" );
+        ss.save( s1 );
+        ss.save( s2 );
+        ms.save( m1 );
+        cs.save( c1 );
+        cs.save( c2 );
+        cs.save( c3 );
+
+        // Check that the length of all users is the proper length
+        assertEquals( 6, us.findAll().size() );
+        assertEquals( "bar1", us.findByUsername( "bar1" ).getUserName() );
+        assertEquals( "bar2", us.findByUsername( "bar2" ).getUserName() );
+        assertEquals( "man1", us.findByUsername( "man1" ).getUserName() );
+        assertEquals( "cus1", us.findByUsername( "cus1" ).getUserName() );
+        assertEquals( "cus2", us.findByUsername( "cus2" ).getUserName() );
+        assertEquals( "cus3", us.findByUsername( "cus3" ).getUserName() );
+
+        // Test the find by role method
+        assertEquals( 3, us.findByRoleType( Role.CUSTOMER ).size() );
+        assertEquals( 2, us.findByRoleType( Role.BARISTA ).size() );
+        assertEquals( 1, us.findByRoleType( Role.MANAGER ).size() );
+
+    }
 }
