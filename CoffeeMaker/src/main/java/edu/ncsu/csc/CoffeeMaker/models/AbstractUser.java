@@ -8,10 +8,6 @@ import javax.persistence.Table;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 
 /**
@@ -21,9 +17,8 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
  */
 
 @Entity
-@JsonIgnoreProperties ( { "password" } )
 @Table ( name = "users" )
-public abstract class AbstractUser extends DomainObject {
+public class AbstractUser extends DomainObject {
     /** User id */
     @Id
     @GeneratedValue
@@ -39,7 +34,6 @@ public abstract class AbstractUser extends DomainObject {
      * be hashed. Do not return it in the JSON files Use the transient field so
      * the front end does not expose the password
      */
-    @JsonIgnore
     private String password;
 
     /** The user's role and privileges */
@@ -62,9 +56,9 @@ public abstract class AbstractUser extends DomainObject {
      */
     public AbstractUser ( final String username, final String password, final Role roleType ) {
 
-        setUserName( username );
-        setPassword( password );
-        setUserType( roleType );
+        this.username = username;
+        this.password = password;
+        this.roleType = roleType;
 
     }
 
@@ -73,7 +67,7 @@ public abstract class AbstractUser extends DomainObject {
      *
      * @return the user's username
      */
-    public String getUserName () {
+    public String getUsername () {
         return username;
     }
 
@@ -83,7 +77,7 @@ public abstract class AbstractUser extends DomainObject {
      * @param userName
      *            the user's username that will be linked to them
      */
-    public void setUserName ( final String userName ) {
+    public void setUsername ( final String userName ) {
         if ( userName == null ) {
             throw new IllegalArgumentException( "Invalid name." );
         }
@@ -114,7 +108,6 @@ public abstract class AbstractUser extends DomainObject {
      * @param password
      *            the password with the associated user to hash
      */
-    @JsonProperty
     public void setPassword ( final String password ) {
         this.password = password;
     }
@@ -124,7 +117,6 @@ public abstract class AbstractUser extends DomainObject {
      *
      * @return the encrypted password of this object
      */
-    @JsonIgnore
     public String getPassword () {
         return this.password;
     }
@@ -134,7 +126,7 @@ public abstract class AbstractUser extends DomainObject {
      *
      * @return roleType role of the user.
      */
-    public Role getUserType () {
+    public Role getRoleType () {
         return roleType;
     }
 
@@ -144,7 +136,7 @@ public abstract class AbstractUser extends DomainObject {
      * @param rtype
      *            the type of the role
      */
-    public void setUserType ( final Role rtype ) {
+    public void setRoleType ( final Role rtype ) {
         this.roleType = rtype;
     }
 
@@ -191,6 +183,15 @@ public abstract class AbstractUser extends DomainObject {
         }
 
         return true;
+    }
+
+    /**
+     * To String that tells us what this user has
+     *
+     */
+    @Override
+    public String toString () {
+        return "Username: " + username + "Role: " + roleType;
     }
 
 }

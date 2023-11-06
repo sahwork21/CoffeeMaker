@@ -73,7 +73,7 @@ public class APIUserController extends APIController {
 
         }
 
-        final AbstractUser u = userService.findByUsername( user.getUserName() );
+        final AbstractUser u = userService.findByUsername( user.getUsername() );
 
         // If no user is found with the associated username then we can make a
         // new user
@@ -90,27 +90,27 @@ public class APIUserController extends APIController {
 
         // Constructors to create these new users
 
-        if ( user.getUserType() == Role.BARISTA ) {
-            final Staff insertedUser = new Staff( user.getUserName(), user.getPassword(), user.getUserType() );
+        if ( user.getRoleType() == Role.BARISTA ) {
+            final Staff insertedUser = new Staff( user.getUsername(), user.getPassword(), user.getRoleType() );
             staffService.save( insertedUser );
             return new ResponseEntity(
-                    successResponse( user.getUserName() + " customer account was successfully created" ),
+                    successResponse( user.getUsername() + " customer account was successfully created" ),
                     HttpStatus.OK );
         }
-        else if ( user.getUserType() == Role.MANAGER ) {
-            final Manager insertedUser = new Manager( user.getUserName(), user.getPassword() );
+        else if ( user.getRoleType() == Role.MANAGER ) {
+            final Manager insertedUser = new Manager( user.getUsername(), user.getPassword() );
             managerService.save( insertedUser );
             return new ResponseEntity(
-                    successResponse( user.getUserName() + " customer account was successfully created" ),
+                    successResponse( user.getUsername() + " customer account was successfully created" ),
                     HttpStatus.OK );
         }
-        else if ( user.getUserType() == Role.CUSTOMER ) {
+        else if ( user.getRoleType() == Role.CUSTOMER ) {
             // Create a Customer as a last resort since this isn't a manager or
             // staff type
-            final Customer insertedUser = new Customer( user.getUserName(), user.getPassword() );
+            final Customer insertedUser = new Customer( user.getUsername(), user.getPassword() );
             customerService.save( insertedUser );
             return new ResponseEntity(
-                    successResponse( user.getUserName() + " customer account was successfully created" ),
+                    successResponse( user.getUsername() + " customer account was successfully created" ),
                     HttpStatus.OK );
         }
 
@@ -157,17 +157,17 @@ public class APIUserController extends APIController {
         // Make sure to set the password to the empty string on the returned
         // object so secrets don't leak.
         // Also cast to the correct type so we can see encapsulated elements
-        if ( user.getUserType() == Role.BARISTA ) {
+        if ( user.getRoleType() == Role.BARISTA ) {
             final Staff ret = staffService.findByUsername( username );
             ret.setPassword( "" );
             return new ResponseEntity( ret, HttpStatus.OK );
         }
-        else if ( user.getUserType() == Role.MANAGER ) {
+        else if ( user.getRoleType() == Role.MANAGER ) {
             final Manager ret = managerService.findByUsername( username );
             ret.setPassword( "" );
             return new ResponseEntity( ret, HttpStatus.OK );
         }
-        else if ( user.getUserType() == Role.CUSTOMER ) {
+        else if ( user.getRoleType() == Role.CUSTOMER ) {
             final Customer ret = customerService.findByUsername( username );
             ret.setPassword( "" );
             return new ResponseEntity( ret, HttpStatus.OK );
