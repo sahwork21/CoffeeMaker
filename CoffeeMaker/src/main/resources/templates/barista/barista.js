@@ -10,5 +10,10 @@ app.controller('BaristaController', function($scope, $http, $q) {
 		});
 	}
 	
+	$scope.fulfillOrder = function(order) {
+		console.log(order);
+		order.status = "Fulfilled"
+	}
+	
 	//$scope.fetchOrders();
 });
