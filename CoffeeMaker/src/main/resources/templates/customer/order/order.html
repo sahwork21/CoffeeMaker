@@ -33,7 +33,7 @@
 						</div>
 						<div>
 							<h3 class="text-lg font-semibold text-stone-500">{{selectedRecipe.name}}</h3>
-							<p>$5</p>
+							<p>${{selectedRecipe.price}}</p>
 							<p class="">Includes:</p>
 							<ul>
 								<li class="text-sm text-gray-500" ng-repeat="ingredient in selectedRecipe.ingredients">
@@ -48,11 +48,13 @@
 							class="relative flex items-center ring-2 rounded-md ring-gray-100 focus-within:ring-blue-500">
 							<p class="absolute text-sm text-gray-500 -top-3 left-2 px-1 bg-white">Payment</p>
 							<p class="mx-2 text-gray-500">$</p>
-							<input name="payment" id="payment" type="number" placeholder="Enter amount"
+							<input name="payment" id="payment" ng-model="payment" type="number" placeholder="Enter amount" required="true" min="0" 
 								class="outline-none py-1 px-2 rounded-md" />
 						</div>
+						<div ng-show="success" class="success">Coffee was ordered. Your change is {{change}}.</div>
+						<div ng-show="failure">An error occurred: {{error}}</div>
 						<button ng-click="cancelPopup()" class="hover:text-gray-400">Cancel</button>
-						<button class="bg-blue-500 text-white rounded-md p-2 px-4 hover:bg-blue-700">Order</button>
+						<button ng-click="orderRecipe()" class="bg-blue-500 text-white rounded-md p-2 px-4 hover:bg-blue-700">Order</button>
 					</div>
 				</div>
 			</div>

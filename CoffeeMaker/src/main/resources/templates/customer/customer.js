@@ -10,4 +10,6 @@ app.controller('CustomerController', function($scope, $http, $q) {
 		});
 	}
 	
+	//$scope.fetchOrders();
+	
 });
