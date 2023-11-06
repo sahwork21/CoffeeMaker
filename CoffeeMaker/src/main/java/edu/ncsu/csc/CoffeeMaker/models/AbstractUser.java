@@ -168,4 +168,30 @@ public abstract class AbstractUser extends DomainObject {
         return encoder.matches( passwordInput, password );
     }
 
+    /**
+     * Checks that the user is a valid user with a username, password, and role.
+     *
+     * @return true if this is a valid user false otherwise
+     */
+    public boolean checkUser () {
+        // No null or empty usernames
+        if ( "".equals( username ) || username == null ) {
+            return false;
+        }
+
+        // No empty passwords
+        // You should probably check before saving since saving encrypts the
+        // password
+        if ( "".equals( password ) || password == null ) {
+            return false;
+        }
+
+        // Role type required
+        if ( roleType == null ) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
