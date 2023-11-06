@@ -67,7 +67,7 @@ public class UserService <E extends AbstractUser> extends Service<AbstractUser, 
 
     /**
      * Finds all the Staff members by the user type
-     *
+     * @param roleType the specific type of users we are looking for in our list
      * @return a list of the staff members by barista or manager
      */
     public List<AbstractUser> findByRoleType ( final Role roleType ) {
