@@ -21,7 +21,7 @@ public class Customer extends AbstractUser {
      * Generic customer generator. The role is fixed
      */
     public Customer () {
-        super( "", "", Role.CUSTOMER );
+
     }
 
     /**

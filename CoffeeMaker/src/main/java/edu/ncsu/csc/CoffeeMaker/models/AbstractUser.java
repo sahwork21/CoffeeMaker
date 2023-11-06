@@ -45,10 +45,9 @@ public abstract class AbstractUser extends DomainObject {
     /** The user's role and privileges */
     private Role   roleType;
 
-    /** Constructor empty constructor */
+    /** Constructor empty constructor for Spring */
     public AbstractUser () {
 
-        this( "", "", null );
     }
 
     /**

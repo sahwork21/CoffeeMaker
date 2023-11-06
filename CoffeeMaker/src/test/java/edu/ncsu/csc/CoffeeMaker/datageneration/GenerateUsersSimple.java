@@ -209,4 +209,24 @@ class GenerateUsersSimple {
         assertEquals( 1, us.findByRoleType( Role.MANAGER ).size() );
 
     }
+
+    // See if the datatypes persist when saving by us
+    @Test
+    @Transactional
+    public void testDataTypes () {
+
+        final Staff s1 = new Staff( "bar1", "p1", Role.BARISTA );
+        final Staff s2 = new Staff( "bar2", "p2", Role.BARISTA );
+        final Manager m1 = new Manager( "man1", "m1" );
+        final Customer c1 = new Customer( "cus1", "c1" );
+        final Customer c2 = new Customer( "cus2", "c2" );
+        final Customer c3 = new Customer( "cus3", "c3" );
+
+        us.save( c3 );
+        us.save( c1 );
+        us.save( c2 );
+        us.save( m1 );
+        us.save( s1 );
+        us.save( s2 );
+    }
 }

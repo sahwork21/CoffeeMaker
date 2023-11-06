@@ -16,6 +16,13 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 public class Staff extends AbstractUser {
 
     /**
+     * Default constructor for Spring
+     */
+    public Staff () {
+
+    }
+
+    /**
      * Generic customer generator. The role is fixed
      *
      * @param role

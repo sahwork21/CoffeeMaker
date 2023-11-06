@@ -37,22 +37,22 @@ public class APIUserController extends APIController {
      * and user creation since the pool of usernames is shared by all users.
      */
     @Autowired
-    private UserService     userService;
+    private UserService<AbstractUser> userService;
     /**
      * The service class for getting and saving a new Customer
      */
     @Autowired
-    private CustomerService customerService;
+    private CustomerService           customerService;
     /**
      * The service class for getting and saving a new Staff member
      */
     @Autowired
-    private StaffService    staffService;
+    private StaffService              staffService;
     /**
      * The service class for getting and saving a new Manager.
      */
     @Autowired
-    private ManagerService  managerService;
+    private ManagerService            managerService;
 
     /**
      * Endpoint that creates a new user with a unique username. We only want to
