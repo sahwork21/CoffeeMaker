@@ -3,6 +3,7 @@ package edu.ncsu.csc.CoffeeMaker.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 
 @Entity
 @JsonIgnoreProperties ( { "password" } )
+@Table ( name = "users" )
 public abstract class AbstractUser extends DomainObject {
     /** User id */
     @Id

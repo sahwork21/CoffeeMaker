@@ -18,11 +18,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import edu.ncsu.csc.CoffeeMaker.TestConfig;
 import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
+import edu.ncsu.csc.CoffeeMaker.models.AbstractUser;
 import edu.ncsu.csc.CoffeeMaker.models.Customer;
 import edu.ncsu.csc.CoffeeMaker.models.Manager;
 import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 import edu.ncsu.csc.CoffeeMaker.services.CustomerService;
 import edu.ncsu.csc.CoffeeMaker.services.ManagerService;
+import edu.ncsu.csc.CoffeeMaker.services.UserService;
 
 @RunWith ( SpringRunner.class )
 @EnableAutoConfiguration
@@ -33,18 +35,26 @@ class GenerateUsersSimple {
      * Repo to generate the CRUD interface for Customer
      */
     @Autowired
-    private CustomerService cs;
+    private CustomerService           cs;
 
     /**
      * Repo to generate the CRUD interface for Manager
      */
     @Autowired
-    private ManagerService  ms;
+    private ManagerService            ms;
+
+    /**
+     * Repo object to get CRUD operations for users as AbstractUsers This test
+     * is important for the API endpoints.
+     */
+    @Autowired
+    private UserService<AbstractUser> us;
 
     @BeforeEach
     public void setup () {
         cs.deleteAll();
         ms.deleteAll();
+        us.deleteAll();
     }
 
     /**
@@ -54,6 +64,33 @@ class GenerateUsersSimple {
     @Test
     @Transactional
     public void testUserGeneration () {
+        final Customer c = new Customer( "customer", "password12" );
+        final Manager m = new Manager( "manager", "password34" );
+        us.save( m );
+        us.save( c );
+
+        assertEquals( 2, us.findAll().size() );
+
+        // Now check that the customer and manager that are saved retained their
+        // information
+        final AbstractUser savedM = us.findByUsername( "manager" );
+        final AbstractUser savedC = us.findByUsername( "customer" );
+
+        assertNotNull( savedM );
+        assertNotNull( savedC );
+        assertNull( us.findByUsername( "newuser" ) );
+
+        assertEquals( "manager", savedM.getUserName() );
+
+        assertEquals( Role.MANAGER, savedM.getUserType() );
+
+        assertEquals( "customer", savedC.getUserName() );
+        assertEquals( Role.CUSTOMER, savedC.getUserType() );
+
+        assertTrue( savedM.checkPassword( "password34" ) );
+        assertTrue( savedC.checkPassword( "password12" ) );
+        assertFalse( savedM.checkPassword( "password12" ) );
+        assertFalse( savedC.checkPassword( "password34" ) );
 
     }
 
@@ -92,6 +129,7 @@ class GenerateUsersSimple {
         assertEquals( Role.CUSTOMER, savedC.getUserType() );
         assertNotNull( cs.findByUsername( "jcharles" ) );
         assertNull( cs.findByUsername( "nothing" ) );
+        assertNotNull( savedC.getId() );
 
         System.out.println( TestUtils.asJsonString( savedC ) );
 
