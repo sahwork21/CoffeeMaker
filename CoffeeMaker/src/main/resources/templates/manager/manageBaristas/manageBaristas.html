@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="myApp" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Customer Menu</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="./manageBaristas.js"></script>
+	<script src="../components/navbar/navbar.component.js"></script>
+</head>
+
+<body ng-controller="ManageBaristasController" class="bg-gray-100">
+	<navbar></navbar>
+	<div class="w-full max-w-7xl mx-auto mt-8 p-3">
+		<!-- Current Baristas List Section -->
+		<div>
+			<h1 class="my-2 text-lg font-semibold text-gray-500">Baristas</h1>
+			<div class="rounded-lg bg-white p-2">
+				<p ng-hide="accounts.length > 0" class="font-semibold text-lg text-center text-gray-500 my-2">No
+					baristas currently exist</p>
+
+				<!-- Barista Accounts List -->
+				<div class="divide-y divide-gray-300">
+					<div ng-repeat="account in accounts" class="p-2">
+						<p class="font-semibold text-gray-700">{{account.username}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Create new Barista section -->
+		<form name="form" ng-submit="onSubmit()">
+			<h1 class="my-2 text-lg font-semibold text-gray-500">Create new Barista account</h1>
+			<div class="flex justify-between w-full p-2 rounded-lg bg-white">
+
+				<div class="">
+					<div>
+						<input id="username" name="username" ng-model="formData.username"
+							ng-click="resetInvalid('username')"
+							class="{{ invalid.username ? 'ring-red-500' : 'ring-gray-300' }} w-full ring-1 rounded-md p-2 mt-1 font-light hover:ring-blue-500"
+							placeholder="Enter username">
+					</div>
+					
+					
+					<div>
+						<input ng-model="formData.password" ng-click="resetInvalid('password')"
+							class="w-full ring-1 rounded-md p-2 mt-1 font-light hover:ring-blue-500 {{ invalid.password ? 'ring-red-500' : 'ring-gray-300' }}"
+							placeholder="Enter password">
+
+					</div>
+				</div>
+
+
+				<div class="flex flex-col justify-end">
+					<p ng-show="error" class="text-red-500 text-right">{{error}}</p>
+					<button type="submit"
+						class="w-max p-2 mt-6 ml-auto text-white rounded-lg bg-blue-500 hover:bg-blue-700">Create
+						account</button>
+
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>
