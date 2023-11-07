@@ -48,7 +48,7 @@ public class ManagerController {
      */
     @GetMapping ( { "/manageBaristas" } )
     public String manageBaristasHTML ( final Model model ) {
-        return "manageBaristas/manageBarsitas.html";
+        return "manager/manageBaristas/manageBaristas.html";
     }
     
     /**
@@ -61,7 +61,7 @@ public class ManagerController {
      */
     @GetMapping ( { "/manageBaristas.js" } )
     public String manageBaristasJS ( final Model model ) {
-        return "manageBaristas/manageBarsitas.js";
+        return "manager/manageBaristas/manageBaristas.js";
     }
     
 
