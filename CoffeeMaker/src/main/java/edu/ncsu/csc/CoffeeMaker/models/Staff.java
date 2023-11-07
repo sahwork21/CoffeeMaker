@@ -48,4 +48,19 @@ public class Staff extends AbstractUser {
         super( username, password, role );
     }
 
+    /**
+     * Verify that this is in fact a staff with the correct staff roles Cannot
+     * allow people to create users with wrong roles
+     *
+     * @return true if the role is a barista or manager false otherwise
+     */
+    @Override
+    public boolean checkUser () {
+        if ( Role.BARISTA != getRoleType() && Role.MANAGER != getRoleType() ) {
+            return false;
+        }
+
+        return super.checkUser();
+    }
+
 }
