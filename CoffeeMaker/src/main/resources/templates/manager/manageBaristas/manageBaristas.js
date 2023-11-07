@@ -1,6 +1,5 @@
 var app = angular.module('myApp', []);
 
-
 app.controller('ManageBaristasController', function($scope, $http, $q) {
 	// HTML expects accounts to be formatted as an object with the username field. 
 	$scope.accounts = [
