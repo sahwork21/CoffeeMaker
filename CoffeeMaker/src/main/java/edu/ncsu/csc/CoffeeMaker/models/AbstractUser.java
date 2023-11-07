@@ -3,10 +3,10 @@ package edu.ncsu.csc.CoffeeMaker.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 
@@ -17,8 +17,8 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
  */
 
 @Entity
-@JsonIgnoreProperties ( { "password" } )
-public abstract class AbstractUser extends DomainObject {
+@Table ( name = "users" )
+public class AbstractUser extends DomainObject {
     /** User id */
     @Id
     @GeneratedValue
@@ -34,16 +34,14 @@ public abstract class AbstractUser extends DomainObject {
      * be hashed. Do not return it in the JSON files Use the transient field so
      * the front end does not expose the password
      */
-    @JsonIgnore
     private String password;
 
     /** The user's role and privileges */
     private Role   roleType;
 
-    /** Constructor empty constructor */
+    /** Constructor empty constructor for Spring */
     public AbstractUser () {
 
-        this( "", "", null );
     }
 
     /**
@@ -58,9 +56,9 @@ public abstract class AbstractUser extends DomainObject {
      */
     public AbstractUser ( final String username, final String password, final Role roleType ) {
 
-        setUserName( username );
-        setPassword( password );
-        setUserType( roleType );
+        this.username = username;
+        this.password = password;
+        this.roleType = roleType;
 
     }
 
@@ -69,7 +67,7 @@ public abstract class AbstractUser extends DomainObject {
      *
      * @return the user's username
      */
-    public String getUserName () {
+    public String getUsername () {
         return username;
     }
 
@@ -79,10 +77,11 @@ public abstract class AbstractUser extends DomainObject {
      * @param userName
      *            the user's username that will be linked to them
      */
-    public void setUserName ( final String userName ) {
+    public void setUsername ( final String userName ) {
         if ( userName == null ) {
             throw new IllegalArgumentException( "Invalid name." );
         }
+        this.username = userName;
 
     }
 
@@ -109,7 +108,6 @@ public abstract class AbstractUser extends DomainObject {
      * @param password
      *            the password with the associated user to hash
      */
-    @JsonProperty
     public void setPassword ( final String password ) {
         this.password = password;
     }
@@ -119,7 +117,6 @@ public abstract class AbstractUser extends DomainObject {
      *
      * @return the encrypted password of this object
      */
-    @JsonIgnore
     public String getPassword () {
         return this.password;
     }
@@ -129,7 +126,7 @@ public abstract class AbstractUser extends DomainObject {
      *
      * @return roleType role of the user.
      */
-    public Role getUserType () {
+    public Role getRoleType () {
         return roleType;
     }
 
@@ -139,7 +136,7 @@ public abstract class AbstractUser extends DomainObject {
      * @param rtype
      *            the type of the role
      */
-    public void setUserType ( final Role rtype ) {
+    public void setRoleType ( final Role rtype ) {
         this.roleType = rtype;
     }
 
@@ -149,6 +146,52 @@ public abstract class AbstractUser extends DomainObject {
 
     }
 
-    
+    /**
+     * See if the passwords match between what is saved and what is input This
+     * method should be used by the login API
+     *
+     * @param passwordInput
+     *            the input by the frontend to login to this user
+     * @return true if the passwords match false if not
+     */
+    public boolean checkPassword ( final String passwordInput ) {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches( passwordInput, password );
+    }
+
+    /**
+     * Checks that the user is a valid user with a username, password, and role.
+     *
+     * @return true if this is a valid user false otherwise
+     */
+    public boolean checkUser () {
+        // No null or empty usernames
+        if ( "".equals( username ) || username == null ) {
+            return false;
+        }
+
+        // No empty passwords
+        // You should probably check before saving since saving encrypts the
+        // password
+        if ( "".equals( password ) || password == null ) {
+            return false;
+        }
+
+        // Role type required
+        if ( roleType == null ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * To String that tells us what this user has
+     *
+     */
+    @Override
+    public String toString () {
+        return "Username: " + username + "Role: " + roleType;
+    }
 
 }

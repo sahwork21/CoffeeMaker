@@ -1,12 +1,17 @@
 package edu.ncsu.csc.CoffeeMaker.services;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import edu.ncsu.csc.CoffeeMaker.models.AbstractUser;
+import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 import edu.ncsu.csc.CoffeeMaker.repositories.UserRepository;
 
 /**
@@ -43,6 +48,30 @@ public class UserService <E extends AbstractUser> extends Service<AbstractUser, 
     public AbstractUser findByUsername ( final String username ) {
         return userRepository.findByUsername( username );
 
+    }
+
+    /**
+     * Save the user but encrypt the password first
+     */
+    @Override
+    public void save ( final AbstractUser user ) {
+        final PasswordEncoder pe = new BCryptPasswordEncoder();
+
+        final String encrypted = pe.encode( user.getPassword() );
+
+        user.setPassword( encrypted );
+
+        // We have encrypted the password now just call the parent save method
+        super.save( user );
+    }
+
+    /**
+     * Finds all the Staff members by the user type
+     * @param roleType the specific type of users we are looking for in our list
+     * @return a list of the staff members by barista or manager
+     */
+    public List<AbstractUser> findByRoleType ( final Role roleType ) {
+        return userRepository.findByRoleType( roleType );
     }
 
 }

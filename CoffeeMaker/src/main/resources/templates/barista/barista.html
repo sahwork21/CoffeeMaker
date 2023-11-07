@@ -21,7 +21,7 @@
 					<div ng-repeat="order in orders" class="w-full p-2 rounded-lg bg-white">
 						<div class="flex justify-between">
 							<p class="text-lg font-semibold">Order {{order.id}}</p>
-							<button class="py-2 px-4 mr-5 rounded-lg font-semibold text-white bg-blue-500 hover:bg-blue-700">Fulfill</button>
+							<button ng-click="fulfillOrder(order)" class="py-2 px-4 mr-5 rounded-lg font-semibold text-white bg-blue-500 hover:bg-blue-700">Fulfill</button>
 						</div>
 						<p class="font-light text-sm">Placed on {{order.placedAt}}</p>
 						<div class="w-full rounded-full bg-gray-50 ring-1 ring-gray-100 mt-3">
