@@ -305,7 +305,68 @@ class APIUserTest {
      */
     @Test
     @Transactional
-    public void testGetBaristas () {
+    public void testGetBaristas () throws Exception {
+        final Customer c1 = new Customer( "cus1", "p1" );
+        final Manager m1 = new Manager( "man1", "m1" );
+        final Staff s1 = new Staff( "bar1", "b1", Role.BARISTA );
+        final Customer c2 = new Customer( "cus2", "p1" );
+        final Manager m2 = new Manager( "man2", "m1" );
+        final Staff s2 = new Staff( "bar2", "b1", Role.BARISTA );
+        final Customer c3 = new Customer( "cus3", "p1" );
+        final Manager m3 = new Manager( "man3", "m1" );
+        final Staff s3 = new Staff( "bar3", "b1", Role.BARISTA );
+
+        // Now do a post operation to save all of these
+        mvc.perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( c1 ) ) ).andExpect( status().isOk() );
+        mvc.perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( m1 ) ) ).andExpect( status().isOk() );
+        mvc.perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( s1 ) ) ).andExpect( status().isOk() );
+
+        final String response1 = mvc.perform( get( "/api/v1/users/barista" ) ).andExpect( status().isOk() )
+                .andDo( print() ).andReturn().getResponse().getContentAsString();
+
+        assertTrue( response1.contains( "\"username\":\"bar1\"" ) );
+        assertTrue( response1.contains( "\"roleType\":\"BARISTA\"" ) );
+
+        assertFalse( response1.contains( "\"username\":\"bar2\"" ) );
+
+        assertFalse( response1.contains( "\"username\":\"bar3\"" ) );
+
+        mvc.perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( c2 ) ) ).andExpect( status().isOk() );
+        mvc.perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( m2 ) ) ).andExpect( status().isOk() );
+        mvc.perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( s2 ) ) ).andExpect( status().isOk() );
+
+        final String response2 = mvc.perform( get( "/api/v1/users/barista" ) ).andExpect( status().isOk() )
+                .andDo( print() ).andReturn().getResponse().getContentAsString();
+
+        assertTrue( response2.contains( "\"username\":\"bar1\"" ) );
+        assertTrue( response2.contains( "\"roleType\":\"BARISTA\"" ) );
+
+        assertTrue( response2.contains( "\"username\":\"bar2\"" ) );
+
+        assertFalse( response2.contains( "\"username\":\"bar3\"" ) );
+
+        mvc.perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( c3 ) ) ).andExpect( status().isOk() );
+        mvc.perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( m3 ) ) ).andExpect( status().isOk() );
+        mvc.perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( s3 ) ) ).andExpect( status().isOk() );
+
+        final String response3 = mvc.perform( get( "/api/v1/users/barista" ) ).andExpect( status().isOk() )
+                .andDo( print() ).andReturn().getResponse().getContentAsString();
+
+        assertTrue( response3.contains( "\"username\":\"bar1\"" ) );
+        assertTrue( response3.contains( "\"roleType\":\"BARISTA\"" ) );
+
+        assertTrue( response3.contains( "\"username\":\"bar2\"" ) );
+
+        assertTrue( response3.contains( "\"username\":\"bar3\"" ) );
 
     }
 
