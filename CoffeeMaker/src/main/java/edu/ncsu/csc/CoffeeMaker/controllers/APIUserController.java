@@ -81,7 +81,7 @@ public class APIUserController extends APIController {
         // This is not a new user give them a 400 error. We should probably be
         // obscuring these so people cannot snoop in on conversations
         if ( u != null ) {
-            return new ResponseEntity( "Invalid username", HttpStatus.CONFLICT );
+            return new ResponseEntity( "Invalid username or password", HttpStatus.CONFLICT );
         }
 
         // The user is valid so save them with the correct information after
@@ -94,8 +94,7 @@ public class APIUserController extends APIController {
             final Staff insertedUser = new Staff( user.getUsername(), user.getPassword(), user.getRoleType() );
             staffService.save( insertedUser );
             return new ResponseEntity(
-                    successResponse( user.getUsername() + " customer account was successfully created" ),
-                    HttpStatus.OK );
+                    successResponse( user.getUsername() + " staff account was successfully created" ), HttpStatus.OK );
         }
         else if ( user.getRoleType() == Role.MANAGER ) {
             final Manager insertedUser = new Manager( user.getUsername(), user.getPassword() );
@@ -110,7 +109,7 @@ public class APIUserController extends APIController {
             final Customer insertedUser = new Customer( user.getUsername(), user.getPassword() );
             customerService.save( insertedUser );
             return new ResponseEntity(
-                    successResponse( user.getUsername() + " customer account was successfully created" ),
+                    successResponse( user.getUsername() + " manager account was successfully created" ),
                     HttpStatus.OK );
         }
 

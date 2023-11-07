@@ -35,4 +35,19 @@ public class Manager extends Staff {
         super( username, password, Role.MANAGER );
     }
 
+    /**
+     * Verify that this is in fact a manager with the correct manager role
+     * Cannot allow people to create users with wrong roles
+     *
+     * @return true if the role is a manager false otherwise
+     */
+    @Override
+    public boolean checkUser () {
+        if ( Role.MANAGER != getRoleType() ) {
+            return false;
+        }
+
+        return super.checkUser();
+    }
+
 }

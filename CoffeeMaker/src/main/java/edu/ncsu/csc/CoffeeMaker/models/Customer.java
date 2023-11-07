@@ -37,4 +37,19 @@ public class Customer extends AbstractUser {
         super( username, password, Role.CUSTOMER );
     }
 
+    /**
+     * Verify that this is in fact a customer with the correct Customer role
+     * Cannot allow people to create users with wrong roles
+     *
+     * @return true if the role is a customer false otherwise
+     */
+    @Override
+    public boolean checkUser () {
+        if ( Role.CUSTOMER != getRoleType() ) {
+            return false;
+        }
+
+        return super.checkUser();
+    }
+
 }
