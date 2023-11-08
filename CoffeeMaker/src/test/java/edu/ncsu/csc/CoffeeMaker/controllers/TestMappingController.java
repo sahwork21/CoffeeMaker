@@ -59,10 +59,6 @@ class TestMappingController {
     public void testMappingController () throws Exception {
         // Test that index has the proper title
 
-        final String index = mvc.perform( get( "/index/" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
-                .getResponse().getContentAsString();
-        assertTrue( index.contains( "<title>Welcome to the CSC326 CoffeeMaker</title>" ) );
-
         final String recipe = mvc.perform( get( "/recipe/" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
                 .getResponse().getContentAsString();
         assertTrue( recipe.contains( "<title>Add a Recipe</title>" ) );

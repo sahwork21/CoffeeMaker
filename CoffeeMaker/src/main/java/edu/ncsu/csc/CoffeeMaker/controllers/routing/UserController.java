@@ -22,7 +22,7 @@ public class UserController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/signin", "/signin.html" } )
+    @GetMapping ( { "/", "/signin", "/signin.html" } )
     public String signIn ( final Model model ) {
         return "./signin/signin";
     }
