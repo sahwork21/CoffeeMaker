@@ -249,17 +249,17 @@ class APIUserTest {
         assertEquals( 3, service.findAll().size() );
 
         // Now see that logging in works for every one of them
-        final String response1 = mvc.perform( get( "/api/v1/users/cus1" ).content( "p1" ) ).andExpect( status().isOk() )
+        final String response1 = mvc.perform( get( "/api/v1/users/cus1/p1" ) ).andExpect( status().isOk() )
                 .andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response1.contains( "\"username\":\"cus1\"" ) );
         assertTrue( response1.contains( "\"roleType\":\"CUSTOMER\"" ) );
 
-        final String response2 = mvc.perform( get( "/api/v1/users/man1" ).content( "m1" ) ).andExpect( status().isOk() )
+        final String response2 = mvc.perform( get( "/api/v1/users/man1/m1" ) ).andExpect( status().isOk() )
                 .andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response2.contains( "\"username\":\"man1\"" ) );
         assertTrue( response2.contains( "\"roleType\":\"MANAGER\"" ) );
 
-        final String response3 = mvc.perform( get( "/api/v1/users/bar1" ).content( "b1" ) ).andExpect( status().isOk() )
+        final String response3 = mvc.perform( get( "/api/v1/users/bar1/b1" ) ).andExpect( status().isOk() )
                 .andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response3.contains( "\"username\":\"bar1\"" ) );
         assertTrue( response3.contains( "\"roleType\":\"BARISTA\"" ) );
@@ -271,8 +271,7 @@ class APIUserTest {
         u2.setPassword( "thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" );
         u2.setRoleType( Role.BARISTA );
         final String response5 = mvc
-                .perform( get( "/api/v1/users/band" )
-                        .content( "thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" ) )
+                .perform( get( "/api/v1/users/band/thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" ) )
                 .andExpect( status().isNotFound() ).andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response5.contains( "Invalid username or password" ) );
 
@@ -283,14 +282,12 @@ class APIUserTest {
         assertEquals( 4, service.findAll().size() );
 
         // Now log in with the wrong passcode and again with the right one
-        final String response6 = mvc
-                .perform( get( "/api/v1/users/band" ).content( "thisfjdskabodywouldevenconceiveaspossible" ) )
+        final String response6 = mvc.perform( get( "/api/v1/users/band/thisfjdskabodywouldevenconceiveaspossible" ) )
                 .andExpect( status().isBadRequest() ).andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response6.contains( "Invalid username or password" ) );
 
         final String response7 = mvc
-                .perform( get( "/api/v1/users/band" )
-                        .content( "thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" ) )
+                .perform( get( "/api/v1/users/band/thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" ) )
                 .andExpect( status().isOk() ).andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response7.contains( "\"username\":\"band\"" ) );
         assertTrue( response7.contains( "\"roleType\":\"BARISTA\"" ) );
