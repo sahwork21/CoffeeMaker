@@ -21,7 +21,7 @@ public class CustomerController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/customer" } )
+    @GetMapping ( { "/customer", "/customer.html" } )
     public String index ( final Model model ) {
         return "customer/customer";
     }
@@ -47,23 +47,23 @@ public class CustomerController {
      *            underlying UI model
      * @return contents of page
      */
-    @GetMapping ( { "/customer/order" } )
+    @GetMapping ( { "/customer/order", "/customer/order.html" } )
     public String order ( final Model model ) {
         return "customer/order/order";
     }
 
-    /**
-     * On a GET request to /order with the Customer Role, the IndexController
-     * will return /src/main/resources/templates/customer/order
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of page
-     */
-    @GetMapping ( { "/customer/orders" } )
-    public String orders ( final Model model ) {
-        return "customer/order";
-    }
+    // /**
+    // * On a GET request to /order with the Customer Role, the IndexController
+    // * will return /src/main/resources/templates/customer/order
+    // *
+    // * @param model
+    // * underlying UI model
+    // * @return contents of page
+    // */
+    // @GetMapping ( { "/customer/order/" } )
+    // public String orders ( final Model model ) {
+    // return "customer/order";
+    // }
 
     /**
      * On a GET request to /customer/customer.js, the MakeCoffeeController will

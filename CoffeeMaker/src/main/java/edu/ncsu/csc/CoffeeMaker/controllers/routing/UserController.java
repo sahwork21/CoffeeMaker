@@ -5,9 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * Controller class for the URL mappings for CoffeeMaker's Users (no specific role). The controller returns
- * the approprate HTML page in the /src/main/resources/templates/* folder.
- * This includes signin to authenticate, and signup to create an account.
+ * Controller class for the URL mappings for CoffeeMaker's Users (no specific
+ * role). The controller returns the approprate HTML page in the
+ * /src/main/resources/templates/* folder. This includes signin to authenticate,
+ * and signup to create an account.
  *
  * @author Julian Madrigal
  */
@@ -21,11 +22,11 @@ public class UserController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/signin" } )
+    @GetMapping ( { "/signin", "/signin.html" } )
     public String signIn ( final Model model ) {
-        return "/signin/signin";
+        return "./signin/signin";
     }
-    
+
     /**
      * On a GET request to /, the IndexController will return
      * /src/main/resources/templates/signup/signin.js
@@ -36,9 +37,9 @@ public class UserController {
      */
     @GetMapping ( { "/signin.js" } )
     public String signInJS ( final Model model ) {
-        return "signin/signin.js";
+        return "./signin/signin.js";
     }
-    
+
     /**
      * On a GET request to /, the IndexController will return
      * /src/main/resources/templates/signup/signup.html.
@@ -47,11 +48,11 @@ public class UserController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/signup" } )
+    @GetMapping ( { "/signup", "/signup.html" } )
     public String signUp ( final Model model ) {
-        return "signup/signup";
+        return "./signup/signup";
     }
-    
+
     /**
      * On a GET request to /, the IndexController will return
      * /src/main/resources/templates/signup/signup.js
@@ -62,6 +63,6 @@ public class UserController {
      */
     @GetMapping ( { "/signup.js" } )
     public String signUpJS ( final Model model ) {
-        return "signup/signup.js";
+        return "./signup/signup.js";
     }
 }
