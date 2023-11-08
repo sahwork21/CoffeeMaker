@@ -113,6 +113,39 @@ class TestMappingController {
                 .andReturn().getResponse().getContentAsString();
         assertTrue( order.contains( "<title>Order Menu" ) );
 
+        // Test the html pages would be able to get their javascripts
+        final String signinjs = mvc.perform( get( "/signin.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( signinjs.contains( "SignInController" ) );
+
+        final String signupjs = mvc.perform( get( "/signup.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( signupjs.contains( "SignUpController" ) );
+
+        final String customerjs = mvc.perform( get( "/customer.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( customerjs.contains( "CustomerController" ) );
+
+        final String orderjs = mvc.perform( get( "/customer/order.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( orderjs.contains( "OrderController" ) );
+
+        final String baristajs = mvc.perform( get( "/barista.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( baristajs.contains( "BaristaController" ) );
+
+        final String managerjs = mvc.perform( get( "/manager.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( managerjs.contains( "ManagerController" ) );
+
+        final String managerbars = mvc.perform( get( "/manageBaristas" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( managerbars.contains( "Manage Barista Menu" ) );
+
+        final String managerbarsjs = mvc.perform( get( "/manageBaristas.js" ) ).andDo( print() )
+                .andExpect( status().isOk() ).andReturn().getResponse().getContentAsString();
+        assertTrue( managerbarsjs.contains( "ManageBaristasController" ) );
+
     }
 
 }
