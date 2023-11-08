@@ -63,7 +63,7 @@ app.controller('SignInController', function($scope, $http, $q) {
 		}, function(rejection) {
 			console.log("Rejection of login loop");
 			$scope.success = null;
-			$scope.error = rejection.data.message
+			$scope.error = "Invalid username or password";
 		});
 		
 	}
