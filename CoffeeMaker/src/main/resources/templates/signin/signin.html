@@ -56,15 +56,16 @@
 			<div>
 				<p class="mt-10 font-semibold text-sm">Username</p>
 				<input id="username" name="username" ng-model="formData.username" ng-click="resetInvalid('username')" class="{{ invalid.username ? 'ring-red-500' : 'ring-gray-300' }} w-full ring-1 rounded-md p-2 mt-1 font-light hover:ring-blue-500"
-					placeholder="Enter username">
+					placeholder="Enter username" required>
 			</div>
 			<div>
 				<p class="mt-6 font-semibold text-sm">Password</p>
 				<input ng-model="formData.password" ng-click="resetInvalid('password')" class="w-full ring-1 rounded-md p-2 mt-1 font-light hover:ring-blue-500 {{ invalid.password ? 'ring-red-500' : 'ring-gray-300' }}"
-					placeholder="Enter password">
+					placeholder="Enter password" required>
 			</div>
 
-			<button ng-click="onSubmit()" type="submit" class="w-full p-2 mt-6 text-white rounded-lg bg-blue-500 hover:bg-blue-700">Sign in</button>
+			<button ng-click="onSubmit()" type="submit" class="w-full p-2 mt-6 text-white rounded-lg bg-blue-500 hover:bg-blue-700" 
+				ng-disabled="form.username.$invalid || form.password.$invalid">Sign in</button>
 			<p class="pb-24 mt-1 text-gray-500 text-center">Not a member? <a href="./signup"
 					class="text-blue-500 hover:text-blue-800">Create account</a></p>
 		</form>
