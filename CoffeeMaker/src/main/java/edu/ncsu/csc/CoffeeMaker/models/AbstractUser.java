@@ -191,7 +191,7 @@ public class AbstractUser extends DomainObject {
      */
     @Override
     public String toString () {
-        return "Username: " + username + "Role: " + roleType;
+        return "Username: " + username + " Role: " + roleType;
     }
 
 }
