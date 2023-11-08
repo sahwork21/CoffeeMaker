@@ -2,7 +2,7 @@ var app = angular.module('myApp', []);
 
 
 app.controller('APIUserController', function($scope, $http, $q) {
-	$scope.success = null;
+	$scope.success = null; // Populating this variable displays the success with the message
 	$scope.error = null; // Populating this variable displays the error with the message
 	$scope.formData = {username: "", password: ""}; // Use these to store the state of username and password
 	$scope.invalid = {username: false, password: false}; // Use these to highlight input as required/red
@@ -14,7 +14,7 @@ app.controller('APIUserController', function($scope, $http, $q) {
 	}
 	
 	$scope.onSubmit = function() {
-		$http.get("/api/v1/users/" + $scope.username, $scope.password).then(function(response) {
+		$http.get("/api/v1/users/" + $scope.formData.username, $scope.formData.password).then(function(response) {
 			$scope.error = null;
 			$scope.user = response.data;
 			$scope.success = "Logged in successfully.";
