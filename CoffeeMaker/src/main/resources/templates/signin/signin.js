@@ -59,7 +59,7 @@ app.controller('SignInController', function($scope, $http, $q) {
 			
 			$scope.error = null;
 			$scope.user = response.data;
-			$scope.success = "Logged in successfully, but you should be redireceted. Look at the javascript because something went wrong.";
+			$scope.success = "Successful login";
 		}, function(rejection) {
 			console.log("Rejection of login loop");
 			$scope.success = null;
