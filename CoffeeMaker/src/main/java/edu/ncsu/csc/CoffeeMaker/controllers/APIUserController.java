@@ -100,7 +100,7 @@ public class APIUserController extends APIController {
             final Manager insertedUser = new Manager( user.getUsername(), user.getPassword() );
             managerService.save( insertedUser );
             return new ResponseEntity(
-                    successResponse( user.getUsername() + " customer account was successfully created" ),
+                    successResponse( user.getUsername() + " manager account was successfully created" ),
                     HttpStatus.OK );
         }
         else if ( user.getRoleType() == Role.CUSTOMER ) {
@@ -109,7 +109,7 @@ public class APIUserController extends APIController {
             final Customer insertedUser = new Customer( user.getUsername(), user.getPassword() );
             customerService.save( insertedUser );
             return new ResponseEntity(
-                    successResponse( user.getUsername() + " manager account was successfully created" ),
+                    successResponse( user.getUsername() + " customer account was successfully created" ),
                     HttpStatus.OK );
         }
 
