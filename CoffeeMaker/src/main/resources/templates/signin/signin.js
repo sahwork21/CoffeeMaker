@@ -17,7 +17,7 @@ app.controller('SignInController', function($scope, $http, $q) {
 		//We need to pass in variables as JSON format for API calls
 		let rawPassword = {password:$scope.formData.password};
 		
-		console.log(rawPassword);
+		
 		
 		
 		$http.get("/api/v1/users/" + $scope.formData.username + "/" + $scope.formData.password).then(function(response) {
@@ -27,22 +27,39 @@ app.controller('SignInController', function($scope, $http, $q) {
 			
 			//We have to save their login credentials so we can get things like orders and stuff if they are a customer
 			//These credentials should only persist for the tab with sessionStorage
+			//Only save it for the customer in the future since we have to reget their orders history
 			let username = $scope.formData.username;
+			let password = $scope.formData.password;
+			
+			sessionStorage.setItem("username", username);
+			sessionStorage.setItem("password", password);
+			console.log(sessionStorage.getItem("username"));
+			console.log(sessionStorage.getItem("password"));
 			
 			console.log(user);
 			
-			sessionStorage.setItem("username", username);
-			sessionStorage.setItem("password", rawPassword);
-				
+			
 			//We need to force a redirect of the page after logging them in
 			//Just use /*location.href = "barista.html"*/ to redirect
+			if(user.roleType == "CUSTOMER"){
+				console.log("In Customer redirect");
+				location.href = "customer.html";
+			} 
+			else if (user.roleType == "MANAGER") {
+				console.log("In Manager redirect");
+				location.href = "manager.html";
+			}
+			else if (user.roleType == "BARISTA"){
+				console.log("In Barista redirect");
+				location.href = "barista.html";
+			};
 			
 			
 			
 			
 			$scope.error = null;
 			$scope.user = response.data;
-			$scope.success = "Logged in successfully.";
+			$scope.success = "Logged in successfully, but you should be redireceted. Look at the javascript because something went wrong.";
 		}, function(rejection) {
 			console.log("Rejection of login loop");
 			$scope.success = null;
