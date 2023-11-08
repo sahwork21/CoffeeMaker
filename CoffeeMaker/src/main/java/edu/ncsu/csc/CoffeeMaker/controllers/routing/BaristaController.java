@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 /**
- * Controller class for the URL mappings for CoffeeMaker's Barista role. The controller returns
- * the approprate HTML page in the /src/main/resources/templates/barista/* folder.
+ * Controller class for the URL mappings for CoffeeMaker's Barista role. The
+ * controller returns the approprate HTML page in the
+ * /src/main/resources/templates/barista/* folder.
  *
  * @author Julian Madrigal
  */
@@ -21,21 +21,21 @@ public class BaristaController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/barista" } )
+    @GetMapping ( { "/barista", "/barista.html" } )
     public String index ( final Model model ) {
         return "barista/barista";
     }
-    
+
     /**
-     * On a GET request to /customer/barista.js, the BaristaController will return
-     * /src/main/resources/templates/barista/barista.js
+     * On a GET request to /customer/barista.js, the BaristaController will
+     * return /src/main/resources/templates/barista/barista.js
      *
      * @param model
      *            underlying UI model
      * @return contents of the page
      */
     @GetMapping ( { "/barista.js" } )
-    public String customerJS( final Model model ) {
+    public String customerJS ( final Model model ) {
         return "barista/barista.js";
     }
 }

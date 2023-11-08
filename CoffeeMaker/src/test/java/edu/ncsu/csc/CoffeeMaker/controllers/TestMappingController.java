@@ -30,7 +30,6 @@ class TestMappingController {
 
     // private MappingController mapper;
 
-
     /** Our mock model view controller */
     private MockMvc               mvc;
 
@@ -84,10 +83,35 @@ class TestMappingController {
                 .andReturn().getResponse().getContentAsString();
         assertTrue( makecoffee.contains( "<title>View Recipes</title>" ) );
 
-
         final String editrecipe = mvc.perform( get( "/editrecipe/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
         assertTrue( editrecipe.contains( "<title>Edit Recipes</title>" ) );
+
+        // Test the user controllers
+        final String signin = mvc.perform( get( "/signin" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
+                .getResponse().getContentAsString();
+        assertTrue( signin.contains( "<title>Login page" ) );
+
+        final String signup = mvc.perform( get( "/signup" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
+                .getResponse().getContentAsString();
+        assertTrue( signup.contains( "<title>Signup page" ) );
+
+        // Test the roles can access their pages
+        final String barista = mvc.perform( get( "/barista" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( barista.contains( "<title>Barista Menu" ) );
+
+        final String customer = mvc.perform( get( "/customer" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( customer.contains( "<title>Customer Menu" ) );
+
+        final String manager = mvc.perform( get( "/manager" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( manager.contains( "<title>Manager Menu" ) );
+
+        final String order = mvc.perform( get( "/customer/order" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( order.contains( "<title>Order Menu" ) );
 
     }
 
