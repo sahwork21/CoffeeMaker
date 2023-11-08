@@ -19,8 +19,9 @@ app.controller('APIUserController', function($scope, $http, $q) {
 			console.log(success.data.message);
 			$scope.success = success.data.message; // Set the success message
 		}, function(rejection){
+			console.log("In failure case");
 			$scope.success = null;
-			$scope.error = rejection.data.message
+			$scope.error = "Invalid Username or Password";
 		});
 	}
 	
