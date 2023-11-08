@@ -27,6 +27,21 @@
 
 		<form class="min-w-[25%]" name="form" ng-submit="onSubmit()">
 			
+			<!-- Success message -->
+			<div ng-show="success" class="flex items-center justify-center gap-2">
+			    <svg id="success" xmlns="http://www.w3.org/2000/svg" height="1em" 
+			    	viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+			        <style>
+						#success {
+							fill: #28a745
+						}
+					</style>
+			        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+			    </svg>
+			    <p class="text-green-700">{{success}}</p>
+			</div>
+			
+			
 			<!-- The error to display on any issues -->
 			<div ng-show="error" class="flex items-center justify-center gap-2">
 				<svg id="error" xmlns="http://www.w3.org/2000/svg" height="1em"
@@ -47,18 +62,19 @@
 				<p class="mt-10 font-semibold text-sm">Username</p>
 				<input id="username" name="username" ng-model="formData.username" ng-click="resetInvalid('username')"
 					class="{{ invalid.username ? 'ring-red-500' : 'ring-gray-300' }} w-full ring-1 rounded-md p-2 mt-1 font-light hover:ring-blue-500"
-					placeholder="Enter username">
+					placeholder="Enter username" required>
 			</div>
 			
 			<!-- The password field -->
 			<div>
 				<p class="mt-6 font-semibold text-sm">Password</p>
 				<input ng-model="formData.password" ng-click="resetInvalid('password')" class="w-full ring-1 rounded-md p-2 mt-1 font-light hover:ring-blue-500 {{ invalid.password ? 'ring-red-500' : 'ring-gray-300' }}"
-					placeholder="Enter password">
+					placeholder="Enter password" required>
 			</div>
 
 			<!-- The sign up / login field -->
-			<button type="submit" class="w-full p-2 mt-6 text-white rounded-lg bg-blue-500 hover:bg-blue-700">Create account</button>
+			<button type="submit" class="w-full p-2 mt-6 text-white rounded-lg bg-blue-500 hover:bg-blue-700"
+				ng-disabled="form.$invalid">Create account</button>
 			<p class="pb-24 mt-1 text-gray-500 text-center">Have an account? <a href="./signin"
 					class="font-semibold text-blue-500 hover:text-blue-800">Login</a></p>
 		</form>

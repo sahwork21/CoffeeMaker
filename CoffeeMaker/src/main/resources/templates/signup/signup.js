@@ -2,15 +2,11 @@ var app = angular.module('myApp', []);
 
 
 app.controller('SignUpController', function($scope, $http, $q) {
-	$scope.error = null// Populating this variable displays the error with the message
-	$scope.formData = {username: "", password: ""} // Use these to store the state of username and password
-	$scope.invalid = {username: false, password: false} // Use these to highlight input as required/red
+	$scope.success = null; // Populating this variable displays the success with the message
+	$scope.error = null; // Populating this variable displays the error with the message
+	$scope.formData = {username: "", password: "", roleType: 0}; // Use these to store the state of username, password, and role.
+	$scope.invalid = {username: false, password: false}; // Use these to highlight input as required/red
 	
-	$scope.functionName = function() {
-		$http.get("/api/v1/").then(function(response) { // Template API GET
-			
-		});
-	}
 	
 	// Used by the Input elements, when a textbox is clicked to edit, reset invalid.
 	$scope.resetInvalid = function(field) {
@@ -18,21 +14,15 @@ app.controller('SignUpController', function($scope, $http, $q) {
 	}
 	
 	$scope.onSubmit = function() {
-		
-		$scope.error = "Username or password is incorrect";
-		
-		let invalidUsername = $scope.formData.username == "";
-		let invalidPassword = $scope.formData.password == "";
-		
-		if (invalidUsername) $scope.invalid.username = true;
-		if (invalidPassword) $scope.invalid.password = true;
-		
-		if (invalidUsername || invalidPassword) {
-			$scope.error = "An account with that username already exists"
-		} else {
-			$scope.error = "";
-		};
-		
+		$http.post("/api/v1/users/", $scope.formData).then(function(success) {
+			$scope.error = null;
+			console.log(success.data.message);
+			$scope.success = success.data.message; // Set the success message
+		}, function(rejection){
+			console.log("In failure case");
+			$scope.success = null;
+			$scope.error = "Invalid Username or Password";
+		});
 	}
 	
 });
