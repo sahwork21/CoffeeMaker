@@ -1,7 +1,7 @@
 var app = angular.module('myApp', []);
 
 
-app.controller('APIUserController', function($scope, $http, $q) {
+app.controller('SignUpController', function($scope, $http, $q) {
 	$scope.success = null; // Populating this variable displays the success with the message
 	$scope.error = null; // Populating this variable displays the error with the message
 	$scope.formData = {username: "", password: "", roleType: 0}; // Use these to store the state of username, password, and role.
@@ -19,8 +19,9 @@ app.controller('APIUserController', function($scope, $http, $q) {
 			console.log(success.data.message);
 			$scope.success = success.data.message; // Set the success message
 		}, function(rejection){
+			console.log("In failure case");
 			$scope.success = null;
-			$scope.error = rejection.data.message
+			$scope.error = "Invalid Username or Password";
 		});
 	}
 	

@@ -126,14 +126,14 @@ public class APIUserController extends APIController {
      *
      * @param username
      *            the username of the user we are looking for.
-     * @param rawPassword
+     * @param password
      *            the unencrypted password of the user we are looking for.
      * @return a response entity of 4XX on incorrect usernames or passwords. 200
      *         and the JSON of user on successful logins
      */
-    @GetMapping ( BASE_PATH + "/users/{username}" )
+    @GetMapping ( BASE_PATH + "/users/{username}/{password}" )
     public ResponseEntity loginUser ( @PathVariable ( "username" ) final String username,
-            @RequestBody final String rawPassword ) {
+            @PathVariable ( "password" ) final String password ) {
         final AbstractUser user = userService.findByUsername( username );
 
         // If the user is null send back a 404 error since there is no
@@ -144,7 +144,7 @@ public class APIUserController extends APIController {
 
         // If the username input has incorrect credentials send back a bad
         // request
-        if ( !user.checkPassword( rawPassword ) ) {
+        if ( !user.checkPassword( password ) ) {
             return new ResponseEntity( "Invalid username or password", HttpStatus.BAD_REQUEST );
         }
 
