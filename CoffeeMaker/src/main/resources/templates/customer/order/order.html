@@ -13,11 +13,17 @@
 <body ng-controller="OrderController" class="bg-gray-100">
 	<navbar></navbar>
 
+	<!-- Beverage popup -->
 	<div ng-hide="hidePopup">
 		<div class="fixed inset-0 z-10 w-screen overflow-y-auto bg-gray-500 bg-opacity-75">
 			<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 				<div
 					class="relative transform overflow-hidden rounded-lg bg-white p-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl">
+
+
+					<div ng-show="success" class="rounded-full mb-2 px-2 mx-2 bg-green-200 text-green-700 truncate">Coffee was ordered. Your change is {{change}}.</div>
+					<div ng-show="failure" class="rounded-full mb-2 px-2 mx-2 bg-red-200 text-red-700 truncate">An error occurred: {{error}}</div>
+
 					<div class="flex gap-4">
 						<div class="flex justify-center items-center bg-stone-500 rounded-lg p-4">
 							<svg id="whitesvg" class="w-24 h-24" xmlns="http://www.w3.org/2000/svg" height="2em"
@@ -48,13 +54,13 @@
 							class="relative flex items-center ring-2 rounded-md ring-gray-100 focus-within:ring-blue-500">
 							<p class="absolute text-sm text-gray-500 -top-3 left-2 px-1 bg-white">Payment</p>
 							<p class="mx-2 text-gray-500">$</p>
-							<input name="payment" id="payment" ng-model="payment" type="number" placeholder="Enter amount" required="true" min="0" 
+							<input name="payment" id="payment" ng-model="payment" type="number"
+								placeholder="Enter amount" required="true" min="0"
 								class="outline-none py-1 px-2 rounded-md" />
 						</div>
-						<div ng-show="success" class="success">Coffee was ordered. Your change is {{change}}.</div>
-						<div ng-show="failure">An error occurred: {{error}}</div>
 						<button ng-click="cancelPopup()" class="hover:text-gray-400">Cancel</button>
-						<button ng-click="orderRecipe()" class="bg-blue-500 text-white rounded-md p-2 px-4 hover:bg-blue-700">Order</button>
+						<button ng-click="orderRecipe()"
+							class="bg-blue-500 text-white rounded-md p-2 px-4 hover:bg-blue-700">Order</button>
 					</div>
 				</div>
 			</div>
