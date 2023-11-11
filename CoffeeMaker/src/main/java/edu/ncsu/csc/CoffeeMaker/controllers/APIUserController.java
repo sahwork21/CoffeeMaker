@@ -27,6 +27,8 @@ import edu.ncsu.csc.CoffeeMaker.services.UserService;
  *
  * We want to limit these operations to just log users in, signup users, and
  * display baristas for a manager caller.
+ *
+ * Returned JSONs should not contain passwords.
  */
 @RestController
 @SuppressWarnings ( { "rawtypes", "unchecked" } )
@@ -62,14 +64,16 @@ public class APIUserController extends APIController {
      * @param user
      *            the object we want to create
      * @return a response entity of the status. 200 if the user was successfully
-     *         created, 409 for duplicate usernames, 400 for empty fields.
+     *         created, 400 for empty fields.
      */
 
     @PostMapping ( BASE_PATH + "/users" )
     public ResponseEntity createUser ( @RequestBody final AbstractUser user ) {
         // Check that the user is valid before looking for persistence objects
+        // Use this flag so people cannot time up if users do or do not exist
+        boolean valid = true;
         if ( !user.checkUser() ) {
-            return new ResponseEntity( "Invalid username or password", HttpStatus.BAD_REQUEST );
+            valid = false;
 
         }
 
@@ -80,8 +84,10 @@ public class APIUserController extends APIController {
 
         // This is not a new user give them a 400 error. We should probably be
         // obscuring these so people cannot snoop in on conversations
-        if ( u != null ) {
-            return new ResponseEntity( "Invalid username or password", HttpStatus.CONFLICT );
+        // We also use this valid flag so people cannot time up if users do or
+        // do not exist
+        if ( !valid || u != null ) {
+            return new ResponseEntity( "Invalid username or password", HttpStatus.BAD_REQUEST );
         }
 
         // The user is valid so save them with the correct information after
@@ -136,15 +142,12 @@ public class APIUserController extends APIController {
             @PathVariable ( "password" ) final String password ) {
         final AbstractUser user = userService.findByUsername( username );
 
-        // If the user is null send back a 404 error since there is no
+        // If the user is null send back a 400 error since there is no
         // associated account
-        if ( user == null ) {
-            return new ResponseEntity( "Invalid username or password", HttpStatus.NOT_FOUND );
-        }
 
         // If the username input has incorrect credentials send back a bad
         // request
-        if ( !user.checkPassword( password ) ) {
+        if ( user == null || !user.checkPassword( password ) ) {
             return new ResponseEntity( "Invalid username or password", HttpStatus.BAD_REQUEST );
         }
 
@@ -188,6 +191,7 @@ public class APIUserController extends APIController {
     public List<AbstractUser> getBaristas () {
         // Obscure passwords before returning
 
+        // Find all the users that are baristas and return them
         final List<AbstractUser> users = userService.findByRoleType( Role.BARISTA );
         for ( final AbstractUser u : users ) {
             u.setPassword( "" );
