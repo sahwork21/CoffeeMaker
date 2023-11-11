@@ -200,10 +200,19 @@ public class APIUserController extends APIController {
         return users;
     }
 
-    /*
-     * Create a manager user on the startup of the project so we can add more
-     * baristas and managers
+    /**
+     * Create a manager, barista,and customer. This should only be used for the
+     * demo to make generating users easier.
+     *
+     * @return an okay response status with a success message
      */
-    // @PostMapping(BASE_PATH + "/users/generateUsers")
+    @PostMapping ( BASE_PATH + "/generateusers" )
+    public ResponseEntity generateDemoUsers () {
+        customerService.save( new Customer( "Customer", "Customer" ) );
+        staffService.save( new Staff( "Barista", "Barista", Role.BARISTA ) );
+        managerService.save( new Manager( "Manager", "Manager" ) );
+
+        return new ResponseEntity( "Created some demo users", HttpStatus.OK );
+    }
 
 }

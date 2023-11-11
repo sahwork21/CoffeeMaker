@@ -367,4 +367,27 @@ class APIUserTest {
 
     }
 
+    /**
+     * Test that we can run our demo user generation
+     *
+     * @throws Exception
+     *             if you make an illegal call
+     */
+    @Test
+    @Transactional
+    public void testDemoGeneration () throws Exception {
+        mvc.perform( post( "/api/v1/generateusers" ) ).andExpect( status().isOk() );
+
+        // Check that 3 users are there and we can log in to each
+        assertEquals( 3, service.findAll().size() );
+
+        assertEquals( 1, service.findByRoleType( Role.BARISTA ).size() );
+        assertEquals( 1, service.findByRoleType( Role.CUSTOMER ).size() );
+        assertEquals( 1, service.findByRoleType( Role.MANAGER ).size() );
+
+        mvc.perform( get( "/api/v1/users/Manager/Manager" ) ).andExpect( status().isOk() );
+        mvc.perform( get( "/api/v1/users/Barista/Barista" ) ).andExpect( status().isOk() );
+        mvc.perform( get( "/api/v1/users/Customer/Customer" ) ).andExpect( status().isOk() );
+    }
+
 }
