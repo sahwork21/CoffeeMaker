@@ -131,17 +131,17 @@ class APIUserTest {
         final String response1 = mvc
                 .perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
                         .content( TestUtils.asJsonString( dm1 ) ) )
-                .andExpect( status().isConflict() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andReturn().getResponse().getContentAsString();
 
         final String response2 = mvc
                 .perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
                         .content( TestUtils.asJsonString( dm2 ) ) )
-                .andExpect( status().isConflict() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andReturn().getResponse().getContentAsString();
 
         final String response3 = mvc
                 .perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
                         .content( TestUtils.asJsonString( dm3 ) ) )
-                .andExpect( status().isConflict() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andReturn().getResponse().getContentAsString();
         assertEquals( 4, service.findAll().size() );
         assertTrue( response1.contains( "Invalid username or password" ) );
         assertTrue( response2.contains( "Invalid username or password" ) );
@@ -153,16 +153,16 @@ class APIUserTest {
         final String response4 = mvc
                 .perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
                         .content( TestUtils.asJsonString( dc1 ) ) )
-                .andExpect( status().isConflict() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andReturn().getResponse().getContentAsString();
 
         final String response5 = mvc
                 .perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
                         .content( TestUtils.asJsonString( dc2 ) ) )
-                .andExpect( status().isConflict() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andReturn().getResponse().getContentAsString();
         final String response6 = mvc
                 .perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
                         .content( TestUtils.asJsonString( dc3 ) ) )
-                .andExpect( status().isConflict() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andReturn().getResponse().getContentAsString();
         assertEquals( 4, service.findAll().size() );
 
         assertTrue( response4.contains( "Invalid username or password" ) );
@@ -175,16 +175,16 @@ class APIUserTest {
         final String response7 = mvc
                 .perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
                         .content( TestUtils.asJsonString( ds1 ) ) )
-                .andExpect( status().isConflict() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andReturn().getResponse().getContentAsString();
         assertEquals( 4, service.findAll().size() );
         final String response8 = mvc
                 .perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
                         .content( TestUtils.asJsonString( ds2 ) ) )
-                .andExpect( status().isConflict() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andReturn().getResponse().getContentAsString();
         final String response9 = mvc
                 .perform( post( "/api/v1/users" ).contentType( MediaType.APPLICATION_JSON )
                         .content( TestUtils.asJsonString( ds3 ) ) )
-                .andExpect( status().isConflict() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andReturn().getResponse().getContentAsString();
         assertEquals( 4, service.findAll().size() );
 
         assertTrue( response7.contains( "Invalid username or password" ) );
@@ -272,7 +272,7 @@ class APIUserTest {
         u2.setRoleType( Role.BARISTA );
         final String response5 = mvc
                 .perform( get( "/api/v1/users/band/thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" ) )
-                .andExpect( status().isNotFound() ).andDo( print() ).andReturn().getResponse().getContentAsString();
+                .andExpect( status().isBadRequest() ).andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response5.contains( "Invalid username or password" ) );
 
         // Now save the user
@@ -365,6 +365,29 @@ class APIUserTest {
 
         assertTrue( response3.contains( "\"username\":\"bar3\"" ) );
 
+    }
+
+    /**
+     * Test that we can run our demo user generation
+     *
+     * @throws Exception
+     *             if you make an illegal call
+     */
+    @Test
+    @Transactional
+    public void testDemoGeneration () throws Exception {
+        mvc.perform( post( "/api/v1/generateusers" ) ).andExpect( status().isOk() );
+
+        // Check that 3 users are there and we can log in to each
+        assertEquals( 3, service.findAll().size() );
+
+        assertEquals( 1, service.findByRoleType( Role.BARISTA ).size() );
+        assertEquals( 1, service.findByRoleType( Role.CUSTOMER ).size() );
+        assertEquals( 1, service.findByRoleType( Role.MANAGER ).size() );
+
+        mvc.perform( get( "/api/v1/users/Manager/Manager" ) ).andExpect( status().isOk() );
+        mvc.perform( get( "/api/v1/users/Barista/Barista" ) ).andExpect( status().isOk() );
+        mvc.perform( get( "/api/v1/users/Customer/Customer" ) ).andExpect( status().isOk() );
     }
 
 }
