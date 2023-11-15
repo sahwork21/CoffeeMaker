@@ -2,8 +2,8 @@ var app = angular.module('myApp', []);
 
 
 app.controller('BaristaController', function($scope, $http, $q) {
-	$scope.orders = [{id:1525, status:"In Progress", placedAt: "11:23 AM October 28, 2023"}, {id:5252, status:"In Progress", placedAt: "11:23 AM October 28, 2023"}];
-	
+	$scope.orders = [{id:1525, status:"In Progress", placedAt: "11:23 AM October 28, 2023", recipe: "Coffee"}, {id:5252, status:"In Progress", placedAt: "11:23 AM October 28, 2023", recipe: "Latte"}];
+	$scope.error = null; // Displays the error for when fulfilling orders fails
 	$scope.fetchOrders = function() {
 		$http.get("/api/v1/orders").then(function(response) {
 			$scope.orders = response.data;
@@ -12,7 +12,15 @@ app.controller('BaristaController', function($scope, $http, $q) {
 	
 	$scope.fulfillOrder = function(order) {
 		console.log(order);
-		order.status = "Fulfilled"
+		
+		// This removes the order from the array. Used for testing
+		$scope.orders = $scope.orders.filter(anOrder => anOrder !== order);
+		
+		// Send API request
+		
+		
+		// Reload current orders
+		$scope.fetchOrders();
 	}
 	
 	//$scope.fetchOrders();
