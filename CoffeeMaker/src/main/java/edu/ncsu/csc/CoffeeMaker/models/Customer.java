@@ -23,7 +23,7 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 public class Customer extends AbstractUser {
 
     @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
-    private List<Order> orders;
+    private List<CustomerRequest> orders;
 
     /**
      * Generic customer generator. The role is fixed
