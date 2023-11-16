@@ -9,10 +9,18 @@ import org.springframework.stereotype.Component;
 import edu.ncsu.csc.CoffeeMaker.models.CustomerRequest;
 import edu.ncsu.csc.CoffeeMaker.repositories.CustomerRequestRepository;
 
+/**
+ * The service class that will make queries and use the repo to manage
+ * CustomerRequests (orders) Some special operations for this service will get
+ * orders by status, user, and all
+ */
 @Component
 @Transactional
 public class CustomerRequestService extends Service<CustomerRequest, Long> {
 
+    /**
+     * The facilitator of the CRUD operations for this class
+     */
     @Autowired
     private CustomerRequestRepository cusRepository;
 
