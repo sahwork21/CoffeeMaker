@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html ng-app="myApp" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Edit Recipe</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="./editRecipe.js"></script>
+	<script src="../components/navbar/navbar.component.js"></script>
+</head>
+
+<body ng-controller="EditRecipeController" class="bg-gray-100">
+	<navbar></navbar>
+
+
+
+
+
+
+	<div class="max-w-7xl mx-auto bg-white mt-12 p-4 min-h-screen">
+
+		<h1 class="text-gray-500 text-xl font-semibold my-2">Edit Recipe</h1>
+		
+		<div class="my-2">
+			<p ng-show="failure" class="text-red-500">Failed to update recipe</p>
+			<p ng-show="success" class="text-green-500">Successfully updated recipe!</p>
+		</div>
+
+		<div class="">
+			<div class="form-group col-md-12">
+				<select id="recipeDropdown" ng-model="selectedRecipe" ng-change="recipeSelected()"
+					class="p-2 px-4 rounded-md ring-1 ring-gray-200 bg-gray-50 text-lg"
+					ng-options="item as item.name for item in allRecipes">
+					<option value="">Select a Recipe</option>
+				</select>
+
+			</div>
+		</div>
+
+
+
+		<div ng-show="selectedRecipe" class="">
+
+			<div
+				class="relative flex items-center max-w-lg my-4 ring-2 rounded-md ring-gray-100 w-fit focus-within:ring-blue-500">
+				<p class="absolute text-sm text-gray-500 -top-3 left-2 px-1 bg-white">Price</p>
+				<p class="mx-2 text-gray-500">$</p>
+				<input name="price" id="price" ng-model="selectedRecipe.price" type="number" placeholder="Enter amount"
+					required="true" min="0" class="outline-none py-1 px-2 rounded-md" />
+			</div>
+
+
+			<div class="">
+				<h1 class="font-semibold text-gray-500 text-lg">Ingredients</h1>
+
+
+				<!-- Ingredients Content -->
+
+				<div class="flex items-center justify-between max-w-2xl" ng-repeat="ingredient in selectedRecipe.ingredients track by $index">
+					<p class="font-semibold text-gray-700 min-w-2xl">{{ingredient.name}}</p>
+
+					<div class="relative flex items-center max-w-lg my-4 ring-2 rounded-md ring-gray-100 w-fit focus-within:ring-blue-500">
+						<p class="absolute text-sm text-gray-500 -top-3 left-2 px-1 bg-white">Amount</p>
+						<input name="price" id="price" ng-model="ingredient.amount" type="number"
+							placeholder="Enter amount" required="true" min="0"
+							class="outline-none py-1 px-2 rounded-md text-gray-500 w-36" />
+					</div>
+					
+					<button class="text-red-500 text-sm" ng-click="removeIngredient(ingredient)">Remove</button>
+				</div>
+
+
+
+				<!-- Add Ingredient -->
+				<div class="flex items-center">
+					<select id="ingredientDropdown" ng-model="selectedIngredient" ng-change="ingredientSelected()" class="p-3 rounded-md ring-1 bg-gray-50 {{ invalid.minimumIngredient ? 'ring-red-500 text-red-500' : 'ring-gray-300 text-gray-700' }}"
+						ng-options="item as item.name for item in availableIngredients">
+						<option value="">Add Ingredient</option>
+					</select>
+					<p ng-show="invalid.minimumIngredient" class="ml-4 text-red-500 text-sm">Recipe requires at least one ingredient</p>
+				</div>
+
+
+				<div class="flex justify-end">
+					<button ng-click="submit()" class="p-2 bg-blue-500 text-white rounded-md m-4">Submit</button>
+				</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+
+</html>

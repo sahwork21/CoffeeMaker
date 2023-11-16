@@ -27,7 +27,7 @@ public class MappingController {
     public String addRecipePage ( final Model model ) {
         return "recipe";
     }
-
+    
     /**
      * On a GET request to /deleterecipe, the DeleteRecipeController will return
      * /src/main/resources/templates/deleterecipe.html.
@@ -39,19 +39,6 @@ public class MappingController {
     @GetMapping ( { "/deleterecipe", "/deleterecipe.html" } )
     public String deleteRecipeForm ( final Model model ) {
         return "deleterecipe";
-    }
-
-    /**
-     * On a GET request to /editrecipe, the EditRecipeController will return
-     * /src/main/resources/templates/editrecipe.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/editrecipe", "/editrecipe.html" } )
-    public String editRecipeForm ( final Model model ) {
-        return "editrecipe";
     }
 
     /**

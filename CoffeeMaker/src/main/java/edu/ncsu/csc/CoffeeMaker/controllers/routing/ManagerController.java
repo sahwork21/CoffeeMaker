@@ -64,5 +64,57 @@ public class ManagerController {
     public String manageBaristasJS ( final Model model ) {
         return "manager/manageBaristas/manageBaristas.js";
     }
+    
+    /**
+     * On a GET request to /editRecipe, the ManagerController will return
+     * /src/main/resources/templates/manager/editRecipe/editRecipe.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/editRecipe", "/editRecipe.html" } )
+    public String editRecipeHTML ( final Model model ) {
+        return "manager/editRecipe/editRecipe.html";
+    }
+
+    /**
+     * On a GET request to /editRecipe.js, the ManagerController will return
+     * /src/main/resources/templates/manager/editRecipe/editRecipe.js.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/editRecipe.js" } )
+    public String editRecipeJS ( final Model model ) {
+        return "manager/editRecipe/editRecipe.js";
+    }
+    
+    /**
+     * On a GET request to /deleteRecipe, the ManagerController will return
+     * /src/main/resources/templates/manager/deleteRecipe/deleteRecipe.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/deleteRecipe", "/deleteRecipe.html" } )
+    public String deleteRecipeHTML ( final Model model ) {
+        return "manager/deleteRecipe/deleteRecipe.html";
+    }
+
+    /**
+     * On a GET request to /deleteRecipe.js, the ManagerController will return
+     * /src/main/resources/templates/manager/deleteRecipe/deleteRecipe.js.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/deleteRecipe.js" } )
+    public String deleteRecipeJS ( final Model model ) {
+        return "manager/deleteRecipe/deleteRecipe.js";
+    }
 
 }
