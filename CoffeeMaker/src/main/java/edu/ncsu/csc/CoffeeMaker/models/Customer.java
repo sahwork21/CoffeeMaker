@@ -1,6 +1,11 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -16,6 +21,9 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 @Entity
 @JsonIgnoreProperties ( value = { "password" } )
 public class Customer extends AbstractUser {
+
+    @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+    private List<CustomerRequest> orders;
 
     /**
      * Generic customer generator. The role is fixed
