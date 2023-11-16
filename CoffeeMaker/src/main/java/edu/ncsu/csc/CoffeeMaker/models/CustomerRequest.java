@@ -34,8 +34,8 @@ public class CustomerRequest extends DomainObject {
      * The associated Recipe that this order contains. Will be used to update
      * the inventory and check prices.
      */
-    // @OneToOne ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
-    // private Recipe recipe;
+    @OneToOne ( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    private Recipe     recipe;
     // private Date date;
     /**
      * The state of the order as an FSM. The order will be made by a Customer
