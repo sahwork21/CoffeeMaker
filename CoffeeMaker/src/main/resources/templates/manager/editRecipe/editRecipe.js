@@ -15,10 +15,24 @@ app.controller('EditRecipeController', function($scope, $http) {
 			$scope.allRecipes = response.data;
 		})
 	}
+	
+	$scope.validateRecipe = function(recipe) {
+		isValid = true;
+		for (ingredient of recipe.ingredients) {
+			if (ingredient.amount <= 0) {
+				isValid = false;
+				$scope.invalid[ingredient.name] = true;
+			}
+		}
+		
+		return isValid;
+	}
 
 	$scope.putRecipe = function() {
 		$scope.success = false;
 		$scope.failure = false;
+		
+		if (!$scope.validateRecipe($scope.selectedRecipe)) return;
 	
 	
 		// You have to delete the id from the ingredients because the backend considers ALL ingredients as new ingredients.

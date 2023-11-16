@@ -73,7 +73,7 @@ public class ManagerController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/editRecipe", "/editRecipe.html" } )
+    @GetMapping ( { "/editrecipe", "/editrecipe.html" } )
     public String editRecipeHTML ( final Model model ) {
         return "manager/editRecipe/editRecipe.html";
     }
