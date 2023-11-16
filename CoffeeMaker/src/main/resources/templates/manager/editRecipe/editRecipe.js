@@ -19,14 +19,23 @@ app.controller('EditRecipeController', function($scope, $http) {
 	$scope.putRecipe = function() {
 		$scope.success = false;
 		$scope.failure = false;
-		console.log($scope.selectedRecipe);
+	
+	
+		// You have to delete the id from the ingredients because the backend considers ALL ingredients as new ingredients.
+		for (let i = 0; i < $scope.selectedRecipe.ingredients.length; i++) {
+			console.log(i, $scope.selectedRecipe.ingredients[i]);
+			$scope.selectedRecipe.ingredients[i].id = null;
+		}
+
 
 		$http.put("/api/v1/recipes/" + $scope.selectedRecipe.name, $scope.selectedRecipe).then(
 			function(response) {
+				
 				$scope.success = true;
 				$scope.failure = false;
-				
 				$scope.getRecipes();
+
+				
 			}, function(rejection) {
 				$scope.failure = true;
 				$scope.success = false;
@@ -63,9 +72,12 @@ app.controller('EditRecipeController', function($scope, $http) {
 
 
 	$scope.recipeSelected = function() {
+		if ($scope.selectedRecipe == undefined) {
+			$scope.failure = false;
+			return;
+		}
 		$scope.clearErrors();
 		
-		if ($scope.selectedRecipe == undefined) return;
 		$scope.filterAvailableIngredients();
 	}
 
