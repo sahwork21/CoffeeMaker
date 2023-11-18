@@ -1,5 +1,6 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,6 +23,9 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 @JsonIgnoreProperties ( value = { "password" } )
 public class Customer extends AbstractUser {
 
+    /**
+     * The list of orders for this object
+     */
     @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private List<CustomerRequest> orders;
 
@@ -29,7 +33,7 @@ public class Customer extends AbstractUser {
      * Generic customer generator. The role is fixed
      */
     public Customer () {
-
+        orders = new ArrayList<CustomerRequest>();
     }
 
     /**
@@ -58,6 +62,36 @@ public class Customer extends AbstractUser {
         }
 
         return super.checkUser();
+    }
+
+    /**
+     * Get the list of orders for a Customer
+     *
+     * @return the orders for this customer
+     */
+    public List<CustomerRequest> getOrders () {
+        return orders;
+
+    }
+
+    /**
+     * Set the list of orders to contain the input orders
+     *
+     * @param orders
+     *            the list of orders to set for this customer
+     */
+    public void setOrders ( final List<CustomerRequest> orders ) {
+        this.orders = orders;
+    }
+
+    /**
+     * Add an order object to the customer's orders
+     *
+     * @param order
+     *            an order object to add to the list of orders
+     */
+    public void addOrder ( final CustomerRequest order ) {
+        orders.add( order );
     }
 
 }
