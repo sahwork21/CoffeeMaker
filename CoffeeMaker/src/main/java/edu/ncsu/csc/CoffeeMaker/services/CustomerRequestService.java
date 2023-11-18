@@ -1,5 +1,7 @@
 package edu.ncsu.csc.CoffeeMaker.services;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 import edu.ncsu.csc.CoffeeMaker.models.CustomerRequest;
+import edu.ncsu.csc.CoffeeMaker.models.enums.OrderState;
 import edu.ncsu.csc.CoffeeMaker.repositories.CustomerRequestRepository;
 
 /**
@@ -26,8 +29,20 @@ public class CustomerRequestService extends Service<CustomerRequest, Long> {
 
     @Override
     protected JpaRepository<CustomerRequest, Long> getRepository () {
-        // TODO Auto-generated method stub
+
         return cusRepository;
+    }
+
+    /**
+     * Find the collection of orders by what state they are in This will be
+     * useful for baristas and managers to view current and past orders
+     *
+     * @param status
+     *            the state of orders we are looking for
+     * @return a list of orders with the same status as what was called
+     */
+    public List<CustomerRequest> findByStatus ( final OrderState status ) {
+        return cusRepository.findByStatus( status );
     }
 
 }
