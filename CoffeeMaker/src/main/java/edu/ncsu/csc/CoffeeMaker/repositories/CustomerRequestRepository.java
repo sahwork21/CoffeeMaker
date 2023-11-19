@@ -13,6 +13,22 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.OrderState;
  */
 public interface CustomerRequestRepository extends JpaRepository<CustomerRequest, Long> {
 
+    /**
+     * Find the collection of recipes that match the input status
+     *
+     * @param status
+     *            the status of the orders we want
+     * @return a list of orders with correct status
+     */
     List<CustomerRequest> findByStatus ( final OrderState status );
+
+    /**
+     * Delete all the recipes that match this status. Useful for clearing our
+     * order history
+     *
+     * @param status
+     *            the status of order we want to delete
+     */
+    void deleteByStatus ( final OrderState status );
 
 }

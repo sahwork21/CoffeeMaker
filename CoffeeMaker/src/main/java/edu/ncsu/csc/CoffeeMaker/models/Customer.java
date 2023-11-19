@@ -94,4 +94,15 @@ public class Customer extends AbstractUser {
         orders.add( order );
     }
 
+    /**
+     * Remove an order from the list upon completion
+     *
+     * @param req
+     *            the order to remove from the orders list
+     */
+    public void removeOrder ( final CustomerRequest req ) {
+        orders.remove( req );
+
+    }
+
 }

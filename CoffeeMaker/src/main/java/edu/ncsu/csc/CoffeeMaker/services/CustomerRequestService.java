@@ -45,4 +45,15 @@ public class CustomerRequestService extends Service<CustomerRequest, Long> {
         return cusRepository.findByStatus( status );
     }
 
+    /**
+     * Use the repo to mass delete by status. We will take an order status and
+     * then delete all of those customer requests. Used for history deletion
+     *
+     * @param status
+     *            the state of the orders we want to delete
+     */
+    public void deleteByStatus ( final OrderState status ) {
+        cusRepository.deleteByStatus( status );
+    }
+
 }
