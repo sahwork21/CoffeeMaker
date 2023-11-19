@@ -56,6 +56,7 @@ class GenerateOrders {
 
         cr1.setCustomer( c1 );
         cr1.setRecipe( r1 );
+        cr1.setStatus( OrderState.UNFULFILLED );
 
         c1.addOrder( cr1 );
 
@@ -86,6 +87,11 @@ class GenerateOrders {
         assertEquals( 1, crs.findByStatus( OrderState.UNFULFILLED ).size() );
         assertEquals( 0, crs.findByStatus( OrderState.READY_TO_PICKUP ).size() );
         assertEquals( 0, crs.findByStatus( OrderState.HISTORY ).size() );
+
+        // Delete by state
+        crs.deleteByStatus( OrderState.UNFULFILLED );
+        assertEquals( 0, crs.findAll().size() );
+        assertEquals( 0, crs.findByStatus( OrderState.UNFULFILLED ).size() );
     }
 
 }
