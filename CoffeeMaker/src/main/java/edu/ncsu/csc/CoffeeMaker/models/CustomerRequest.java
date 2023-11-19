@@ -59,17 +59,18 @@ public class CustomerRequest extends DomainObject {
      *            made on fulfills
      *
      */
-    // public CustomerRequest ( final Customer customer, final Recipe recipe ) {
-    // // this.id = id;
-    // this.customer = customer;
-    // this.recipe = recipe;
-    // // this.date = date;
-    //
-    // this.status = OrderState.UNFULFILLED;
-    // }
+    public CustomerRequest ( final Customer customer, final Recipe recipe ) {
+        // this.id = id;
+        this.customer = customer;
+        this.recipe = recipe;
+        // this.date = date;
+
+        this.status = OrderState.UNFULFILLED;
+    }
 
     /**
-     * Empty constructor to appease Spring
+     * Empty constructor to appease Spring Remove the body of this method if
+     * something goes wrong
      */
     public CustomerRequest () {
 
@@ -81,6 +82,12 @@ public class CustomerRequest extends DomainObject {
         return id;
     }
 
+    /**
+     * Spring method to set id values
+     *
+     * @param id
+     *            the value to set
+     */
     public void setId ( final Long id ) {
         this.id = id;
     }
@@ -93,11 +100,66 @@ public class CustomerRequest extends DomainObject {
     // this.date = date;
     // }
 
+    /**
+     * Get the state of the order
+     *
+     * @return the status of the order
+     */
     public OrderState getStatus () {
         return status;
     }
 
+    /**
+     * Set the status of the order. Should move like an FSM.
+     * UNFULFILLED->READY_TO_PICKUP->HISTORY
+     *
+     * @param status
+     *            the state we want to be in for this order
+     */
     public void setStatus ( final OrderState status ) {
+        // Add some checks for moving from state to state.
         this.status = status;
     }
+
+    /**
+     * Get the customer that owns this order
+     *
+     * @return the customer object that owns this object
+     */
+    public Customer getCustomer () {
+        return customer;
+    }
+
+    /**
+     * Set the customer who owns this object
+     *
+     * @param customer
+     *            the customer who owns this object
+     */
+    public void setCustomer ( final Customer customer ) {
+        this.customer = customer;
+    }
+
+    /**
+     * Get the recipe that this order will make
+     *
+     * @return recipe that will be made during this order's fulfillment
+     */
+    public Recipe getRecipe () {
+        return recipe;
+    }
+
+    /**
+     * Set the recipe that this order will use
+     *
+     * @param recipe
+     *            the recipe that will be made and linked to this order
+     */
+    public void setRecipe ( final Recipe recipe ) {
+        this.recipe = recipe;
+    }
+
+    /*
+     * Check that this object has all the needed fields
+     */
 }
