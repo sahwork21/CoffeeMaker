@@ -93,23 +93,22 @@ public class APICustomerRequestController extends APIController {
      */
 
     @PostMapping ( BASE_PATH + "/orders" )
-    public ResponseEntity createOrder ( @RequestBody final String username, @RequestBody final String recipeName,
-            @RequestBody final int payment ) {
+    public ResponseEntity createOrder ( @RequestBody final OrderRequest orderRequest ) {
         // Look up the customer in the database
         // This username will be saved and not require any relogin
-        final Customer customer = customerService.findByUsername( username );
+        final Customer customer = customerService.findByUsername( orderRequest.getUsername() );
         if ( customer == null ) {
             // This username does not link to any customers
             return new ResponseEntity( "User not found", HttpStatus.NOT_FOUND );
         }
 
-        final Recipe recipe = recipeService.findByName( recipeName );
+        final Recipe recipe = recipeService.findByName( orderRequest.getRecipeName() );
         if ( recipe == null ) {
             // The requested recipe doesn't exist so return a 404 error
             return new ResponseEntity( "Recipe not found", HttpStatus.NOT_FOUND );
         }
 
-        if ( recipe.getPrice() > payment ) {
+        if ( recipe.getPrice() > orderRequest.getPayment() ) {
             // They did not give enough money so return a 400 bad request error
             return new ResponseEntity( "Insufficient funds", HttpStatus.BAD_REQUEST );
         }
@@ -265,4 +264,54 @@ public class APICustomerRequestController extends APIController {
         return new ResponseEntity( "Successfully cleared order history", HttpStatus.OK );
     }
 
+    /**
+     * The OrderRequest class serves as a single object to store the data from
+     * the frontend containing the order information.
+     *
+     * @author Brian Marks
+     */
+    private static class OrderRequest {
+        /**
+         * Represents the data for creating a new order.
+         */
+        private String username;
+
+        /**
+         * Represents the name of the recipe for the new order.
+         */
+        private String recipeName;
+
+        /**
+         * Represents the payment amount for the new order.
+         */
+        private int    payment;
+
+        /**
+         * Gets the username for the order.
+         *
+         * @return The username associated with the order.
+         */
+        public String getUsername () {
+            return username;
+        }
+
+        /**
+         * Gets the name of the recipe for the order.
+         *
+         * @return The name of the recipe associated with the order.
+         */
+        public String getRecipeName () {
+            return recipeName;
+        }
+
+        /**
+         * Gets the payment amount for the order.
+         *
+         * @return The payment amount associated with the order.
+         */
+        public int getPayment () {
+            return payment;
+        }
+
+    }
 }

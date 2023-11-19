@@ -26,15 +26,25 @@ app.controller('OrderController', function($scope, $http, $q) {
 	$scope.orderRecipe = function() {
 		$scope.success = false;
 		$scope.failure = false;
-		$http.post("/api/v1/makecoffee/" + $scope.selectedRecipe.name, $scope.payment).then(function(response) {
-			$scope.change = response.data.message;
-			$scope.success = true;
-			console.log("Successfully ordered " + $scope.selectedRecipe.name);
-		}, function (rejection) {
-			console.error("Error while ordering coffee.");
-			$scope.failure = true;
-			$scope.error = rejection.data.message;
+		
+		// Create an object to pass as the request body
+    var orderData = {
+        username: sessionStorage.getItem("username"),
+        recipeName: $scope.selectedRecipe.name,
+        payment: $scope.payment
+    };
+    console.log(orderData);
+		$http.post("/api/v1/orders", orderData).then(function(response) {
+		    $scope.change = response.data.message;
+		    $scope.success = true;
+		    console.log("Successfully ordered " + $scope.selectedRecipe.name);
+		}, function(rejection) {
+		    console.error("Error while ordering coffee.");
+		    $scope.failure = true;
+		    $scope.error = rejection.data && rejection.data.message ? rejection.data.message : "Unknown error";
+		    console.log("Rejection object:", rejection); // Log the entire rejection object
 		});
+
 		
 	}
 	
