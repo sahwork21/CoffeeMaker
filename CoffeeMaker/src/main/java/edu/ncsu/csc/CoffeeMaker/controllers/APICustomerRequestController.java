@@ -63,6 +63,17 @@ public class APICustomerRequestController extends APIController {
     }
 
     /**
+     * API operation to get orders that are unfulfilled so the baristas can see
+     * what needs to be done.
+     *
+     * @return a list of the orders in state unfulfilled
+     */
+    @GetMapping ( BASE_PATH + "/orders/unfulfilled" )
+    public List<CustomerRequest> listUnfulfilledOrders () {
+        return orderService.findByStatus( OrderState.UNFULFILLED );
+    }
+
+    /**
      * API operation to create an order. The frontend will pass in the username
      * of the customer who ordered, recipe name, and their payment. If they gave
      * us a valid recipe, valid username, and enough payment then an okay
