@@ -74,7 +74,7 @@ public class UserController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/", "/privacypolicy", "/privacypolicy.html" } )
+    @GetMapping ( { "/privacypolicy", "/privacypolicy.html" } )
     public String privacyPolicy ( final Model model ) {
         return "./privacypolicy";
     }
