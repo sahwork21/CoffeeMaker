@@ -120,8 +120,9 @@ public class APICustomerRequestController extends APIController {
 
         // Now save it
         orderService.save( req );
-        return new ResponseEntity<String>( successResponse( "Order saved" ), HttpStatus.OK );
-
+        // Calculate the change.
+        final String change = "" + ( orderRequest.payment - recipe.getPrice() );
+        return new ResponseEntity<String>( successResponse( change ), HttpStatus.OK );
     }
 
     // This request can also be by id if that is easier
