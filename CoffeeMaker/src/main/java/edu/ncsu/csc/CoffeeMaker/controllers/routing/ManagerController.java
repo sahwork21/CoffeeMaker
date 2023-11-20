@@ -99,7 +99,7 @@ public class ManagerController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/deleteRecipe", "/deleteRecipe.html" } )
+    @GetMapping ( { "/deleterecipe", "/deleteRecipe", "/deleteRecipe.html" } )
     public String deleteRecipeHTML ( final Model model ) {
         return "manager/deleteRecipe/deleteRecipe.html";
     }

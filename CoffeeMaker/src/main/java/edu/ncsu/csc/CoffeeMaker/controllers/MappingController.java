@@ -29,19 +29,6 @@ public class MappingController {
     }
     
     /**
-     * On a GET request to /deleterecipe, the DeleteRecipeController will return
-     * /src/main/resources/templates/deleterecipe.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/deleterecipe", "/deleterecipe.html" } )
-    public String deleteRecipeForm ( final Model model ) {
-        return "deleterecipe";
-    }
-
-    /**
      * Handles a GET request for inventory. The GET request provides a view to
      * the client that includes the list of the current ingredients in the
      * inventory and a form where the client can enter more ingredients to add

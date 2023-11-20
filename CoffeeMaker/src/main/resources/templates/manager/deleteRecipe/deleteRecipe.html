@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Delete Recipse</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="./deleteRecipe.js"></script>
+	<script src="../components/navbar/navbar.component.js"></script>
+</head>
+
+<body>
+	<div ng-app="myApp" ng-controller="DeleteRecipeController" class="bg-gray-100">
+		<navbar></navbar>
+
+		<div class="max-w-7xl mx-auto bg-white mt-12 p-4 min-h-screen">
+			<h1 class="text-lg text-gray-700 font-semibold">Delete Recipes</h1>
+			<div class="flex items-center justify-between max-w-2xl"
+				ng-repeat="recipe in recipes track by $index">
+				<p class="font-semibold text-gray-700 min-w-2xl">{{recipe.name}}</p>
+				<button class="text-red-500 text-sm hover:text-md hover:text-red-700" ng-click="deleteRecipe(recipe)">Remove</button>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+</body>
+
+</html>
