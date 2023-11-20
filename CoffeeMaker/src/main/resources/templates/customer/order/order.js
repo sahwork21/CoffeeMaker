@@ -34,8 +34,8 @@ app.controller('OrderController', function($scope, $http, $q) {
         payment: $scope.payment
     };
     console.log(orderData);
-		$http.post("/api/v1/orders", orderData).then(function(response) {
-		    $scope.change = response.data.message;
+		$http.post("/api/v1/orders", orderData).then(function(success) {
+		    $scope.change = success.data.message;
 		    $scope.success = true;
 		    console.log("Successfully ordered " + $scope.selectedRecipe.name);
 		}, function(rejection) {
