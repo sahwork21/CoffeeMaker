@@ -73,7 +73,7 @@ public class CustomerRequest extends DomainObject {
      * something goes wrong
      */
     public CustomerRequest () {
-
+        this.status = OrderState.UNFULFILLED;
     }
 
     // Getters and Setters
@@ -118,7 +118,27 @@ public class CustomerRequest extends DomainObject {
      */
     public void setStatus ( final OrderState status ) {
         // Add some checks for moving from state to state.
-        this.status = status;
+        if ( getStatus() == OrderState.UNFULFILLED ) {
+            if ( status == OrderState.READY_TO_PICKUP ) {
+                this.status = status;
+            }
+            else {
+                throw new IllegalStateException(
+                        "Status must move to \"Ready to Pickup\" if currently in \"Unfulfilled\"." );
+            }
+        }
+        else if ( getStatus() == OrderState.READY_TO_PICKUP ) {
+            if ( status == OrderState.HISTORY ) {
+                this.status = status;
+            }
+            else {
+                throw new IllegalStateException(
+                        "Status must move to \"History\" if currently in \"Ready to Pickup\"." );
+            }
+        }
+        else {
+            throw new IllegalStateException( "Status can not be changed if currently in \"History\"." );
+        }
     }
 
     /**

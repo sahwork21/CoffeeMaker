@@ -56,7 +56,6 @@ class GenerateOrders {
 
         cr1.setCustomer( c1 );
         cr1.setRecipe( r1 );
-        cr1.setStatus( OrderState.UNFULFILLED );
 
         c1.addOrder( cr1 );
 
