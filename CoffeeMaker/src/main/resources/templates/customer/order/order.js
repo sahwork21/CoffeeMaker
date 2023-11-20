@@ -2,6 +2,7 @@ var app = angular.module('myApp', []);
 
 app.controller('OrderController', function($scope, $http, $q) {
 
+
     // Initialize scope variables
     $scope.hidePopup = true;
     $scope.selectedRecipe = null;
@@ -45,9 +46,9 @@ app.controller('OrderController', function($scope, $http, $q) {
         console.log(orderData);
 
         // Send a POST request to the server to place an order
-        $http.post("/api/v1/orders", orderData).then(function(response) {
+        $http.post("/api/v1/orders", orderData).then(function(success) {
             // Update scope variables on success
-            $scope.change = response.data.message;
+            $scope.change = success.data.message;
             $scope.success = true;
             // Log a success message
             console.log("Successfully ordered " + $scope.selectedRecipe.name);
@@ -64,3 +65,4 @@ app.controller('OrderController', function($scope, $http, $q) {
     // Fetch recipes when the controller is initialized
     $scope.fetchRecipes();
 });
+
