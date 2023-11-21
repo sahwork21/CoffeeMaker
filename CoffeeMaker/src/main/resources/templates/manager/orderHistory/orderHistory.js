@@ -50,10 +50,10 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
   	};
 
   	// Get the canvas element
-  	var ctx = document.getElementById('chart1').getContext('2d');
+  	var chart1 = document.getElementById('chart1').getContext('2d');
 
   	// Create a new chart instance using AngularJS $scope variables
-  	$scope.myChart = new Chart(ctx, {
+  	$scope.myChart = new Chart(chart1, {
     	type: 'bar',
     	data: $scope.chartData,
     	options: $scope.chartOptions
@@ -61,7 +61,7 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
   	
   	
   	// Get the canvas element
-  	var ctx = document.getElementById('chart2').getContext('2d');
+  	var chart2 = document.getElementById('chart2').getContext('2d');
   
 	$scope.chart2Data = {
     	labels: ["Coffee", "Latte", "Water"], // The top 3 recipes most popular
@@ -76,7 +76,7 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
   	
 
   // Create a new pie chart instance using AngularJS $scope variables
-  $scope.chart2 = new Chart(ctx, {
+  $scope.chart2 = new Chart(chart2, {
     type: 'pie', // Set chart type to 'pie'
     data: $scope.chart2Data,
     options: $scope.chartOptions
