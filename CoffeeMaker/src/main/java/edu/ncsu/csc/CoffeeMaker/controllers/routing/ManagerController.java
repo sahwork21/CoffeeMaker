@@ -64,5 +64,32 @@ public class ManagerController {
     public String manageBaristasJS ( final Model model ) {
         return "manager/manageBaristas/manageBaristas.js";
     }
+    
+    
+    /**
+     * On a GET request to /orderHistory.html, the ManagerController will return
+     * /src/main/resources/templates/manager/orderHistory/orderHistory.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/orderhistory" } )
+    public String orderHistoryHTML ( final Model model ) {
+        return "manager/orderHistory/orderHistory.html";
+    }
+    
+    /**
+     * On a GET request to /orderHistory.js, the ManagerController will return
+     * /src/main/resources/templates/manager/orderHistory/orderHistory.js.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/orderHistory.js" } )
+    public String orderHistoryJS ( final Model model ) {
+        return "manager/orderHistory/orderHistory.js";
+    }
 
 }
