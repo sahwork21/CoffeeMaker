@@ -6,7 +6,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="./orderHistory.js"></script>
+
 	<script src="../components/navbar/navbar.component.js"></script>
 </head>
 
@@ -18,18 +20,46 @@
 			<h1 class="my-2 text-lg font-semibold text-gray-500">Overview</h1>
 			<div class="flex flex-wrap gap-2 my-2 lg:flex-nowrap">
 
-				<div class="w-full p-2 rounded-lg bg-white">
-					<h1 class="font-semibold text-gray-500">Total orders</h1>
-					<p class="text-lg">{{orders.length}} orders</p>
+				<div class="group w-full min-w-fit rounded-xl py-1.5 px-3 text-lg bg-white lg:w-1/2">
+					<div class="flex justify-between">
+						<div>
+							<button class="font-semibold inline text-sky-600 hover:underline">Orders</button>
+							<p class="text-xs inline text-gray-500 ml-2">total</p>
+						</div>
+					</div>
+
+					<div class="flex justify-between gap-4">
+						<div class="mt-auto">
+							<p class="inline mt-auto text-gray-800 font-semibold text-lg whitespace-nowrap">254
+							</p>
+							<p class="text-xs inline text-gray-500 ml-2 font-semibold">orders</p>
+						</div>
+						<div class="w-fit h-24 rounded-md bg-white">
+							<canvas id="chart1"></canvas>
+						</div>
+					</div>
 				</div>
 
-				<div class="w-full rounded-lg bg-white p-2">
-					<h1 class="font-semibold text-gray-500">Most Popular Recipes</h1>
-
-					<div class="" ng-repeat="recipe in popularRecipes">
-						<p class="inline text-gray-700">{{recipe[0]}}</p>
-						<p class="inline font-light text-sm text-gray-500">{{recipe[1]}} orders</p>
+				<div class="group w-full min-w-fit rounded-xl py-1.5 px-3 text-lg bg-white lg:w-1/2">
+					<div class="flex justify-between">
+						<div>
+							<p class="font-semibold inline text-sky-600">Recipes</p>
+							<p class="text-xs inline text-gray-500 ml-2">most popular</p>
+						</div>
 					</div>
+					<div class="flex justify-between gap-4">
+						<div class="mt-auto">
+							<div class="" ng-repeat="recipe in popularRecipes">
+								<p class="inline mt-auto text-gray-800 font-medium whitespace-nowrap">{{recipe[0]}}</p>
+								<p class="text-xs inline text-gray-500 ml-1 font-semibold">{{recipe[1]}} orders</p>
+							</div>
+						</div>
+						
+						<div class="w-fit h-24 rounded-md">
+							<canvas id="chart2"></canvas>
+						</div>
+					</div>
+
 				</div>
 
 			</div>
@@ -41,7 +71,7 @@
 
 			<div class="w-full flex justify-between mt-2 p-2 bg-white rounded-lg" ng-repeat="order in orders">
 				<div>
-					<h1 class="text-lg font-semibold">Order #{{order.id}}</h1>
+					<h1 class="text-lg font-semibold text-blue-500">Order #{{order.id}}</h1>
 					<p class="text-gray-700">Ordered by {{order.customer}}</p>
 					<p ng-show="order.barista" class="text-gray-700">Fulfilled by {{order.barista}}</p>
 				</div>
