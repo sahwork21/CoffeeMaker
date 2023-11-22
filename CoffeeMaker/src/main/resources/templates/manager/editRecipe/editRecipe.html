@@ -21,7 +21,7 @@
 	<div class="max-w-7xl mx-auto bg-white mt-12 p-4 min-h-screen">
 
 		<h1 class="text-gray-500 text-xl font-semibold my-2">Edit Recipe</h1>
-		
+
 		<div class="my-2">
 			<p ng-show="failure" class="text-red-500">Failed to update recipe</p>
 			<p ng-show="success" class="text-green-500">Successfully updated recipe!</p>
@@ -57,16 +57,26 @@
 
 				<!-- Ingredients Content -->
 
-				<div class="flex items-center justify-between max-w-2xl" ng-repeat="ingredient in selectedRecipe.ingredients track by $index">
+				<div class="flex items-center justify-between max-w-2xl"
+					ng-repeat="ingredient in selectedRecipe.ingredients track by $index">
 					<p class="font-semibold text-gray-700 min-w-2xl">{{ingredient.name}}</p>
 
-					<div class="relative flex items-center max-w-lg my-4 ring-2 rounded-md {{ invalid[ingredient.name] ? 'ring-red-500 text-red-500' : 'ring-gray-300 text-gray-700' }} w-fit focus-within:ring-blue-500">
-						<p class="absolute text-sm -top-3 left-2 px-1 bg-white {{ invalid[ingredient.name] ? 'text-red-500' : 'text-gray-500' }}">Amount</p>
-						<input name="price" id="price" ng-model="ingredient.amount" type="number"
-							placeholder="Enter amount" required="true" min="0"
-							class="outline-none py-1 px-2 rounded-md text-gray-500 w-36" />
+					<div class="flex items-center">
+						<div
+							class="relative flex items-center max-w-lg my-4 ring-2 rounded-md {{ invalid[ingredient.name] ? 'ring-red-500 text-red-500' : 'ring-gray-300 text-gray-700' }} w-fit focus-within:ring-blue-500">
+							<p
+								class="absolute text-sm -top-3 left-2 px-1 bg-white {{ invalid[ingredient.name] ? 'text-red-500' : 'text-gray-500' }}">
+								Amount</p>
+							<input name="price" id="price" ng-model="ingredient.amount" type="number"
+								placeholder="Enter amount" required="true" min="0"
+								class="outline-none py-1 px-2 rounded-md text-gray-500 w-36" />
+						</div>
+
+						<p class="text-red-500 text-sm ml-2" ng-show="invalid[ingredient.name]">Must be greater than 0</p>
 					</div>
-					
+
+
+
 					<button class="text-red-500 text-sm" ng-click="removeIngredient(ingredient)">Remove</button>
 				</div>
 
@@ -74,11 +84,13 @@
 
 				<!-- Add Ingredient -->
 				<div class="flex items-center">
-					<select id="ingredientDropdown" ng-model="selectedIngredient" ng-change="ingredientSelected()" class="p-3 rounded-md ring-1 bg-gray-50 {{ invalid.minimumIngredient ? 'ring-red-500 text-red-500' : 'ring-gray-300 text-gray-700' }}"
+					<select id="ingredientDropdown" ng-model="selectedIngredient" ng-change="ingredientSelected()"
+						class="p-3 rounded-md ring-1 bg-gray-50 {{ invalid.minimumIngredient ? 'ring-red-500 text-red-500' : 'ring-gray-300 text-gray-700' }}"
 						ng-options="item as item.name for item in availableIngredients">
 						<option value="">Add Ingredient</option>
 					</select>
-					<p ng-show="invalid.minimumIngredient" class="ml-4 text-red-500 text-sm">Recipe requires at least one ingredient</p>
+					<p ng-show="invalid.minimumIngredient" class="ml-4 text-red-500 text-sm">Recipe requires at least
+						one ingredient</p>
 				</div>
 
 
