@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>Delete Recipse</title>
+	<title>Delete Recipe</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
@@ -10,16 +10,23 @@
 	<script src="../components/navbar/navbar.component.js"></script>
 </head>
 
-<body>
-	<div ng-app="myApp" ng-controller="DeleteRecipeController" class="bg-gray-100">
-		<navbar></navbar>
+<body class="bg-gray-100" ng-app="myApp" ng-controller="DeleteRecipeController">
+	<navbar></navbar>
 
-		<div class="max-w-7xl mx-auto bg-white mt-12 p-4 min-h-screen">
-			<h1 class="text-lg text-gray-700 font-semibold">Delete Recipes</h1>
-			<div class="flex items-center justify-between max-w-2xl"
-				ng-repeat="recipe in recipes track by $index">
+	<div class="mt-14 max-w-7xl mx-auto">
+		<div class="flex items-center gap-2">
+			<h1 class="text-lg text-gray-500 font-semibold">Delete Recipes</h1>
+			<p ng-show="failure" class="text-red-500">Failed to delete recipe</p>
+		</div>
+
+
+		<div class="bg-white mt-2 p-4 rounded-xl">
+			<p ng-show="recipes.length <= 0" class="font-semibold text-center text-lg text-gray-500">No recipes exist
+			</p>
+			<div class="flex items-center justify-between max-w-2xl" ng-repeat="recipe in recipes track by $index">
 				<p class="font-semibold text-gray-700 min-w-2xl">{{recipe.name}}</p>
-				<button class="text-red-500 text-sm hover:text-md hover:text-red-700" ng-click="deleteRecipe(recipe)">Remove</button>
+				<button class="text-red-500 text-sm hover:text-md hover:text-red-700"
+					ng-click="deleteRecipe(recipe)">Remove</button>
 			</div>
 		</div>
 

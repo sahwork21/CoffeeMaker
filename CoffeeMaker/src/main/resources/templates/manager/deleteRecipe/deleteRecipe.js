@@ -22,15 +22,12 @@ app.controller('DeleteRecipeController', function($scope, $http) {
 					updateRecipes();
 				},
 				function(rejection) {
-					console.error('Error while deleting recipe');
 					console.log(rejection);
 
-					$scope.submissionSuccess = false;
+					$scope.failure = true;
 
 					// Update recipe list
-					$http.get("/api/v1/recipes").then(function(response) {
-						$scope.recipes = response.data;
-					});
+					updateRecipes();
 				}
 			);
 	}
