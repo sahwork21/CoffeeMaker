@@ -5,13 +5,14 @@ app.controller('DeleteRecipeController', function($scope, $http) {
 
 	function updateRecipes() {
 		$http.get("/api/v1/recipes").then(function(response) {
+			console.log(response.data);
 			$scope.recipes = response.data;
 		});
 	}
 
-	function deleteRecipe(recipe) {
-		console.log("Deleting recipe", recipe);
-		$http.delete("/api/v1/recipes/" + recipe)
+	$scope.deleteRecipe = function(recipe) {
+		console.log("Deleting recipe", recipe.name);
+		$http.delete("/api/v1/recipes/" + recipe.name)
 			.then(
 				function(response) {
 					console.log(response);
@@ -48,4 +49,6 @@ app.controller('DeleteRecipeController', function($scope, $http) {
 	}
 
 	updateRecipes();
+	
+	
 });
