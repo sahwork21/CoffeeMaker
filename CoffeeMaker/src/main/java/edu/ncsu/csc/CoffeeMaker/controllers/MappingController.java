@@ -13,21 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class MappingController {
-
-
-    /**
-     * On a GET request to /recipe, the RecipeController will return
-     * /src/main/resources/templates/recipe.html.
-     *
-     * @param model
-     *            underlying UI model
-     * @return contents of the page
-     */
-    @GetMapping ( { "/recipe", "/recipe.html" } )
-    public String addRecipePage ( final Model model ) {
-        return "recipe";
-    }
-    
     /**
      * Handles a GET request for inventory. The GET request provides a view to
      * the client that includes the list of the current ingredients in the
@@ -69,8 +54,5 @@ public class MappingController {
     public String makeCoffeeForm ( final Model model ) {
         return "makecoffee";
     }
-    
-    
-    
 
 }
