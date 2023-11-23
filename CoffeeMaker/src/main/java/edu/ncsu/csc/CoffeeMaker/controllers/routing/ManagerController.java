@@ -142,5 +142,31 @@ public class ManagerController {
     public String addRecipeJS ( final Model model ) {
         return "manager/addRecipe/addRecipe.js";
     }
+    
+    /**
+     * On a GET request to /addIngredient, the ManagerController will return
+     * /src/main/resources/templates/manager/addIngredient/addIngredient.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/addingredient", "/addIngredient", "/addIngredient.html" } )
+    public String addIngredientHTML ( final Model model ) {
+        return "manager/addIngredient/addIngredient.html";
+    }
+
+    /**
+     * On a GET request to /addIngredient.js, the ManagerController will return
+     * /src/main/resources/templates/manager/addIngredient/addIngredient.js.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/addIngredient.js" } )
+    public String addIngredientJS ( final Model model ) {
+        return "manager/addIngredient/addIngredient.js";
+    }
 
 }
