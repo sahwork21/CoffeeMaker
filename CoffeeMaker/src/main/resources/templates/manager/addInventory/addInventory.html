@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html ng-app="myApp" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Add Inventory</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="./addInventory.js"></script>
+	<script src="../components/navbar/navbar.component.js"></script>
+</head>
+
+<body class="bg-gray-100" ng-controller="AddInventoryController">
+	<navbar></navbar>
+
+
+
+	<div class="max-w-7xl mx-auto pt-12 min-h-screen">
+
+		<h1 class="text-lg text-gray-500 font-semibold my-2">Add Inventory</h1>
+
+
+		<div class="bg-white p-4 rounded-lg shadow">
+
+
+			<div class="mx-auto max-w-6xl">
+				<!-- Table Header -->
+				<div class="grid grid-cols-3 gap-4 mt-4 text-right font-semibold text-lg">
+					<p class="text-left">Ingredient</p>
+					<p>Units</p>
+					<p class="text-blue-500">Add Units</p>
+				</div>
+
+				<div class="flex flex-col justify-between divide-y-2 divide-gray-50 text-gray-500 rounded-lg overflow-hidden">
+					<div class="grid grid-cols-3 gap-4 px-1 text-right odd:bg-gray-50" ng-repeat="ingredient in inventoryIngredients track by $index">
+						<div class="text-left">
+							<p class="min-w-xl">{{ingredient.name}}</p>
+						</div>
+
+						<div>
+							<p class="inline">{{ingredient.amount}}</p>
+							<p class="inline text-blue-500 font-semibold" ng-show="ingredient.newAmount">
+								({{ingredient.newAmount + ingredient.amount}})</p>
+						</div>
+
+						<div class="group flex flex-row-reverse items-center justify-between gap-1 w-fit ml-auto pl-1 text-blue-500">
+							<input type="number" name="amount" ng-model="ingredient.newAmount"
+								class="peer w-16 pr-1 outline-none bg-transparent text-sm text-center font-semibold invalid:text-red-500" min="0"
+								max="9999"></input>
+							<p class="font-semibold peer-invalid:hidden">+</p>
+							<p class="font-semibold invisible text-red-500 peer-invalid:visible">!</p>
+
+						</div>
+
+					</div>
+				</div>
+
+
+				<div class="flex flex-col flex-col-reverse justify-end items-center gap-2 mt-6 lg:flex-row lg:flex-row">
+					<p class="text-green-600" ng-show="success">Inventory updated</p>
+					<p class="text-red-500" ng-show="failure">Failed to update inventory</p>
+					<button ng-click="submit()" class="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 lg:w-fit">Submit</button>
+				</div>
+
+			</div>
+
+		</div>
+
+
+
+
+
+
+
+
+	</div>
+
+</body>
+
+</html>

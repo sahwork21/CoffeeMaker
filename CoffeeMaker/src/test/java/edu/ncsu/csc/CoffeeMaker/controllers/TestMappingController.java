@@ -59,21 +59,21 @@ class TestMappingController {
     public void testMappingController () throws Exception {
         // Test that index has the proper title
 
-        final String recipe = mvc.perform( get( "/recipe/" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
+        final String recipe = mvc.perform( get( "/addRecipe/" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
                 .getResponse().getContentAsString();
-        assertTrue( recipe.contains( "<title>Add a Recipe</title>" ) );
+        assertTrue( recipe.contains( "<title>Add Recipe</title>" ) );
 
-        final String delete = mvc.perform( get( "/deleterecipe/" ) ).andDo( print() ).andExpect( status().isOk() )
+        final String delete = mvc.perform( get( "/deleteRecipe/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
-        assertTrue( delete.contains( "<title>Delete Recipes</title>" ) );
+        assertTrue( delete.contains( "<title>Delete Recipe</title>" ) );
 
-        final String inventory = mvc.perform( get( "/inventory/" ) ).andDo( print() ).andExpect( status().isOk() )
+        final String inventory = mvc.perform( get( "/addInventory/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
-        assertTrue( inventory.contains( "<title>Inventory</title>" ) );
+        assertTrue( inventory.contains( "<title>Add Inventory</title>" ) );
 
-        final String ingredient = mvc.perform( get( "/ingredient/" ) ).andDo( print() ).andExpect( status().isOk() )
+        final String ingredient = mvc.perform( get( "/addIngredient/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
-        assertTrue( ingredient.contains( "<title>Ingredient</title>" ) );
+        assertTrue( ingredient.contains( "<title>Add Ingredient</title>" ) );
 
         final String makecoffee = mvc.perform( get( "/makecoffee/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
@@ -81,7 +81,7 @@ class TestMappingController {
 
         final String editrecipe = mvc.perform( get( "/editrecipe/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
-        assertTrue( editrecipe.contains( "<title>Edit Recipes</title>" ) );
+        assertTrue( editrecipe.contains( "<title>Edit Recipe</title>" ) );
 
         // Test the user controllers
         final String signin = mvc.perform( get( "/signin" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()

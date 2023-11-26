@@ -33,8 +33,10 @@ app.controller('SignInController', function($scope, $http, $q) {
 			
 			sessionStorage.setItem("username", username);
 			sessionStorage.setItem("password", password);
+			sessionStorage.setItem("userRole", user.roleType);
 			console.log(sessionStorage.getItem("username"));
 			console.log(sessionStorage.getItem("password"));
+			
 			
 			console.log(user);
 			
