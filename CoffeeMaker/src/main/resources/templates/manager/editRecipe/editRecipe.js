@@ -15,18 +15,7 @@ app.controller('EditRecipeController', function($scope, $http) {
 			$scope.allRecipes = response.data;
 		})
 	}
-	
-	$scope.validateRecipe = function(recipe) {
-		isValid = true;
-		for (ingredient of recipe.ingredients) {
-			if (ingredient.amount <= 0) {
-				isValid = false;
-				$scope.invalid[ingredient.name] = true;
-			}
-		}
-		
-		return isValid;
-	}
+
 
 	$scope.putRecipe = function() {
 		$scope.success = false;
@@ -126,12 +115,39 @@ app.controller('EditRecipeController', function($scope, $http) {
 
 		$scope.filterAvailableIngredients();
 	}
+	
+	// VALIDATION
 
-	$scope.submit = function() {
-		if ($scope.selectedRecipe.ingredients.length <= 0) {
-			$scope.invalid.minimumIngredient = true;
-			return;
+	onValidate = function(field, condition) {
+		$scope.invalid[field] = !condition;
+		return condition;
+	}
+
+	$scope.validatePrice = function() { return onValidate('price', $scope.selectedRecipe.price > 0) };
+
+	$scope.validateIngredients = function() { return onValidate('ingredients', $scope.selectedRecipe.ingredients.length > 0) }
+
+	$scope.validateIngredient = function(ingredient) { return onValidate(ingredient.name, ingredient.amount > 0) }
+
+
+
+	
+	$scope.validateRecipe = function() {
+		isValid = true;
+		console.log($scope.selectedRecipe.price, $scope.selectedRecipe.price > 0, $scope.validatePrice())
+		if (!$scope.validatePrice()) isValid = false;
+		if (!$scope.validateIngredients()) isValid = false;
+		for (ingredient of $scope.selectedRecipe.ingredients) {
+			if (!$scope.validateIngredient(ingredient)) {
+				isValid = false;
+			}
 		}
+		
+		return isValid;
+	}
+	
+	$scope.submit = function() {
+		if (!$scope.validateRecipe()) return;
 		
 		$scope.putRecipe();
 	}

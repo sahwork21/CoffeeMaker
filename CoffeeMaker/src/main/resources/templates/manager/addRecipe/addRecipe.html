@@ -12,76 +12,84 @@
 
 <body ng-controller="AddRecipeController" class="bg-gray-100">
 	<navbar></navbar>
-	<div class="bg-white max-w-7xl mx-auto mt-12 p-4 h-screen">
+	<div class="max-w-7xl mx-auto mt-14 min-h-screen">
 
-		<h1 class="text-xl text-gray-500">Add a Recipe</h1>
-		
-		<div class="my-2">
-			<p ng-show="failure" class="text-red-500">Failed to create recipe: {{failure}}</p>
-			<p ng-show="success" class="text-green-500">Successfully created recipe!</p>
-		</div>
+		<h1 class="text-lg text-gray-500 font-semibold">Add a Recipe</h1>
 
-		<div
-			class="relative flex items-center max-w-lg my-4 ring-2 rounded-md {{invalid.name ? 'ring-red-500' : 'ring-gray-100'}} w-fit focus-within:ring-blue-500">
-			<div class="flex items-center absolute -top-3 left-2">
-				<p class="text-sm px-1 bg-white {{invalid.name ? 'text-red-500' : 'text-gray-500'}}">Name</p>
-				<p ng-show="invalid.name" class="text-sm text-red-500 px-1 ml-2 bg-white">required</p>
-			</div>
-			<input name="name" id="name" ng-model="recipe.name" type="text" placeholder="Enter name" required="true"
-				min="0" class="outline-none py-1 px-2 rounded-md" ng-change="validateName()" />
-		</div>
-
-		<div
-			class="relative flex items-center max-w-lg my-4 ring-2 rounded-md {{invalid.price ? 'ring-red-500' : 'ring-gray-100'}} w-fit focus-within:ring-blue-500">
-			<div class="flex items-center absolute -top-3 left-2">
-				<p class="text-sm px-1 bg-white {{invalid.price ? 'text-red-500' : 'text-gray-500'}}">Price</p>
-				<p ng-show="invalid.price" class="text-sm text-red-500 px-1 ml-2 bg-white">Invalid</p>
-			</div>
-			<input name="price" id="price" ng-model="recipe.price" type="text" placeholder="Enter price" required="true"
-				min="0" class="outline-none py-1 px-2 rounded-md" ng-change="validatePrice()" />
-		</div>
-
-
-		<h2 class="text-gray-500">Ingredients</h2>
-
-		<!-- Ingredients Content -->
-
-		<div class="flex items-center justify-start gap-4 max-w-2xl"
-			ng-repeat="ingredient in recipe.ingredients track by $index">
-			<div class="grow">
-				<p class="font-semibold text-gray-700 min-w-xl">{{ingredient.name}}</p>
+		<div class="bg-white p-4 mt-2 rounded-lg">
+			<div class="my-2">
+				<p ng-show="failure" class="text-red-500">Failed to create recipe: {{failure}}</p>
+				<p ng-show="success" class="text-green-500">Successfully created recipe!</p>
 			</div>
 
 			<div
-				class="relative flex items-center max-w-lg my-2 ring-2 rounded-md {{invalid[ingredient.name] ? 'ring-red-500' : 'ring-gray-100'}} w-fit focus-within:ring-blue-500">
+				class="relative flex items-center max-w-lg my-4 ring-2 rounded-md {{invalid.name ? 'ring-red-500' : 'ring-gray-100'}} w-fit focus-within:ring-blue-500">
 				<div class="flex items-center absolute -top-3 left-2">
-					<p class="text-sm px-1 bg-white {{invalid[ingredient.name] ? 'text-red-500' : 'text-gray-500'}}">Amount</p>
-					<p ng-show="invalid[ingredient.name]" class="text-sm text-red-500 px-1 ml-2 bg-white">Minimum of 1</p>
+					<p class="text-sm px-1 bg-white {{invalid.name ? 'text-red-500' : 'text-gray-500'}}">Name</p>
+					<p ng-show="invalid.name" class="text-sm text-red-500 px-1 ml-2 bg-white">required</p>
 				</div>
-				<input name="ingredient.amount" id="ingredient.amount" ng-model="ingredient.amount" type="text" placeholder="Enter amount" required="true"
-					min="0" class="outline-none py-1 px-2 rounded-md" ng-change="validateIngredient(ingredient)" />
+				<input name="name" id="name" ng-model="recipe.name" type="text" placeholder="Enter name" required="true"
+					min="0" class="outline-none py-1 px-2 rounded-md" ng-change="validateName()" />
 			</div>
 
-			<button class="text-red-500 text-sm" ng-click="removeIngredient(ingredient)">Remove</button>
-		</div>
+			<div
+				class="relative flex items-center max-w-lg my-4 ring-2 rounded-md {{invalid.price ? 'ring-red-500' : 'ring-gray-100'}} w-fit focus-within:ring-blue-500">
+				<div class="flex items-center absolute -top-3 left-2">
+					<p class="text-sm px-1 bg-white {{invalid.price ? 'text-red-500' : 'text-gray-500'}}">Price</p>
+					<p ng-show="invalid.price" class="text-sm text-red-500 px-1 ml-2 bg-white">Invalid</p>
+				</div>
+				<input name="price" id="price" ng-model="recipe.price" type="text" placeholder="Enter price"
+					required="true" min="0" class="outline-none py-1 px-2 rounded-md" ng-change="validatePrice()" />
+			</div>
 
 
-		<!-- Add Ingredient -->
-		<div class="flex items-center mt-2">
-			<select id="ingredientDropdown" ng-model="selectedIngredient" ng-change="ingredientSelected()"
-				class="p-3 rounded-md ring-1 bg-gray-50 {{ invalid.ingredients ? 'ring-red-500 text-red-500' : 'ring-gray-300 text-gray-700' }}"
-				ng-options="item as item.name for item in availableIngredients">
-				<option selected disabled value="">Add Ingredient</option>
-			</select>
-			<p ng-show="invalid.ingredients" class="ml-4 text-red-500 text-sm">Recipe requires at least
-				one ingredient</p>
-		</div>
+			<h2 class="text-gray-500">Ingredients</h2>
 
-		<div class="flex justify-end">
-			<button ng-click="submit()" class="p-2 bg-blue-500 text-white rounded-md m-4">Submit</button>
+			<!-- Ingredients Content -->
+
+			<div class="flex items-center justify-start gap-4 max-w-2xl"
+				ng-repeat="ingredient in recipe.ingredients track by $index">
+				<div class="grow">
+					<p class="font-semibold text-gray-700 min-w-xl">{{ingredient.name}}</p>
+				</div>
+
+				<div
+					class="relative flex items-center max-w-lg my-2 ring-2 rounded-md {{invalid[ingredient.name] ? 'ring-red-500' : 'ring-gray-100'}} w-fit focus-within:ring-blue-500">
+					<div class="flex items-center absolute -top-3 left-2">
+						<p
+							class="text-sm px-1 bg-white {{invalid[ingredient.name] ? 'text-red-500' : 'text-gray-500'}}">
+							Amount</p>
+						<p ng-show="invalid[ingredient.name]" class="text-sm text-red-500 px-1 ml-2 bg-white">Minimum of
+							1</p>
+					</div>
+					<input name="ingredient.amount" id="ingredient.amount" ng-model="ingredient.amount" type="text"
+						placeholder="Enter amount" required="true" min="0" class="outline-none py-1 px-2 rounded-md"
+						ng-change="validateIngredient(ingredient)" />
+				</div>
+
+				<button class="text-red-500 text-sm" ng-click="removeIngredient(ingredient)">Remove</button>
+			</div>
+
+
+			<!-- Add Ingredient -->
+			<div class="flex items-center mt-2">
+				<select id="ingredientDropdown" ng-model="selectedIngredient" ng-change="ingredientSelected()"
+					class="p-3 rounded-md ring-1 bg-gray-50 {{ invalid.ingredients ? 'ring-red-500 text-red-500' : 'ring-gray-300 text-gray-700' }}"
+					ng-options="item as item.name for item in availableIngredients">
+					<option selected disabled value="">Add Ingredient</option>
+				</select>
+				<p ng-show="invalid.ingredients" class="ml-4 text-red-500 text-sm">Recipe requires at least
+					one ingredient</p>
+			</div>
+
+			<div class="flex justify-end">
+				<button ng-click="submit()" class="p-2 bg-blue-500 text-white rounded-md m-4">Submit</button>
+			</div>
+
 		</div>
 
 	</div>
+
 
 
 
