@@ -9,7 +9,7 @@ app.controller('AddRecipeController', function($scope, $http, $q) {
 
 
 
-
+	$scope.selectedIngredient = null;
 	$scope.allIngredients = []; // All the ingredients that exist in the inventory
 	$scope.availableIngredients = [];	// The ingredients to be presented in dropdown (excludes already added ingredients)
 	$scope.invalid = {} // Mark fields in the form as invalid. Ingredients are read as invalid[ingredient.name]
@@ -118,7 +118,7 @@ app.controller('AddRecipeController', function($scope, $http, $q) {
 		return condition;
 	}
 
-	$scope.validateName = function() { return onValidate('name', $scope.recipe.name && $scope.recipe.name.length > 0) };
+	$scope.validateName = function() { return onValidate('name', $scope.recipe.name != null && $scope.recipe.name.length > 0) };
 
 	$scope.validatePrice = function() { return onValidate('price', $scope.recipe.price > 0) };
 
@@ -128,11 +128,16 @@ app.controller('AddRecipeController', function($scope, $http, $q) {
 
 
 	$scope.validateRecipe = function(recipe) {
-		$scope.validateName();
-		$scope.validatePrice();
-		$scope.validateIngredients();
-		for (ingredient of recipe.ingredients) $scope.validateIngredient(ingredient);
-
+		isValid = true;
+		if (!$scope.validateName()) isValid = false;
+		if (!$scope.validatePrice()) isValid = false;
+		if (!$scope.validateIngredients()) isValid = false;
+		
+		for (ingredient of recipe.ingredients) {
+			if (!$scope.validateIngredient(ingredient)) isValid = false;
+		};
+		
+		return isValid;
 	}
 
 
@@ -143,7 +148,7 @@ app.controller('AddRecipeController', function($scope, $http, $q) {
 
 
 	$scope.submit = function() {
-		$scope.validateRecipe($scope.recipe);
+		if (!$scope.validateRecipe($scope.recipe)) return;
 		$scope.addRecipe();
 	}
 
@@ -154,12 +159,9 @@ app.controller('AddRecipeController', function($scope, $http, $q) {
 			price: '',
 			ingredients: []
 		};
-
+		
 		$scope.filterAvailableIngredients();
 	}
 
 	$scope.reset();
-
-	console.log($scope);
-
 });

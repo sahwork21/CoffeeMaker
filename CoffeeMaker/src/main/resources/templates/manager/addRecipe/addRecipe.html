@@ -18,7 +18,7 @@
 		
 		<div class="my-2">
 			<p ng-show="failure" class="text-red-500">Failed to create recipe: {{failure}}</p>
-			<p ng-show="success" class="text-green-500">Successfully updated recipe!</p>
+			<p ng-show="success" class="text-green-500">Successfully created recipe!</p>
 		</div>
 
 		<div
@@ -71,7 +71,7 @@
 			<select id="ingredientDropdown" ng-model="selectedIngredient" ng-change="ingredientSelected()"
 				class="p-3 rounded-md ring-1 bg-gray-50 {{ invalid.ingredients ? 'ring-red-500 text-red-500' : 'ring-gray-300 text-gray-700' }}"
 				ng-options="item as item.name for item in availableIngredients">
-				<option value="">Add Ingredient</option>
+				<option selected disabled value="">Add Ingredient</option>
 			</select>
 			<p ng-show="invalid.ingredients" class="ml-4 text-red-500 text-sm">Recipe requires at least
 				one ingredient</p>
