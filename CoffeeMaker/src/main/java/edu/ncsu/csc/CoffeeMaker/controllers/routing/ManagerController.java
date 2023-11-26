@@ -64,7 +64,7 @@ public class ManagerController {
     public String manageBaristasJS ( final Model model ) {
         return "manager/manageBaristas/manageBaristas.js";
     }
-    
+
     /**
      * On a GET request to /editRecipe, the ManagerController will return
      * /src/main/resources/templates/manager/editRecipe/editRecipe.html.
@@ -90,7 +90,7 @@ public class ManagerController {
     public String editRecipeJS ( final Model model ) {
         return "manager/editRecipe/editRecipe.js";
     }
-    
+
     /**
      * On a GET request to /deleteRecipe, the ManagerController will return
      * /src/main/resources/templates/manager/deleteRecipe/deleteRecipe.html.
@@ -116,7 +116,7 @@ public class ManagerController {
     public String deleteRecipeJS ( final Model model ) {
         return "manager/deleteRecipe/deleteRecipe.js";
     }
-    
+
     /**
      * On a GET request to /addRecipe, the ManagerController will return
      * /src/main/resources/templates/manager/addRecipe/addRecipe.html.
@@ -142,7 +142,7 @@ public class ManagerController {
     public String addRecipeJS ( final Model model ) {
         return "manager/addRecipe/addRecipe.js";
     }
-    
+
     /**
      * On a GET request to /addIngredient, the ManagerController will return
      * /src/main/resources/templates/manager/addIngredient/addIngredient.html.
@@ -168,8 +168,7 @@ public class ManagerController {
     public String addIngredientJS ( final Model model ) {
         return "manager/addIngredient/addIngredient.js";
     }
-    
-    
+
     /**
      * On a GET request to /addInventory, the ManagerController will return
      * /src/main/resources/templates/manager/addInventory/addInventory.html.
@@ -194,7 +193,8 @@ public class ManagerController {
     @GetMapping ( { "/addInventory.js" } )
     public String addInventoryJS ( final Model model ) {
         return "manager/addInventory/addInventory.js";
-      
+    }
+
     /**
      * On a GET request to /orderHistory.html, the ManagerController will return
      * /src/main/resources/templates/manager/orderHistory/orderHistory.html.
@@ -203,11 +203,11 @@ public class ManagerController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/orderhistory" } )
+    @GetMapping ( { "/orderHistory.html" } )
     public String orderHistoryHTML ( final Model model ) {
         return "manager/orderHistory/orderHistory.html";
     }
-    
+
     /**
      * On a GET request to /orderHistory.js, the ManagerController will return
      * /src/main/resources/templates/manager/orderHistory/orderHistory.js.
