@@ -16,6 +16,7 @@ app.controller('AddIngredientController', function($scope, $http, $q) {
 		$http.put("/api/v1/inventory/ingredients", $scope.ingredient).then(
 			function(response) {
 				$scope.success = true;
+				$scope.reset();
 
 			}, function(rejection) {
 				$scope.failure = rejection.data.message;
