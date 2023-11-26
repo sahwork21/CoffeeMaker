@@ -3,14 +3,12 @@
 	<div class="w-full bg-white">
 		<div class="flex items-center justify-between w-full max-w-7xl mx-auto">
 			<div class="p-1.5">
-				<a href="/" class="font-semibold text-lg text-stone-500">CoffeeMaker</a>
+				<button ng-click="$ctrl.goToMain()" class="font-semibold text-lg text-stone-500">CoffeeMaker</button>
 			</div>
 
-			<div class="flex items-center justify-end gap-2 p-1.5">
-				<p class=""></p>
-				<div class="rounded-full ring-1 ring-black w-8 h-8">
-
-				</div>
+			<div ng-show="$ctrl.userRole" class="flex items-center justify-end gap-2 p-1.5">
+				<p class="text-stone-500">{{$ctrl.username}}</p>
+				<button ng-click="$ctrl.signOut()" class="px-2 py-1 text-sm text-stone-500 ring-1 ring-stone-500 rounded-md hover:bg-gray-100 hover:text-stone-700">Sign out</button>
 			</div>
 		</div>
 
