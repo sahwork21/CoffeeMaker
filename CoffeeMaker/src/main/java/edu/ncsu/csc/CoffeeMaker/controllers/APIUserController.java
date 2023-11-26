@@ -87,7 +87,7 @@ public class APIUserController extends APIController {
         // We also use this valid flag so people cannot time up if users do or
         // do not exist
         if ( !valid || u != null ) {
-            return new ResponseEntity( "Invalid username or password", HttpStatus.BAD_REQUEST );
+            return new ResponseEntity( errorResponse( "Invalid username or password" ), HttpStatus.BAD_REQUEST );
         }
 
         // The user is valid so save them with the correct information after
@@ -120,7 +120,7 @@ public class APIUserController extends APIController {
         }
 
         // This response better not be reached ever
-        return new ResponseEntity( "Could not create user", HttpStatus.INTERNAL_SERVER_ERROR );
+        return new ResponseEntity( errorResponse( "Could not create user" ), HttpStatus.INTERNAL_SERVER_ERROR );
 
     }
 
@@ -148,7 +148,7 @@ public class APIUserController extends APIController {
         // If the username input has incorrect credentials send back a bad
         // request
         if ( user == null || !user.checkPassword( password ) ) {
-            return new ResponseEntity( "Invalid username or password", HttpStatus.BAD_REQUEST );
+            return new ResponseEntity( errorResponse( "Invalid username or password" ), HttpStatus.BAD_REQUEST );
         }
 
         // Now that the passwords match we need to get the more specific object
@@ -176,7 +176,7 @@ public class APIUserController extends APIController {
         }
 
         // This response better not be reached ever
-        return new ResponseEntity( "Could not return user class", HttpStatus.INTERNAL_SERVER_ERROR );
+        return new ResponseEntity( errorResponse( "Could not return user class" ), HttpStatus.INTERNAL_SERVER_ERROR );
 
     }
 
