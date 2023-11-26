@@ -203,7 +203,7 @@ public class ManagerController {
      *            underlying UI model
      * @return contents of the page
      */
-    @GetMapping ( { "/orderHistory.html" } )
+    @GetMapping ( { "/orderhistory.html",  "/orderHistory.html" } )
     public String orderHistoryHTML ( final Model model ) {
         return "manager/orderHistory/orderHistory.html";
     }
