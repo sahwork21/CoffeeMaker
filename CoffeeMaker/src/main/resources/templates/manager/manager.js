@@ -14,7 +14,7 @@ app.controller('ManagerController', function($scope, $http, $q) {
 	$scope.ordersData = [];
 
 	$scope.fetchOrders = function() {
-		$http.get("/api/v1/orders").then(function(response) {
+		$http.get("/api/v1/orders/history").then(function(response) {
 			$scope.orders = response.data;
 		});
 	}

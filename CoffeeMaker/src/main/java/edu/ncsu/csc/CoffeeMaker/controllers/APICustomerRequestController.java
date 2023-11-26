@@ -80,38 +80,33 @@ public class APICustomerRequestController extends APIController {
      * response is given. The next API call should make the coffee after it gets
      * fulfilled.
      *
-     * @param username
-     *            the username of the customer that this will be saved to
-     * @param recipeName
-     *            the name of the recipe we are going to look for
-     * @param payment
-     *            the amount of money the user is paying. Will not actually buy
-     *            it for them.
+     * @param orderRequest
+     *            object that contains the recipe, username, and payment for an
+     *            order. Used to make JSON inputs easier
      * @return a response entity of 200 if the parameters are valid, 404 if the
      *         recipe or user are not found, and 400 if the payment is
      *         insufficient.
      */
 
     @PostMapping ( BASE_PATH + "/orders" )
-    public ResponseEntity createOrder ( @RequestBody final String username, @RequestBody final String recipeName,
-            @RequestBody final int payment ) {
+    public ResponseEntity createOrder ( @RequestBody final OrderRequest orderRequest ) {
         // Look up the customer in the database
         // This username will be saved and not require any relogin
-        final Customer customer = customerService.findByUsername( username );
+        final Customer customer = customerService.findByUsername( orderRequest.getUsername() );
         if ( customer == null ) {
             // This username does not link to any customers
-            return new ResponseEntity( "User not found", HttpStatus.NOT_FOUND );
+            return new ResponseEntity( errorResponse( "User not found" ), HttpStatus.NOT_FOUND );
         }
 
-        final Recipe recipe = recipeService.findByName( recipeName );
+        final Recipe recipe = recipeService.findByName( orderRequest.getRecipeName() );
         if ( recipe == null ) {
             // The requested recipe doesn't exist so return a 404 error
-            return new ResponseEntity( "Recipe not found", HttpStatus.NOT_FOUND );
+            return new ResponseEntity( errorResponse( "Recipe not found" ), HttpStatus.NOT_FOUND );
         }
 
-        if ( recipe.getPrice() > payment ) {
+        if ( recipe.getPrice() > orderRequest.getPayment() ) {
             // They did not give enough money so return a 400 bad request error
-            return new ResponseEntity( "Insufficient funds", HttpStatus.BAD_REQUEST );
+            return new ResponseEntity( errorResponse( "Insufficient funds" ), HttpStatus.BAD_REQUEST );
         }
 
         // We can now create the order and add it to the customer's list of
@@ -125,7 +120,7 @@ public class APICustomerRequestController extends APIController {
 
         // Now save it
         orderService.save( req );
-        return new ResponseEntity( "Order saved", HttpStatus.OK );
+        return new ResponseEntity<String>( successResponse( "Order saved" ), HttpStatus.OK );
 
     }
 
@@ -158,7 +153,8 @@ public class APICustomerRequestController extends APIController {
         // Move the request from state to state if it is in unfulfilled
         // currently
         if ( req.getStatus() != OrderState.UNFULFILLED ) {
-            return new ResponseEntity( "Order not in right state to be fulfilled. Must be in unfulfilled",
+            return new ResponseEntity(
+                    errorResponse( "Order not in right state to be fulfilled. Must be in unfulfilled" ),
                     HttpStatus.BAD_REQUEST );
         }
 
@@ -166,7 +162,7 @@ public class APICustomerRequestController extends APIController {
         req.setStatus( OrderState.READY_TO_PICKUP );
         orderService.save( req );
 
-        return new ResponseEntity( "Order fulfilled", HttpStatus.OK );
+        return new ResponseEntity( successResponse( "Order fulfilled" ), HttpStatus.OK );
     }
 
     // This request can also be by id if that is easier. This operation is just
@@ -199,7 +195,8 @@ public class APICustomerRequestController extends APIController {
         // Move the request from state to state if it is in unfulfilled
         // currently
         if ( req.getStatus() != OrderState.READY_TO_PICKUP ) {
-            return new ResponseEntity( "Order not in right state to be pickup. Must be in ready to pickup",
+            return new ResponseEntity(
+                    errorResponse( "Order not in right state to be pickup. Must be in ready to pickup" ),
                     HttpStatus.BAD_REQUEST );
         }
 
@@ -216,7 +213,7 @@ public class APICustomerRequestController extends APIController {
         req.setStatus( OrderState.HISTORY );
         orderService.save( req );
 
-        return new ResponseEntity( "Order picked up", HttpStatus.OK );
+        return new ResponseEntity( successResponse( "Order picked up" ), HttpStatus.OK );
     }
 
     /**
@@ -243,11 +240,12 @@ public class APICustomerRequestController extends APIController {
         final Customer customer = customerService.findByUsername( username );
         if ( customer == null ) {
             // We couldn't find the customer so return a 404 error
-            return new ResponseEntity( "Customer not found. No orders can be displayed.", HttpStatus.NOT_FOUND );
+            return new ResponseEntity( errorResponse( "Customer not found. No orders can be displayed." ),
+                    HttpStatus.NOT_FOUND );
         }
 
         // This customer exists, now return the list of orders.
-        return new ResponseEntity( customer.getOrders(), HttpStatus.OK );
+        return new ResponseEntity<List<CustomerRequest>>( customer.getOrders(), HttpStatus.OK );
 
     }
 
@@ -262,7 +260,57 @@ public class APICustomerRequestController extends APIController {
     public ResponseEntity deleteOrderHistory () {
         // Get the orders list and delete the ones with status of HISTORy
         orderService.deleteByStatus( OrderState.HISTORY );
-        return new ResponseEntity( "Successfully cleared order history", HttpStatus.OK );
+        return new ResponseEntity( successResponse( "Successfully cleared order history" ), HttpStatus.OK );
     }
 
+    /**
+     * The OrderRequest class serves as a single object to store the data from
+     * the frontend containing the order information.
+     *
+     * @author Brian Marks
+     */
+    private static class OrderRequest {
+        /**
+         * Represents the data for creating a new order.
+         */
+        private String username;
+
+        /**
+         * Represents the name of the recipe for the new order.
+         */
+        private String recipeName;
+
+        /**
+         * Represents the payment amount for the new order.
+         */
+        private int    payment;
+
+        /**
+         * Gets the username for the order.
+         *
+         * @return The username associated with the order.
+         */
+        public String getUsername () {
+            return username;
+        }
+
+        /**
+         * Gets the name of the recipe for the order.
+         *
+         * @return The name of the recipe associated with the order.
+         */
+        public String getRecipeName () {
+            return recipeName;
+        }
+
+        /**
+         * Gets the payment amount for the order.
+         *
+         * @return The payment amount associated with the order.
+         */
+        public int getPayment () {
+            return payment;
+        }
+
+    }
 }
