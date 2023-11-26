@@ -168,5 +168,32 @@ public class ManagerController {
     public String addIngredientJS ( final Model model ) {
         return "manager/addIngredient/addIngredient.js";
     }
+    
+    
+    /**
+     * On a GET request to /addInventory, the ManagerController will return
+     * /src/main/resources/templates/manager/addInventory/addInventory.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/addinventory", "/addInventory", "/addInventory.html" } )
+    public String addInventoryHTML ( final Model model ) {
+        return "manager/addInventory/addInventory.html";
+    }
+
+    /**
+     * On a GET request to /addIngredient.js, the ManagerController will return
+     * /src/main/resources/templates/manager/addIngredient/addIngredient.js.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/addInventory.js" } )
+    public String addInventoryJS ( final Model model ) {
+        return "manager/addInventory/addInventory.js";
+    }
 
 }
