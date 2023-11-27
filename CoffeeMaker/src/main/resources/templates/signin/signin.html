@@ -61,13 +61,16 @@
 			<div>
 				<p class="mt-6 font-semibold text-sm">Password</p>
 				<input ng-model="formData.password" ng-click="resetInvalid('password')" class="w-full ring-1 rounded-md p-2 mt-1 font-light hover:ring-blue-500 {{ invalid.password ? 'ring-red-500' : 'ring-gray-300' }}"
-					placeholder="Enter password" required>
+					placeholder="Enter password" type="password" required>
 			</div>
 
 			<button type="submit" class="w-full p-2 mt-6 text-white rounded-lg bg-blue-500 hover:bg-blue-700" 
 				ng-disabled="form.$invalid">Sign in</button>
 			<p class="pb-24 mt-1 text-gray-500 text-center">Not a member? <a href="./signup"
 					class="text-blue-500 hover:text-blue-800">Create account</a></p>
+			<!-- Privacy Policy -->
+			<p class="pb-24 mt-1 text-gray-500 text-center">View our <a href="./privacypolicy"
+					class="font-semibold text-blue-500 hover:text-blue-800">Privacy Policy</a></p>
 		</form>
 	</div>
 

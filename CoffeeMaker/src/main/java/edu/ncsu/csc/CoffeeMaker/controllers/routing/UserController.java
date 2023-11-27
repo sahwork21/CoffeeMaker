@@ -65,4 +65,17 @@ public class UserController {
     public String signUpJS ( final Model model ) {
         return "./signup/signup.js";
     }
+
+    /**
+     * On a GET request to /, the IndexController will return
+     * /src/main/resources/templates/login.html.
+     *
+     * @param model
+     *            underlying UI model
+     * @return contents of the page
+     */
+    @GetMapping ( { "/privacypolicy", "/privacypolicy.html" } )
+    public String privacyPolicy ( final Model model ) {
+        return "./privacypolicy";
+    }
 }
