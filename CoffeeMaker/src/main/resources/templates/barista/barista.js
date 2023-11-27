@@ -5,7 +5,7 @@ app.controller('BaristaController', function($scope, $http, $q) {
 	$scope.orders = [{id:1525, status:"UNFULFILLED", placedAt: "11:23 AM October 28, 2023", recipe: "Coffee"}, {id:5252, status:"UNFULFILLED", placedAt: "11:23 AM October 28, 2023", recipe: "Latte"}];
 	$scope.error = null; // Displays the error for when fulfilling orders fails
 	$scope.fetchOrders = function() {
-		$http.get("/api/v1/orders/unfulfilled").then(function(response) {
+		$http.get("/api/v1/orders").then(function(response) {
 			$scope.orders = response.data;
 		});
 	}

@@ -31,7 +31,7 @@ public class CustomerRequest extends DomainObject {
      * The associated Customer that ordered this recipe
      */
     @JsonManagedReference
-    @OneToOne ( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @OneToOne ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private Customer   customer;
     /**
      * The associated Recipe that this order contains. Will be used to update
