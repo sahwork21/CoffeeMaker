@@ -109,16 +109,16 @@ class APICustomerRequestTest {
 
         orderService.save( o );
 
-        assertEquals( 1, cusService.findByUsername( "cus1" ).getOrders().size() );
+        assertEquals( 1, orderService.findByStatus( OrderState.UNFULFILLED ).size() );
 
         // Find the order's id
-        final long id = orderService.findAll().get( orderService.findAll().size() - 1 ).getId();
 
         // Fulfill this order
-        mvc.perform( put( "/api/v1/orders/fulfil;" ).contentType( MediaType.APPLICATION_JSON )
-                .content( TestUtils.asJsonString( id ) ) ).andExpect( status().isOk() );
+        mvc.perform( put( "/api/v1/orders/fulfill" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( o.getId() ) ) ).andExpect( status().isOk() );
 
         // Make sure the order moved state to state
+        assertEquals( 0, orderService.findByStatus( OrderState.UNFULFILLED ).size() );
         assertEquals( 1, orderService.findByStatus( OrderState.READY_TO_PICKUP ).size() );
 
     }
