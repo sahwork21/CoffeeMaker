@@ -246,7 +246,7 @@ public class APICustomerRequestController extends APIController {
         }
 
         // This customer exists, now return the list of orders.
-        return new ResponseEntity<List<CustomerRequest>>( customer.getOrders(), HttpStatus.OK );
+        return new ResponseEntity( customer.getOrders(), HttpStatus.OK );
 
     }
 

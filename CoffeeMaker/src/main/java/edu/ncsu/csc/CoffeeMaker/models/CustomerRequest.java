@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import edu.ncsu.csc.CoffeeMaker.models.enums.OrderState;
 
 /**
@@ -28,6 +30,7 @@ public class CustomerRequest extends DomainObject {
     /**
      * The associated Customer that ordered this recipe
      */
+    @JsonManagedReference
     @OneToOne ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private Customer   customer;
     /**
