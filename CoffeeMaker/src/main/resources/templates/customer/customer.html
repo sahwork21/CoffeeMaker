@@ -4,7 +4,7 @@
 <head>
 	<title>Customer Menu</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
- 	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 	<script src="customer.js"></script>
 	<script src="../components/navbar/navbar.component.js"></script>
@@ -16,18 +16,40 @@
 		<div>
 			<p class="text-lg font-semibold text-gray-500 py-2">Orders</p>
 			<p class="text-lg text-center font-semibold text-gray-500" ng-hide="orders.length > 0">No recent orders</p>
-			
+
 			<div class="flex flex-col gap-2 justify-center items-center">
-					<div ng-repeat="order in orders" class="w-full p-2 rounded-lg bg-white">
-						<p class="text-lg font-semibold">Order {{order.id}}</p>
-						<p class="font-light text-sm">Placed on {{order.placedAt}}</p>
-						<div class="w-full rounded-full bg-gray-50 ring-1 ring-gray-100 mt-3">
-							<div class="w-1/2 h-4 rounded-full bg-green-500"></div>
+				<div ng-repeat="order in orders" class="w-full p-2 rounded-lg bg-white">
+
+					<div class="flex items-center justify-between">
+						<div>
+							<p class="text-lg font-semibold">Order {{order.id}}</p>
+							<p class="font-light text-sm">Placed on {{order.placedAt}}</p>
 						</div>
-						<p class="mt-1 font-semibold text-sm text-gray-700">{{order.status}}</p>
+						
+						<div>
+							<button ng-show="order.status == 'Ready for pickup'" ng-click="onOrderPickup(order)" class="p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-700">Picked Up</button>
+						</div>
+
 					</div>
-				<a href="customer/order" class="flex items-center gap-1 p-2 rounded-md mt-2 text-white bg-blue-500 hover:bg-blue-700">
-					<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+
+					<div class="w-full rounded-full bg-gray-50 ring-1 ring-gray-100 mt-3">
+						<div ng-class="{'w-1/2': order.status == 'In Progress'}" class="h-4 rounded-full bg-green-500">
+						</div>
+					</div>
+					<p class="mt-1 font-semibold text-sm text-gray-700">{{order.status}}</p>
+				</div>
+				<a href="customer/order"
+					class="flex items-center gap-1 p-2 rounded-md mt-2 text-white bg-blue-500 hover:bg-blue-700">
+					<svg xmlns="http://www.w3.org/2000/svg" height="1em"
+						viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+						<style>
+							svg {
+								fill: #ffffff
+							}
+						</style>
+						<path
+							d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
+					</svg>
 					<p class="font-semibold"> New Order</p>
 				</a>
 			</div>

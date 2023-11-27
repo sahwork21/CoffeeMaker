@@ -1,10 +1,19 @@
 var app = angular.module('myApp', []);
 
 
+
+/**
+ * TODO: Use polling to continuously fetch the status of orders.
+ */
 app.controller('CustomerController', function($scope, $http, $q) {
 	// Initial orders data for testing
-    $scope.orders = [{id:1525, status:"In Progress", placedAt: "11:23 AM October 28, 2023"}, {id:5252, status:"In Progress", placedAt: "11:23 AM October 28, 2023"}];
-
+	$scope.orders = [{id:1525, status:"In Progress", placedAt: "11:23 AM October 28, 2023"}, {id:5252, status:"Ready for pickup", placedAt: "11:23 AM October 28, 2023"}];
+	
+	$scope.onOrderPickup = function(order) {
+		// For testing, removes a order from pickup
+		$scope.orders = $scope.orders.filter(anOrder => anOrder !== order);
+	}
+  
     // Function to fetch orders from the server
     $scope.fetchOrders = function() {
         $http.get("/api/v1/orders").then(function(response) {
@@ -12,6 +21,7 @@ app.controller('CustomerController', function($scope, $http, $q) {
             $scope.orders = response.data;
         });
     }
+  
 
     // Function to handle order pickup
     $scope.pickupOrder = function(order) {
@@ -35,6 +45,7 @@ app.controller('CustomerController', function($scope, $http, $q) {
             console.log("Rejection object:", rejection);
         });
     }
+
 
     // Fetch orders when the controller is initialized
     $scope.fetchOrders();
