@@ -55,12 +55,14 @@ class GenerateOrders {
         final CustomerRequest cr1 = new CustomerRequest();
 
         cr1.setCustomer( c1 );
-        cr1.setRecipe( r1 );
+        cr1.setRecipe( r1.getName() );
         cr1.setStatus( OrderState.UNFULFILLED );
 
         c1.addOrder( cr1 );
 
         // Make sure you link up all the objects correctly
+
+        rs.save( r1 );
 
         // Then save and make sure everything appears in database
         crs.save( cr1 );
@@ -75,11 +77,12 @@ class GenerateOrders {
         final Recipe savedRs1 = rs.findByName( "Cafe" );
 
         assertEquals( 1, savedCs1.getOrders().size() );
-        assertEquals( "Cafe", savedCs1.getOrders().get( 0 ).getRecipe().getName() );
-        assertEquals( 4, (int) savedCs1.getOrders().get( 0 ).getRecipe().getPrice() );
+        assertEquals( "Cafe", savedCs1.getOrders().get( 0 ).getRecipe() );
+        // assertEquals( 4, (int) savedCs1.getOrders().get( 0
+        // ).getRecipe().getPrice() );
 
         assertEquals( savedCs1.getUsername(), savedCrs1.getCustomer().getUsername() );
-        assertTrue( savedRs1.equals( savedCrs1.getRecipe() ) );
+        assertTrue( savedRs1.getName().equals( savedCrs1.getRecipe() ) );
         assertTrue( savedRs1.equals( r1 ) );
 
         // Make sure we can get the orders by state

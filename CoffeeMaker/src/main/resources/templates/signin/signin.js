@@ -13,6 +13,15 @@ app.controller('SignInController', function($scope, $http, $q) {
 		$scope.invalid[field] = false;
 	}
 	
+	$scope.generateUsers = function(){
+		// Make the api call to post some demo users
+		$http.post("/api/v1/generateusers").then(function(response){
+			
+		})
+		$scope.sucess = "Made demo users"
+		
+	}
+	
 	$scope.onSubmit = function() {
 		//We need to pass in variables as JSON format for API calls
 		let rawPassword = {password:$scope.formData.password};

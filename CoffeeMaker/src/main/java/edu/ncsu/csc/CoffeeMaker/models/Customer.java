@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
@@ -26,6 +27,7 @@ public class Customer extends AbstractUser {
     /**
      * The list of orders for this object
      */
+    @JsonBackReference
     @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private List<CustomerRequest> orders;
 

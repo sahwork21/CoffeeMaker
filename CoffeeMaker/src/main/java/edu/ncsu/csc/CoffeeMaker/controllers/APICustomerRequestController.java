@@ -58,8 +58,8 @@ public class APICustomerRequestController extends APIController {
      * @return returns a list of all the orders in the system
      */
     @GetMapping ( BASE_PATH + "/orders" )
-    public List<CustomerRequest> listOrders () {
-        return orderService.findAll();
+    public ResponseEntity listOrders () {
+        return new ResponseEntity( orderService.findAll(), HttpStatus.OK );
     }
 
     /**
@@ -69,8 +69,11 @@ public class APICustomerRequestController extends APIController {
      * @return a list of the orders in state unfulfilled
      */
     @GetMapping ( BASE_PATH + "/orders/unfulfilled" )
-    public List<CustomerRequest> listUnfulfilledOrders () {
-        return orderService.findByStatus( OrderState.UNFULFILLED );
+    public ResponseEntity listUnfulfilledOrders () {
+        // Do this the hard way since findByStatus is failing us
+        final List<CustomerRequest> os = orderService.findByStatus( OrderState.UNFULFILLED );
+
+        return new ResponseEntity( os, HttpStatus.OK );
     }
 
     /**
@@ -113,7 +116,7 @@ public class APICustomerRequestController extends APIController {
         // orders
         final CustomerRequest req = new CustomerRequest();
         req.setCustomer( customer );
-        req.setRecipe( recipe );
+        req.setRecipe( recipe.getName() );
         req.setStatus( OrderState.UNFULFILLED );
 
         customer.addOrder( req );
@@ -131,12 +134,12 @@ public class APICustomerRequestController extends APIController {
      * unfulfilled to ready for the customer to pickup. We will get an order in
      * the request body.
      *
-     * @param request
-     *            the order object the user has input
+     * @param requestID
+     *            the order id the user has input
      * @return a confirmation that the order moved states
      */
     @PutMapping ( BASE_PATH + "/orders/fulfill" )
-    public ResponseEntity fulfillOrder ( @RequestBody final CustomerRequest request ) {
+    public ResponseEntity fulfillOrder ( @RequestBody final long requestID ) {
         // Modify
         // the
         // request
@@ -149,11 +152,11 @@ public class APICustomerRequestController extends APIController {
         // needed
 
         // Go find this request in the database to make sure it exists
-        final CustomerRequest req = orderService.findById( request.getId() );
+        final CustomerRequest req = orderService.findById( requestID );
 
         // Move the request from state to state if it is in unfulfilled
         // currently
-        if ( req.getStatus() != OrderState.UNFULFILLED ) {
+        if ( req == null || req.getStatus() != OrderState.UNFULFILLED ) {
             return new ResponseEntity(
                     errorResponse( "Order not in right state to be fulfilled. Must be in unfulfilled" ),
                     HttpStatus.BAD_REQUEST );
@@ -173,12 +176,12 @@ public class APICustomerRequestController extends APIController {
      * state to state. We will get an order in the request body. This will also
      * remove the order from the customer's list of orders
      *
-     * @param request
-     *            the order object the user has input
+     * @param requestID
+     *            the id of the order object the user has input
      * @return a confirmation that the order moved states
      */
     @PutMapping ( BASE_PATH + "/orders/pickup" )
-    public ResponseEntity pickupOrder ( @RequestBody final CustomerRequest request ) {
+    public ResponseEntity pickupOrder ( @RequestBody final long requestID ) {
         // Modify
         // the
         // request
@@ -191,11 +194,11 @@ public class APICustomerRequestController extends APIController {
         // needed
 
         // Go find this request in the database to make sure it exists
-        final CustomerRequest req = orderService.findById( request.getId() );
+        final CustomerRequest req = orderService.findById( requestID );
 
         // Move the request from state to state if it is in unfulfilled
         // currently
-        if ( req.getStatus() != OrderState.READY_TO_PICKUP ) {
+        if ( req == null || req.getStatus() != OrderState.READY_TO_PICKUP ) {
             return new ResponseEntity(
                     errorResponse( "Order not in right state to be pickup. Must be in ready to pickup" ),
                     HttpStatus.BAD_REQUEST );
@@ -246,7 +249,7 @@ public class APICustomerRequestController extends APIController {
         }
 
         // This customer exists, now return the list of orders.
-        return new ResponseEntity<List<CustomerRequest>>( customer.getOrders(), HttpStatus.OK );
+        return new ResponseEntity( customer.getOrders(), HttpStatus.OK );
 
     }
 

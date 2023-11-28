@@ -7,7 +7,8 @@ app.controller('CustomerController', function($scope, $http, $q) {
 
     // Function to fetch orders from the server
     $scope.fetchOrders = function() {
-        $http.get("/api/v1/orders").then(function(response) {
+		var name = sessionStorage.getItem("username");
+        $http.get("/api/v1/orders/" + name).then(function(response) {
             // Update orders data with the fetched data
             $scope.orders = response.data;
         });
