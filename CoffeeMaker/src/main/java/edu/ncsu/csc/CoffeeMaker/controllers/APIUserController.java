@@ -218,7 +218,7 @@ public class APIUserController extends APIController {
             staffService.save( new Staff( "Barista", "Barista", Role.BARISTA ) );
         }
 
-        if ( customerService.findByUsername( "Manager" ) == null ) {
+        if ( managerService.findByUsername( "Manager" ) == null ) {
             managerService.save( new Manager( "Manager", "Manager" ) );
         }
 

@@ -14,6 +14,8 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
 		}).catch(function(err) {
 			console.log(err);
 		});
+		
+		//Go get the orders information and change up the page
 	}
 	
 	$scope.chartData = {
