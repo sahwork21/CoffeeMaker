@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import edu.ncsu.csc.CoffeeMaker.models.enums.OrderState;
 
 /**
@@ -28,14 +30,15 @@ public class CustomerRequest extends DomainObject {
     /**
      * The associated Customer that ordered this recipe
      */
+    @JsonManagedReference
     @OneToOne ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private Customer   customer;
     /**
      * The associated Recipe that this order contains. Will be used to update
-     * the inventory and check prices.
+     * the inventory and check prices. This is just the recipe name that is
+     * looked up.
      */
-    @OneToOne ( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-    private Recipe     recipe;
+    private String     recipe;
     // private Date date;
     /**
      * The state of the order as an FSM. The order will be made by a Customer
@@ -59,7 +62,7 @@ public class CustomerRequest extends DomainObject {
      *            made on fulfills
      *
      */
-    public CustomerRequest ( final Customer customer, final Recipe recipe ) {
+    public CustomerRequest ( final Customer customer, final String recipe ) {
         // this.id = id;
         this.customer = customer;
         this.recipe = recipe;
@@ -145,7 +148,7 @@ public class CustomerRequest extends DomainObject {
      *
      * @return recipe that will be made during this order's fulfillment
      */
-    public Recipe getRecipe () {
+    public String getRecipe () {
         return recipe;
     }
 
@@ -155,7 +158,7 @@ public class CustomerRequest extends DomainObject {
      * @param recipe
      *            the recipe that will be made and linked to this order
      */
-    public void setRecipe ( final Recipe recipe ) {
+    public void setRecipe ( final String recipe ) {
         this.recipe = recipe;
     }
 

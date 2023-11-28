@@ -42,6 +42,7 @@ public class CustomerRequestService extends Service<CustomerRequest, Long> {
      * @return a list of orders with the same status as what was called
      */
     public List<CustomerRequest> findByStatus ( final OrderState status ) {
+
         return cusRepository.findByStatus( status );
     }
 

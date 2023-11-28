@@ -16,8 +16,8 @@ app.controller('BaristaController', function($scope, $http, $q) {
 		// This removes the order from the array. Used for testing
 		$scope.orders = $scope.orders.filter(anOrder => anOrder !== order);
 		
-		// Send API request
-		$http.put("/api/v1/orders/fulfill", order);
+		// Send API request so we can find by id
+		$http.put("/api/v1/orders/fulfill", order.id);
 		
 		// Reload current orders
 		$scope.fetchOrders();
