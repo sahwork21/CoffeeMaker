@@ -47,6 +47,11 @@ public class CustomerRequest extends DomainObject {
      * become history.
      */
     private OrderState status;
+
+    /**
+     * This is the amount of payment the user input into the object
+     */
+    private int        payment;
     // private Long orderNumber;
 
     /**
@@ -62,11 +67,12 @@ public class CustomerRequest extends DomainObject {
      *            made on fulfills
      *
      */
-    public CustomerRequest ( final Customer customer, final String recipe ) {
+    public CustomerRequest ( final Customer customer, final String recipe, final int payment ) {
         // this.id = id;
         this.customer = customer;
         this.recipe = recipe;
         // this.date = date;
+        this.payment = payment;
 
         this.status = OrderState.UNFULFILLED;
     }
@@ -122,6 +128,25 @@ public class CustomerRequest extends DomainObject {
     public void setStatus ( final OrderState status ) {
         // Add some checks for moving from state to state.
         this.status = status;
+    }
+
+    /**
+     * Return the payment amount of this order
+     *
+     * @return the amount paid
+     */
+    public int getPayment () {
+        return payment;
+    }
+
+    /**
+     * Set the amount of money that was paid
+     *
+     * @param payment
+     *            the amount paid
+     */
+    public void setPayment ( final int payment ) {
+        this.payment = payment;
     }
 
     /**

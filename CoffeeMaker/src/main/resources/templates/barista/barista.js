@@ -14,12 +14,30 @@ app.controller('BaristaController', function($scope, $http, $q) {
 		console.log(order);
 		
 		// This removes the order from the array. Used for testing
-		$scope.orders = $scope.orders.filter(anOrder => anOrder !== order);
+		//$scope.orders = $scope.orders.filter(anOrder => anOrder !== order);
 		
 		// Send API request so we can find by id
-		$http.put("/api/v1/orders/fulfill", order.id).then(function(success){
-			// Reload current orders
-			$scope.fetchOrders();
+		// Make sure that we can actually make this recipe first
+		$http.post("/api/v1/makecoffee/" + order.recipe, order.payment).then(
+			function(response) {
+					$scope.change = response.data.message;
+					$scope.submissionSuccess = true;
+					
+					// Now we know that making is possible fulfill the order
+					$http.put("/api/v1/orders/fulfill", order.id).then(function(success){
+						// Reload current orders
+						$scope.fetchOrders();
+					}, function(rejection){
+						$scope.submissionFailure = true;
+						$scope.error = "Error while making recipe";
+						// Somebody else already fulfilled it so nothing should happen
+					});
+					
+				}, function(errResponse) {
+					console.log(errResponse);
+					$scope.submissionFailure = true;
+					$scope.error = "Error while making recipe. Not enough ingredients.";
+						
 		});
 		
 		// Reload current orders
