@@ -45,6 +45,7 @@ app.controller('ManageBaristasController', function($scope, $http, $q) {
             $scope.formData.username = "";
             $scope.formData.password = "";
             $scope.invalid.password = false;
+            console.log(success.data.message);
 
             // Fetch updated barista accounts after a new account is created
             $scope.fetchBaristaAccounts();
@@ -54,6 +55,7 @@ app.controller('ManageBaristasController', function($scope, $http, $q) {
             $scope.invalid.password = true;
             // Set an error message for display on the UI
             $scope.error = "Invalid username or Password";
+            console.error("Error: " + err.data.message);
         });
     }
 
