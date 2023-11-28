@@ -12,6 +12,9 @@ app.controller('CustomerController', function($scope, $http, $q) {
 	$scope.onOrderPickup = function(order) {
 		// For testing, removes a order from pickup
 		$scope.orders = $scope.orders.filter(anOrder => anOrder !== order);
+		
+		// Now make the API call to pick it up and move it from state to state
+		//$http.put("api/v1/orders/pickup").then(function(response){});
 	}
   
     // Function to fetch orders from the server
@@ -30,12 +33,16 @@ app.controller('CustomerController', function($scope, $http, $q) {
         $scope.success = false;
         $scope.failure = false;
 
-        // Send a PUT request to the server to pick up the order
-        $http.put("/api/vi/orders/pickup", order).then(function(response){
+		var id = order.id;
+
+        // Send a PUT request to the server to pick up the order by its id
+        $http.put("/api/vi/orders/pickup", id);/*.then(function(response){
             // On success, set the success flag to true
             $scope.success = true;
             // Log a success message
+            console.log(response.data);
             console.log("Successfully picked up " + order.name);
+            $scope.fetchOrders();
         }, function(rejection) {
             // On failure, set the failure flag to true
             console.error("Error while picking up coffee.");
@@ -44,7 +51,8 @@ app.controller('CustomerController', function($scope, $http, $q) {
             $scope.error = rejection.data && rejection.data.message ? rejection.data.message : "Unknown error";
             // Log the entire rejection object for debugging purposes
             console.log("Rejection object:", rejection);
-        });
+        });*/
+        $scope.fetchOrders();
     }
 
 
