@@ -17,10 +17,13 @@ app.controller('BaristaController', function($scope, $http, $q) {
 		$scope.orders = $scope.orders.filter(anOrder => anOrder !== order);
 		
 		// Send API request so we can find by id
-		$http.put("/api/v1/orders/fulfill", order.id);
+		$http.put("/api/v1/orders/fulfill", order.id).then(function(success){
+			// Reload current orders
+			$scope.fetchOrders();
+		});
 		
 		// Reload current orders
-		$scope.fetchOrders();
+		//$scope.fetchOrders();
 	}
 	
 	$scope.fetchOrders();

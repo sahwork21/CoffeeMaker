@@ -36,7 +36,7 @@ app.controller('CustomerController', function($scope, $http, $q) {
 		var id = order.id;
 
         // Send a PUT request to the server to pick up the order by its id
-        $http.put("/api/vi/orders/pickup", id);/*.then(function(response){
+        $http.put("/api/v1/orders/pickup", order.id);/*.then(function(response){
             // On success, set the success flag to true
             $scope.success = true;
             // Log a success message
