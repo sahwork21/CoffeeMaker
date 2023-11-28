@@ -118,6 +118,7 @@ public class APICustomerRequestController extends APIController {
         req.setCustomer( customer );
         req.setRecipe( recipe.getName() );
         req.setStatus( OrderState.UNFULFILLED );
+        req.setPayment( orderRequest.getPayment() );
 
         customer.addOrder( req );
         customerService.save( customer );

@@ -38,13 +38,13 @@ app.controller('SignInController', function($scope, $http, $q) {
 			//These credentials should only persist for the tab with sessionStorage
 			//Only save it for the customer in the future since we have to reget their orders history
 			let username = $scope.formData.username;
-			let password = $scope.formData.password;
+			//let password = $scope.formData.password;
 			
 			sessionStorage.setItem("username", username);
-			sessionStorage.setItem("password", password);
+			
 			sessionStorage.setItem("userRole", user.roleType);
 			console.log(sessionStorage.getItem("username"));
-			console.log(sessionStorage.getItem("password"));
+			//console.log(sessionStorage.getItem("password"));
 			
 			
 			console.log(user);
@@ -73,6 +73,7 @@ app.controller('SignInController', function($scope, $http, $q) {
 			$scope.success = "Successful login";
 		}, function(rejection) {
 			console.log("Rejection of login loop");
+			console.log(rejection)
 			$scope.success = null;
 			$scope.error = "Invalid username or password";
 		});
