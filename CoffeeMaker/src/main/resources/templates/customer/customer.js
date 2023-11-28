@@ -33,10 +33,10 @@ app.controller('CustomerController', function($scope, $http, $q) {
         $scope.success = false;
         $scope.failure = false;
 
-		var id = order.id;
+		//var id = order.id;
 
         // Send a PUT request to the server to pick up the order by its id
-        $http.put("/api/v1/orders/pickup", order.id);/*.then(function(response){
+        $http.put("/api/v1/orders/pickup", order.id).then(function(response){
             // On success, set the success flag to true
             $scope.success = true;
             // Log a success message
@@ -46,12 +46,13 @@ app.controller('CustomerController', function($scope, $http, $q) {
         }, function(rejection) {
             // On failure, set the failure flag to true
             console.error("Error while picking up coffee.");
+            console.log(order.id);
             $scope.failure = true;
             // Set the error message based on the rejection data or a default message
             $scope.error = rejection.data && rejection.data.message ? rejection.data.message : "Unknown error";
             // Log the entire rejection object for debugging purposes
             console.log("Rejection object:", rejection);
-        });*/
+        });
         $scope.fetchOrders();
     }
 
