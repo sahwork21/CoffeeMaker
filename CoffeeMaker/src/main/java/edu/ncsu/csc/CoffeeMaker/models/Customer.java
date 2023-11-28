@@ -48,7 +48,9 @@ public class Customer extends AbstractUser {
      *            the password of the customer
      */
     public Customer ( final String username, final String password ) {
+
         super( username, password, Role.CUSTOMER );
+        orders = new ArrayList<CustomerRequest>();
     }
 
     /**

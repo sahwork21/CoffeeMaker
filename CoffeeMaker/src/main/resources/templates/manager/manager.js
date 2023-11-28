@@ -17,9 +17,13 @@ app.controller('ManagerController', function($scope, $http, $q) {
 
 	$scope.fetchOrders = function() {
 		$http.get("/api/v1/orders/history").then(function(response) {
+			console.log(response);
 			$scope.orders = response.data;
+			console.log($scope.orders);
 		});
+		
+		// Populate the most popular recipes from from our list of historic orders
 	}
 
-	//$scope.fetchOrders();
+	$scope.fetchOrders();
 });

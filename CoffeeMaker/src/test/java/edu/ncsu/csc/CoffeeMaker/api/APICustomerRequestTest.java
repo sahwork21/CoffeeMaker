@@ -99,13 +99,16 @@ class APICustomerRequestTest {
     public void testStateChanger () throws Exception {
         // Create some orders and test that we can get them
         final Customer c = new Customer( "cus1", "p1" );
-        cusService.save( c );
 
         // Save an order
         final CustomerRequest o = new CustomerRequest();
         o.setCustomer( c );
         o.setRecipe( "caf" );
         o.setStatus( OrderState.UNFULFILLED );
+
+        c.addOrder( o );
+
+        cusService.save( c );
 
         orderService.save( o );
 
@@ -121,6 +124,21 @@ class APICustomerRequestTest {
         assertEquals( 0, orderService.findByStatus( OrderState.UNFULFILLED ).size() );
         assertEquals( 1, orderService.findByStatus( OrderState.READY_TO_PICKUP ).size() );
 
+        // Now pick up the order
+
+        mvc.perform( put( "/api/v1/orders/pickup" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( o.getId() ) ) ).andExpect( status().isOk() );
+
+        // Make sure lists changed properly
+        assertEquals( 0, orderService.findByStatus( OrderState.UNFULFILLED ).size() );
+        assertEquals( 0, orderService.findByStatus( OrderState.READY_TO_PICKUP ).size() );
+
+        assertEquals( 1, orderService.findByStatus( OrderState.HISTORY ).size() );
+
+        // Make sure our customer no longer has an order
+        final Customer savedC = cusService.findByUsername( "cus1" );
+
+        assertEquals( 0, savedC.getOrders().size() );
     }
 
 }

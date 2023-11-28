@@ -118,11 +118,13 @@ public class APICustomerRequestController extends APIController {
         req.setCustomer( customer );
         req.setRecipe( recipe.getName() );
         req.setStatus( OrderState.UNFULFILLED );
+        req.setPayment( orderRequest.getPayment() );
 
         customer.addOrder( req );
+        customerService.save( customer );
 
         // Now save it
-        orderService.save( req );
+        // orderService.save( req );
         // Calculate the change.
         final String change = "$" + ( orderRequest.payment - recipe.getPrice() );
         return new ResponseEntity<String>( successResponse( change ), HttpStatus.OK );
@@ -210,7 +212,7 @@ public class APICustomerRequestController extends APIController {
 
         // Remove this get operation of cusotmer if it screws things up
         customer.removeOrder( req );
-        customerService.save( customer );
+        // customerService.save( customer );
 
         // Go to this if we saving customer twice causes issues
         // req.getCustomer().removeOrder( req );
@@ -228,7 +230,9 @@ public class APICustomerRequestController extends APIController {
      */
     @GetMapping ( BASE_PATH + "/orders/history" )
     public List<CustomerRequest> getOrdersHistory () {
-        return orderService.findByStatus( OrderState.HISTORY );
+        final List<CustomerRequest> os = orderService.findByStatus( OrderState.HISTORY );
+
+        return os;
     }
 
     /**
