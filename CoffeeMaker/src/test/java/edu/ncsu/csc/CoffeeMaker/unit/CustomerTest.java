@@ -67,8 +67,8 @@ class CustomerTest {
         assertEquals( Role.CUSTOMER, c2.getRoleType() );
 
         // Save both of these with different services
-        cs.save( c2 );
-        us.save( c1 );
+        cs.create( c2 );
+        us.create( c1 );
 
         assertEquals( 2, cs.findAll().size() );
         assertEquals( 2, us.findAll().size() );

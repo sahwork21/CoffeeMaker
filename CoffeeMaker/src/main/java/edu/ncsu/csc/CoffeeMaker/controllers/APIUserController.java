@@ -98,13 +98,13 @@ public class APIUserController extends APIController {
 
         if ( user.getRoleType() == Role.BARISTA ) {
             final Staff insertedUser = new Staff( user.getUsername(), user.getPassword(), user.getRoleType() );
-            staffService.save( insertedUser );
+            staffService.create( insertedUser );
             return new ResponseEntity(
                     successResponse( user.getUsername() + " staff account was successfully created" ), HttpStatus.OK );
         }
         else if ( user.getRoleType() == Role.MANAGER ) {
             final Manager insertedUser = new Manager( user.getUsername(), user.getPassword() );
-            managerService.save( insertedUser );
+            managerService.create( insertedUser );
             return new ResponseEntity(
                     successResponse( user.getUsername() + " manager account was successfully created" ),
                     HttpStatus.OK );
@@ -113,7 +113,7 @@ public class APIUserController extends APIController {
             // Create a Customer as a last resort since this isn't a manager or
             // staff type
             final Customer insertedUser = new Customer( user.getUsername(), user.getPassword() );
-            customerService.save( insertedUser );
+            customerService.create( insertedUser );
             return new ResponseEntity(
                     successResponse( user.getUsername() + " customer account was successfully created" ),
                     HttpStatus.OK );
@@ -211,15 +211,15 @@ public class APIUserController extends APIController {
 
         // Make sure there already isn't a user with matching name
         if ( customerService.findByUsername( "Customer" ) == null ) {
-            customerService.save( new Customer( "Customer", "Customer" ) );
+            customerService.create( new Customer( "Customer", "Customer" ) );
         }
 
         if ( staffService.findByUsername( "Barista" ) == null ) {
-            staffService.save( new Staff( "Barista", "Barista", Role.BARISTA ) );
+            staffService.create( new Staff( "Barista", "Barista", Role.BARISTA ) );
         }
 
         if ( managerService.findByUsername( "Manager" ) == null ) {
-            managerService.save( new Manager( "Manager", "Manager" ) );
+            managerService.create( new Manager( "Manager", "Manager" ) );
         }
 
     }
