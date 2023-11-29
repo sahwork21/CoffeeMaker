@@ -241,10 +241,10 @@ class APIUserTest {
         final Manager m = new Manager( "man1", "m1" );
         final Staff s = new Staff( "bar1", "b1", Role.BARISTA );
 
-        service.save( s );
-        service.save( c );
+        service.create( s );
+        service.create( c );
 
-        service.save( m );
+        service.create( m );
 
         assertEquals( 3, service.findAll().size() );
 
