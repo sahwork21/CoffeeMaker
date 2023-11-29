@@ -65,6 +65,10 @@ public class CustomerRequest extends DomainObject {
      * @param recipe
      *            the associated recipe for this object. The recipe that will be
      *            made on fulfills
+     * 
+     * @param payment
+     *            the associated payment for this object. The payment that will
+     *            be made on fulfills
      *
      */
     public CustomerRequest ( final Customer customer, final String recipe, final int payment ) {
