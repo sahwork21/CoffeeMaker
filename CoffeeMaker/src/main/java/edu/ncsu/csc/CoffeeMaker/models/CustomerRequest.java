@@ -1,5 +1,8 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,6 +55,11 @@ public class CustomerRequest extends DomainObject {
      * This is the amount of payment the user input into the object
      */
     private int        payment;
+
+    /**
+     * The time the order was placed
+     */
+    private String     placedAt;
     // private Long orderNumber;
 
     /**
@@ -65,6 +73,8 @@ public class CustomerRequest extends DomainObject {
      * @param recipe
      *            the associated recipe for this object. The recipe that will be
      *            made on fulfills
+     * @param payment
+     *            the amount the user input for paying
      *
      */
     public CustomerRequest ( final Customer customer, final String recipe, final int payment ) {
@@ -74,7 +84,35 @@ public class CustomerRequest extends DomainObject {
         // this.date = date;
         this.payment = payment;
 
+        setPlacedAt();
+
         this.status = OrderState.UNFULFILLED;
+    }
+
+    /**
+     * Get the string of the time of order placement
+     *
+     * @return placedAt the time this order was placed
+     */
+    public String getPlacedAt () {
+        return placedAt;
+    }
+
+    /**
+     * Set the time string of this order on creation. Does this automatically
+     * with the Date time.
+     *
+     *
+     */
+    public void setPlacedAt () {
+        // Create a timestamp in HH:mm a format
+        final LocalDateTime myDateObj = LocalDateTime.now();
+
+        final DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern( "HH:mm a" );
+
+        final String formattedDate = myDateObj.format( myFormatObj );
+
+        placedAt = formattedDate;
     }
 
     /**
@@ -144,8 +182,13 @@ public class CustomerRequest extends DomainObject {
      *
      * @param payment
      *            the amount paid
+     * @throws IllegalArgumentException
+     *             throws when payment is negative
      */
     public void setPayment ( final int payment ) {
+        if ( payment < 0 ) {
+            throw new IllegalArgumentException( "Payment must be positive" );
+        }
         this.payment = payment;
     }
 

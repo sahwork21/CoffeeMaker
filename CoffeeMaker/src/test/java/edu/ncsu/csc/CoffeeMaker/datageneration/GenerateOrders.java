@@ -1,6 +1,7 @@
 package edu.ncsu.csc.CoffeeMaker.datageneration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.transaction.Transactional;
@@ -78,6 +79,7 @@ class GenerateOrders {
 
         assertEquals( 1, savedCs1.getOrders().size() );
         assertEquals( "Cafe", savedCs1.getOrders().get( 0 ).getRecipe() );
+        assertNotNull( savedCs1.getOrders().get( 0 ).getPlacedAt() );
         // assertEquals( 4, (int) savedCs1.getOrders().get( 0
         // ).getRecipe().getPrice() );
 
