@@ -6,16 +6,18 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
 	$scope.popularRecipes = [ ["Coffee", 2], ["Latte", 1 ], ["Water", 1] ] // Populate this with the top 3 (max) recipes
 
 
-
+	// Function to fetch orders from the server
 	$scope.fetchOrders = function() {
 		$http.get("/api/v1/orders/history").then(function(response) {
 			$scope.orders = response.data;
-			$scope.findPopular(); // Call findPopular after updating orders
+			// Call findPopular after updating orders
+			$scope.findPopular(); 
 		}, function(rejection) {
 			console.error(rejection.data.message);
 		});
 	}
 	
+	// Function to find popular recipes based on order data
 	$scope.findPopular = function() {
 	    var recipeCounts = {}; // Object to store the count of each recipe
 	
@@ -49,6 +51,7 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
     	$scope.updatePieChartData();
 	};
 	
+	// Dummy data for a bar chart
 	$scope.chartData = {
     	labels: ["8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM"],
     	datasets: [{
@@ -85,6 +88,7 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
   	// Get the canvas element
 	var chart2 = document.getElementById('chart2').getContext('2d');
 	
+	// Initialize data for the pie chart
 	$scope.chart2Data = {
 	    labels: [], // Initialize labels array
 	    datasets: [{
@@ -98,12 +102,14 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
 	
 	// Update Pie chart data based on popularRecipes
 	$scope.updatePieChartData = function() {
+	    // Extract recipe names for labels
 	    $scope.chart2Data.labels = $scope.popularRecipes.map(function(recipe) {
-	        return recipe[0]; // Extract recipe names
+	        return recipe[0];
 	    });
 	
+		// Extract recipe counts for data	
 	    $scope.chart2Data.datasets[0].data = $scope.popularRecipes.map(function(recipe) {
-	        return recipe[1]; // Extract recipe counts
+	        return recipe[1];
 	    });
 	
 	    // You can set custom colors for each recipe, or use a color palette
@@ -121,5 +127,6 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
 		});
 	};
 	
+	// Call fetchOrders to initialize the data
     $scope.fetchOrders();
 });
