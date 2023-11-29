@@ -126,7 +126,7 @@ public class APICustomerRequestController extends APIController {
         // Now save it
         // orderService.save( req );
         // Calculate the change.
-        final String change = "" + ( orderRequest.payment - recipe.getPrice() );
+        final String change = "$" + ( orderRequest.payment - recipe.getPrice() );
         return new ResponseEntity<String>( successResponse( change ), HttpStatus.OK );
     }
 
