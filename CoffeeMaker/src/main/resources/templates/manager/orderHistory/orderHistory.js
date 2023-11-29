@@ -3,21 +3,55 @@ var app = angular.module('myApp', []);
 app.controller('OrderHistoryController', function($scope, $http, $q) {
 	// HTML expects accounts to be formatted as an object with the username field. 
 	$scope.orders = [{'id':69420, 'status': 'Completed', date: '10:25 PM November 20, 2023', recipe:'Coffee', customer:'Karen'}, {'id':69420, 'status': 'Completed', date: '10:25 PM November 20, 2023', recipe:'Coffee', customer:'Karen'}];
-	$scope.popularRecipes = [ ["Coffee", 5], ["Latte", 2 ], ["Water", 2] ] // Populate this with the top 3 (max) recipes
+	$scope.popularRecipes = [ ["Coffee", 2], ["Latte", 1 ], ["Water", 1] ] // Populate this with the top 3 (max) recipes
 
 
-
+	// Function to fetch orders from the server
 	$scope.fetchOrders = function() {
-		$http.get("/api/v1/users/barista").then(function(response) {
-			$scope.accounts = response.data;
-			console.log(response.data);
-		}).catch(function(err) {
-			console.log(err);
+		$http.get("/api/v1/orders/history").then(function(response) {
+			$scope.orders = response.data;
+			// Call findPopular after updating orders
+			$scope.findPopular(); 
+		}, function(rejection) {
+			console.error(rejection.data.message);
 		});
-		
-		//Go get the orders information and change up the page
 	}
 	
+	// Function to find popular recipes based on order data
+	$scope.findPopular = function() {
+	    var recipeCounts = {}; // Object to store the count of each recipe
+	
+	    // Iterate through orders and count occurrences of each recipe
+	    $scope.orders.forEach(function(order) {
+	        var recipe = order.recipe;
+	        if (recipeCounts[recipe]) {
+	            recipeCounts[recipe]++;
+	        } else {
+	            recipeCounts[recipe] = 1;
+	        }
+	    });
+	
+	    // Convert the recipeCounts object to an array of [recipe, count] pairs
+	    var recipeArray = [];
+	    for (var recipe in recipeCounts) {
+	        recipeArray.push([recipe, recipeCounts[recipe]]);
+	    }
+	
+	    // Sort the recipeArray by count in descending order
+	    recipeArray.sort(function(a, b) {
+	        return b[1] - a[1];
+	    });
+	
+	    // Take the top 3 recipes (or fewer if there are less than 3)
+	    var top3Recipes = recipeArray.slice(0, 3);
+	
+	    // Update $scope.popularRecipes
+	    $scope.popularRecipes = top3Recipes;
+	    // Update Pie chart data based on popularRecipes
+    	$scope.updatePieChartData();
+	};
+	
+	// Dummy data for a bar chart
 	$scope.chartData = {
     	labels: ["8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM"],
     	datasets: [{
@@ -52,36 +86,47 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
   	};
 
   	// Get the canvas element
-  	var chart1 = document.getElementById('chart1').getContext('2d');
-
-  	// Create a new chart instance using AngularJS $scope variables
-  	$scope.myChart = new Chart(chart1, {
-    	type: 'bar',
-    	data: $scope.chartData,
-    	options: $scope.chartOptions
-  	});
-  	
-  	
-  	// Get the canvas element
-  	var chart2 = document.getElementById('chart2').getContext('2d');
-  
+	var chart2 = document.getElementById('chart2').getContext('2d');
+	
+	// Initialize data for the pie chart
 	$scope.chart2Data = {
-    	labels: ["Coffee", "Latte", "Water"], // The top 3 recipes most popular
-    	datasets: [{
-		      label: 'Orders',
-		      data: [5, 3, 2], // The recipes # orders 
-		      backgroundColor: ['rgba(130, 100, 65, 1)', 'rgba(65, 100, 130, 1)', 'rgba(255, 190, 80, 1)'],
-		      borderColor: 'rgba(255, 255, 255, 1)',
-		      borderWidth: 3,
-    	}]
-  	};
-  	
-
-  // Create a new pie chart instance using AngularJS $scope variables
-  $scope.chart2 = new Chart(chart2, {
-    type: 'pie', // Set chart type to 'pie'
-    data: $scope.chart2Data,
-    options: $scope.chartOptions
-  });
-
+	    labels: [], // Initialize labels array
+	    datasets: [{
+	        label: 'Orders',
+	        data: [], // Initialize data array
+	        backgroundColor: [], // Initialize backgroundColor array
+	        borderColor: 'rgba(255, 255, 255, 1)',
+	        borderWidth: 3,
+	    }]
+	};
+	
+	// Update Pie chart data based on popularRecipes
+	$scope.updatePieChartData = function() {
+	    // Extract recipe names for labels
+	    $scope.chart2Data.labels = $scope.popularRecipes.map(function(recipe) {
+	        return recipe[0];
+	    });
+	
+		// Extract recipe counts for data	
+	    $scope.chart2Data.datasets[0].data = $scope.popularRecipes.map(function(recipe) {
+	        return recipe[1];
+	    });
+	
+	    // You can set custom colors for each recipe, or use a color palette
+	    $scope.chart2Data.datasets[0].backgroundColor = [
+	        'rgba(130, 100, 65, 1)',
+	        'rgba(65, 100, 130, 1)',
+	        'rgba(255, 190, 80, 1)'
+	    ];
+	    
+	    // Create a new pie chart instance using AngularJS $scope variables
+		$scope.chart2 = new Chart(chart2, {
+		    type: 'pie', // Set chart type to 'pie'
+		    data: $scope.chart2Data,
+		    options: $scope.chartOptions
+		});
+	};
+	
+	// Call fetchOrders to initialize the data
+    $scope.fetchOrders();
 });

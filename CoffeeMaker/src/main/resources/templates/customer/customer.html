@@ -23,11 +23,11 @@
 					<div class="flex items-center justify-between">
 						<div>
 							<p class="text-lg font-semibold">Order {{order.id}}</p>
-							<p class="font-light text-sm">Placed on {{order.placedAt}}</p>
+							<p class="font-light text-sm">Placed at {{order.placedAt}}</p>
 						</div>
 						
 						<div>
-							<button ng-show="order.status == 'READY_TO_PICKUP'" ng-click="pickupOrder(order)" class="p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-700">Picked Up</button>
+							<button ng-show="order.status == 'Ready To Pickup'" ng-click="pickupOrder(order)" class="p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-700">Pick Up</button>
 						</div>
 
 					</div>
