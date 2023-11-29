@@ -108,7 +108,7 @@ public class CustomerRequest extends DomainObject {
         // Create a timestamp in HH:mm a format
         final LocalDateTime myDateObj = LocalDateTime.now();
 
-        final DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern( "K:mm a" );
+        final DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern( "h:mm a" );
 
         final String formattedDate = myDateObj.format( myFormatObj );
 
