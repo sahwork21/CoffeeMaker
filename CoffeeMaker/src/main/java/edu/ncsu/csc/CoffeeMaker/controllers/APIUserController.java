@@ -137,9 +137,9 @@ public class APIUserController extends APIController {
      * @return a response entity of 4XX on incorrect usernames or passwords. 200
      *         and the JSON of user on successful logins
      */
-    @GetMapping ( BASE_PATH + "/users/{username}/{password}" )
+    @PostMapping ( BASE_PATH + "/users/login/{username}" )
     public ResponseEntity loginUser ( @PathVariable ( "username" ) final String username,
-            @PathVariable ( "password" ) final String password ) {
+            @RequestBody final String password ) {
         final AbstractUser user = userService.findByUsername( username );
 
         // If the user is null send back a 400 error since there is no
@@ -223,5 +223,57 @@ public class APIUserController extends APIController {
         }
 
     }
+
+    // /**
+    // * Login info containing the raw password and username
+    // */
+    // private class LoginInfo {
+    // /**
+    // * username of the login
+    // */
+    // private String username;
+    //
+    // /**
+    // * password of the login
+    // */
+    // private String password;
+    //
+    // /**
+    // * Get the username of the login form
+    // *
+    // * @return username of login info
+    // */
+    // public String getUsername () {
+    // return username;
+    // }
+    //
+    // /**
+    // * Set the username
+    // *
+    // * @param username
+    // * of the form
+    // */
+    // public void setUsername ( final String username ) {
+    // this.username = username;
+    // }
+    //
+    // /**
+    // * Return the password of the form
+    // *
+    // * @return password of the form
+    // */
+    // public String getPassword () {
+    // return password;
+    // }
+    //
+    // /**
+    // * Set the password
+    // *
+    // * @param password
+    // */
+    // public void setPassword ( final String password ) {
+    // this.password = password;
+    // }
+    // }
 
 }

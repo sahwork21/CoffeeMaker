@@ -24,12 +24,12 @@ app.controller('SignInController', function($scope, $http, $q) {
 	
 	$scope.onSubmit = function() {
 		//We need to pass in variables as JSON format for API calls
-		let rawPassword = {password:$scope.formData.password};
+		let rawPassword = $scope.formData.password;
 		
 		
 		
 		
-		$http.get("/api/v1/users/" + $scope.formData.username + "/" + $scope.formData.password).then(function(response) {
+		$http.post("/api/v1/users/login/" + $scope.formData.username , rawPassword).then(function(response) {
 			console.log("Successful login loop")
 			let user = response.data;
 			
