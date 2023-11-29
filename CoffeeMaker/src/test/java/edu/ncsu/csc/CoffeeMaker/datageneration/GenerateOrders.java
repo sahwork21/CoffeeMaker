@@ -61,6 +61,7 @@ class GenerateOrders {
 
         c1.addOrder( cr1 );
 
+        cr1.setPlacedAt();
         // Make sure you link up all the objects correctly
 
         rs.save( r1 );
