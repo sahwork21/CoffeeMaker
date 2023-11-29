@@ -14,7 +14,7 @@ function NavBarController($scope, $element, $attrs) {
 	ctrl.signOut = function() {
 		sessionStorage.setItem("username", null);
 		sessionStorage.setItem("userRole", null);
-		location.href = "signin.html";
+		location.href = "../signin.html";
 	}
 	
 	ctrl.goToMain = function() {
