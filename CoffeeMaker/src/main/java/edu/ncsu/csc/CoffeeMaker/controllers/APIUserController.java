@@ -204,10 +204,10 @@ public class APIUserController extends APIController {
      * Create a manager, barista,and customer. This should only be used for the
      * demo to make generating users easier.
      *
-     *
+     * @return an ok response since all the users were created or already exist
      */
     @PostMapping ( BASE_PATH + "/generateusers" )
-    public void generateDemoUsers () {
+    public ResponseEntity generateDemoUsers () {
 
         // Make sure there already isn't a user with matching name
         if ( customerService.findByUsername( "Customer" ) == null ) {
@@ -221,7 +221,7 @@ public class APIUserController extends APIController {
         if ( managerService.findByUsername( "Manager" ) == null ) {
             managerService.create( new Manager( "Manager", "Manager" ) );
         }
-
+        return new ResponseEntity( successResponse( "Demo users made" ), HttpStatus.OK );
     }
 
     // /**

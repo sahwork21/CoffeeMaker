@@ -75,8 +75,8 @@ class GenerateUsersSimple {
     public void testUserGeneration () {
         final Customer c = new Customer( "customer", "password12" );
         final Manager m = new Manager( "manager", "password34" );
-        us.save( m );
-        us.save( c );
+        us.create( m );
+        us.create( c );
 
         assertEquals( 2, us.findAll().size() );
 
@@ -121,8 +121,8 @@ class GenerateUsersSimple {
 
         empty.setRoleType( Role.MANAGER );
 
-        cs.save( c );
-        cs.save( empty );
+        cs.create( c );
+        cs.create( empty );
 
         assertEquals( 2, cs.findAll().size() );
 

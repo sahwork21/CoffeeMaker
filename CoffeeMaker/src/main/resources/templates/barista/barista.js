@@ -7,6 +7,10 @@ app.controller('BaristaController', function($scope, $http, $q) {
 	$scope.fetchOrders = function() {
 		$http.get("/api/v1/orders/unfulfilled").then(function(response) {
 			$scope.orders = response.data;
+			//Update the order status to be prettier
+            $scope.orders.forEach(order=>{
+				order.status = 'In Progress';
+			});
 		});
 	}
 	

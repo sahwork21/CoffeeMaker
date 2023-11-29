@@ -120,6 +120,9 @@ public class APICustomerRequestController extends APIController {
         req.setStatus( OrderState.UNFULFILLED );
         req.setPayment( orderRequest.getPayment() );
 
+        // Set the time that this order was processed
+        req.setPlacedAt();
+
         customer.addOrder( req );
         customerService.save( customer );
 
