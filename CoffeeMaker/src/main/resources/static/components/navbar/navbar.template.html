@@ -7,8 +7,8 @@
 			</div>
 
 			<div ng-show="$ctrl.userRole" class="flex items-center justify-end gap-2 p-1.5">
-				<p class="text-stone-500">{{$ctrl.username}}</p>
-				<button ng-click="$ctrl.signOut()" class="px-2 py-1 text-sm text-stone-500 ring-1 ring-stone-500 rounded-md hover:bg-gray-100 hover:text-stone-700">Sign out</button>
+				<p class="hidden text-stone-500 sm:block">{{$ctrl.username}}</p>
+				<button ng-click="$ctrl.signOut()" class="whitespace-nowrap px-2 py-1 text-sm text-stone-500 ring-1 ring-stone-500 rounded-md hover:bg-gray-100 hover:text-stone-700">Sign out</button>
 			</div>
 		</div>
 

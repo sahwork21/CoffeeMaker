@@ -32,7 +32,7 @@
 		<!-- Create new Barista section -->
 		<form name="form" ng-submit="onSubmit()">
 			<h1 class="my-2 text-lg font-semibold text-gray-500">Create new Barista account</h1>
-			<div class="flex justify-between w-full p-2 rounded-lg bg-white">
+			<div class="flex flex-col sm:flex-row justify-between w-full p-2 rounded-lg bg-white">
 
 				<div class="">
 					<div>
@@ -55,7 +55,7 @@
 				<div class="flex flex-col justify-end">
 					<p ng-show="error" class="text-red-500 text-right">{{error}}</p>
 					<button type="submit"
-						class="w-max p-2 mt-6 ml-auto text-white rounded-lg bg-blue-500 hover:bg-blue-700">Create
+						class="w-full sm:w-max p-2 mt-6 ml-auto text-white rounded-lg bg-blue-500 hover:bg-blue-700">Create
 						account</button>
 
 				</div>

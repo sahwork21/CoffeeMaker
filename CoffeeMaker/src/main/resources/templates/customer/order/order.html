@@ -18,11 +18,13 @@
 		<div class="fixed inset-0 z-10 w-screen overflow-y-auto bg-gray-500 bg-opacity-75">
 			<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 				<div
-					class="relative transform overflow-hidden rounded-lg bg-white p-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl">
+					class="w-full relative transform overflow-hidden rounded-lg bg-white p-4 text-left shadow-xl transition-all sm:my-8 max-w-xl">
 
 
-					<div ng-show="success" class="rounded-full mb-2 px-2 mx-2 bg-green-200 text-green-700 truncate">Coffee was ordered. Your change is {{change}}.</div>
-					<div ng-show="failure" class="rounded-full mb-2 px-2 mx-2 bg-red-200 text-red-700 truncate">An error occurred: {{error}}</div>
+					<div ng-show="success" class="rounded-full mb-2 px-2 mx-2 bg-green-200 text-green-700 truncate">
+						Coffee was ordered. Your change is {{change}}.</div>
+					<div ng-show="failure" class="rounded-full mb-2 px-2 mx-2 bg-red-200 text-red-700 truncate">An error
+						occurred: {{error}}</div>
 
 					<div class="flex gap-4">
 						<div class="flex justify-center items-center bg-stone-500 rounded-lg p-4">
@@ -49,7 +51,7 @@
 					</div>
 
 
-					<div class="flex justify-end items-center gap-3 mt-5">
+					<div class="flex flex-col justify-end items-center gap-3 mt-5 sm:flex-row">
 						<div
 							class="relative flex items-center ring-2 rounded-md ring-gray-100 focus-within:ring-blue-500">
 							<p class="absolute text-sm text-gray-500 -top-3 left-2 px-1 bg-white">Payment</p>
@@ -58,9 +60,12 @@
 								placeholder="Enter amount" required="true" min="0"
 								class="outline-none py-1 px-2 rounded-md" />
 						</div>
-						<button ng-click="cancelPopup()" class="hover:text-gray-400">Cancel</button>
-						<button ng-click="orderRecipe()"
-							class="bg-blue-500 text-white rounded-md p-2 px-4 hover:bg-blue-700">Order</button>
+						<div class="flex gap-4">
+							<button ng-click="cancelPopup()" class="hover:text-gray-400">Cancel</button>
+							<button ng-click="orderRecipe()"
+								class="bg-blue-500 text-white rounded-md p-2 px-4 hover:bg-blue-700">Order</button>
+						</div>
+
 					</div>
 				</div>
 			</div>
@@ -70,7 +75,7 @@
 
 	<!-- Back button -->
 	<div class="fixed bottom-4 left-4">
-    <a href="/customer" class="bg-blue-500 text-white rounded-md p-2 px-4 hover:bg-blue-700">Back</a>
+		<a href="/customer" class="bg-blue-500 text-white rounded-md p-2 px-4 hover:bg-blue-700">Back</a>
 	</div>
 
 	<div class="max-w-7xl mx-auto min-h-screen p-3 mt-10">
