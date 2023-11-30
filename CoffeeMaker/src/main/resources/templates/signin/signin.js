@@ -18,7 +18,8 @@ app.controller('SignInController', function($scope, $http, $q) {
 		$http.post("/api/v1/generateusers").then(function(response){
 			
 		})
-		$scope.sucess = "Made demo users"
+		$scope.sucess = "Made demo users";
+		$scope.error = null;
 		
 	}
 	

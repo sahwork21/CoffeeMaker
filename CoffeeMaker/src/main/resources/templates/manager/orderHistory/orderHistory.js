@@ -8,8 +8,21 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
 
 	// Function to fetch orders from the server
 	$scope.fetchOrders = function() {
-		$http.get("/api/v1/orders/history").then(function(response) {
+		//Fetch all the orders possible
+		$http.get("/api/v1/orders").then(function(response) {
 			$scope.orders = response.data;
+			
+			//Clean the status labels for a pretty picture
+			$scope.orders.forEach(order=>{
+				if(order.status === "UNFULFILLED"){
+					order.status = "Incomplete";
+				}else if(order.status === "READY_TO_PICKUP"){
+					order.status = "Ready To Pickup";
+				}else{
+					order.status = "Completed";
+				}
+			});
+			
 			// Call findPopular after updating orders
 			$scope.findPopular(); 
 			$scope.barGraph();
