@@ -45,4 +45,6 @@ app.controller('BaristaController', function($scope, $http, $q) {
 	}
 	
 	$scope.fetchOrders();
+	
+	setInterval($scope.fetchOrders, 500);
 });

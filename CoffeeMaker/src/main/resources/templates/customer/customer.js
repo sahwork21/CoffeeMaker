@@ -23,6 +23,17 @@ app.controller('CustomerController', function($scope, $http, $q) {
         $http.get("/api/v1/orders/" + name).then(function(response) {
             // Update orders data with the fetched data
             $scope.orders = response.data;
+            
+            //Update the order status to be prettier
+            $scope.orders.forEach(order=>{
+				if(order.status === "UNFULFILLED"){
+					order.status = "In Progress";
+				}
+				else{
+					order.status = "Ready To Pickup"
+				}
+			});
+				
         });
     }
   
@@ -59,4 +70,6 @@ app.controller('CustomerController', function($scope, $http, $q) {
 
     // Fetch orders when the controller is initialized
     $scope.fetchOrders();
+    
+    setInterval($scope.fetchOrders, 500);
 });
