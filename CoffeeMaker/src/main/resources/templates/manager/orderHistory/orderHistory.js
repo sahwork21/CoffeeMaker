@@ -20,6 +20,47 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
 	
 	// Function to update the bar graph
 	$scope.barGraph = function(){
+		// Update the chart data labels 
+		// Count up the instances of time for each order we have
+            $scope.orders.forEach(order=>{
+				// Get the orders time
+				// Get the hour and am or pm
+				
+				//Verify that the time is a value of 1 to 12
+				//Find hours by splitting at the colon :
+				
+				console.log(order.placedAt);
+				
+				var hour = order.placedAt.split(':')[0];
+				
+				// Parse for the int in the hour value
+				var hourValue = parseInt(hour, 10);
+				
+				console.log(hourValue);
+				
+				
+				
+				// If the value is 8 - 11 am do this
+				/*if(order.placedAt.contains("am") && (hourValue >= 8 && hourValue <= 11)){
+					// am loop
+					
+				}*/
+				
+				// If it is 12 - 8pm add 12 to the time so we can decide later if valid
+				// Should work for 24 hour time too
+				if(order.placedAt.includes("PM") && hourValue < 12){
+					hourValue += 12;
+				}
+				
+				// We only accept hourValue from 8 to 20
+				if(hourValue >= 8 && hourValue <= 20){
+					// Now modify the bar graph
+					// Access the chartData's dataset 0 and increase the data which has order values
+					$scope.chartData.datasets[0].data[hourValue - 8]++;
+				}
+			});
+		
+		
 		// Update the bar graph with the chart data based on times
 		$scope.chart1 = new Chart(chart1, {
 		    type: 'bar', // Set chart type to 'pie'
@@ -68,7 +109,7 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
     	labels: ["8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM"],
     	datasets: [{
 		      label: 'Orders',
-		      data: [2, 4, 5, 8, 15, 17, 15, 16, 14, 12, 10, 10, 6],
+		      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		      backgroundColor: 'rgba(75, 192, 192, 0.2)',
 		      borderColor: 'rgba(75, 192, 192, 1)',
 		      borderWidth: 1,
