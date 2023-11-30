@@ -16,7 +16,7 @@ app.controller('ManagerController', function($scope, $http, $q) {
 	$scope.popularRecipes = [ ["Coffee", 5], ["Latte", 2 ], ["Water", 2] ] // Populate this with the top 3 (max) recipes
 
 	$scope.fetchOrders = function() {
-		$http.get("/api/v1/orders/history").then(function(response) {
+		$http.get("/api/v1/orders").then(function(response) {
 			console.log(response);
 			$scope.orders = response.data;
 			console.log($scope.orders);
