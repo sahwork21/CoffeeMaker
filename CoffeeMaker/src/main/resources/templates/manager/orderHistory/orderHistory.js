@@ -12,10 +12,22 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
 			$scope.orders = response.data;
 			// Call findPopular after updating orders
 			$scope.findPopular(); 
+			$scope.barGraph();
 		}, function(rejection) {
 			console.error(rejection.data.message);
 		});
 	}
+	
+	// Function to update the bar graph
+	$scope.barGraph = function(){
+		// Update the bar graph with the chart data based on times
+		$scope.chart1 = new Chart(chart1, {
+		    type: 'bar', // Set chart type to 'pie'
+		    data: $scope.chartData,
+		    options: $scope.chartOptions
+		});
+	}
+	
 	
 	// Function to find popular recipes based on order data
 	$scope.findPopular = function() {
@@ -85,8 +97,10 @@ app.controller('OrderHistoryController', function($scope, $http, $q) {
 	  },
   	};
 
-  	// Get the canvas element
+  	// Get the canvas elements
 	var chart2 = document.getElementById('chart2').getContext('2d');
+	
+	var chart1 = document.getElementById('chart1').getContext('2d');
 	
 	// Initialize data for the pie chart
 	$scope.chart2Data = {
