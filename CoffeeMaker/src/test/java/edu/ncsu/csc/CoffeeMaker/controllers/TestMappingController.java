@@ -59,21 +59,21 @@ class TestMappingController {
     public void testMappingController () throws Exception {
         // Test that index has the proper title
 
-        final String recipe = mvc.perform( get( "/recipe/" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
-                .getResponse().getContentAsString();
-        assertTrue( recipe.contains( "<title>Add a Recipe</title>" ) );
-
-        final String delete = mvc.perform( get( "/deleterecipe/" ) ).andDo( print() ).andExpect( status().isOk() )
+        final String recipe = mvc.perform( get( "/addRecipe/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
-        assertTrue( delete.contains( "<title>Delete Recipes</title>" ) );
+        assertTrue( recipe.contains( "<title>Add Recipe</title>" ) );
 
-        final String inventory = mvc.perform( get( "/inventory/" ) ).andDo( print() ).andExpect( status().isOk() )
+        final String delete = mvc.perform( get( "/deleteRecipe/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
-        assertTrue( inventory.contains( "<title>Inventory</title>" ) );
+        assertTrue( delete.contains( "<title>Delete Recipe</title>" ) );
 
-        final String ingredient = mvc.perform( get( "/ingredient/" ) ).andDo( print() ).andExpect( status().isOk() )
+        final String inventory = mvc.perform( get( "/addInventory/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
-        assertTrue( ingredient.contains( "<title>Ingredient</title>" ) );
+        assertTrue( inventory.contains( "<title>Add Inventory</title>" ) );
+
+        final String ingredient = mvc.perform( get( "/addIngredient/" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( ingredient.contains( "<title>Add Ingredient</title>" ) );
 
         final String makecoffee = mvc.perform( get( "/makecoffee/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
@@ -81,7 +81,7 @@ class TestMappingController {
 
         final String editrecipe = mvc.perform( get( "/editrecipe/" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
-        assertTrue( editrecipe.contains( "<title>Edit Recipes</title>" ) );
+        assertTrue( editrecipe.contains( "<title>Edit Recipe</title>" ) );
 
         // Test the user controllers
         final String signin = mvc.perform( get( "/signin" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
@@ -141,6 +141,44 @@ class TestMappingController {
         final String managerbarsjs = mvc.perform( get( "/manageBaristas.js" ) ).andDo( print() )
                 .andExpect( status().isOk() ).andReturn().getResponse().getContentAsString();
         assertTrue( managerbarsjs.contains( "ManageBaristasController" ) );
+
+        // Assert old stuff is accessible
+        final String inventoryOld = mvc.perform( get( "/inventory" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( inventoryOld.contains( "Inventory" ) );
+
+        final String ingredientOld = mvc.perform( get( "/ingredient" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( ingredientOld.contains( "Ingredient" ) );
+
+        // Check access to js of old stuff
+        final String editjs = mvc.perform( get( "/editRecipe.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( editjs.contains( "EditRecipeController" ) );
+
+        final String addjs = mvc.perform( get( "/addRecipe.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( addjs.contains( "AddRecipeController" ) );
+
+        final String deletejs = mvc.perform( get( "/deleteRecipe.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( deletejs.contains( "DeleteRecipeController" ) );
+
+        final String addIjs = mvc.perform( get( "/addIngredient.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( addIjs.contains( "AddIngredientController" ) );
+
+        final String addInjs = mvc.perform( get( "/addInventory.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( addInjs.contains( "AddInventoryController" ) );
+
+        final String orderhtml = mvc.perform( get( "/orderhistory" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( orderhtml.contains( "Order History" ) );
+
+        final String ordersjs = mvc.perform( get( "/orderHistory.js" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+        assertTrue( ordersjs.contains( "OrderHistoryController" ) );
 
     }
 

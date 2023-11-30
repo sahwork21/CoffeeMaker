@@ -13,14 +13,24 @@ app.controller('SignInController', function($scope, $http, $q) {
 		$scope.invalid[field] = false;
 	}
 	
+	$scope.generateUsers = function(){
+		// Make the api call to post some demo users
+		$http.post("/api/v1/generateusers").then(function(response){
+			
+		})
+		$scope.sucess = "Made demo users";
+		$scope.error = null;
+		
+	}
+	
 	$scope.onSubmit = function() {
 		//We need to pass in variables as JSON format for API calls
-		let rawPassword = {password:$scope.formData.password};
+		let rawPassword = $scope.formData.password;
 		
 		
 		
 		
-		$http.get("/api/v1/users/" + $scope.formData.username + "/" + $scope.formData.password).then(function(response) {
+		$http.post("/api/v1/users/login/" + $scope.formData.username , rawPassword).then(function(response) {
 			console.log("Successful login loop")
 			let user = response.data;
 			
@@ -29,12 +39,14 @@ app.controller('SignInController', function($scope, $http, $q) {
 			//These credentials should only persist for the tab with sessionStorage
 			//Only save it for the customer in the future since we have to reget their orders history
 			let username = $scope.formData.username;
-			let password = $scope.formData.password;
+			//let password = $scope.formData.password;
 			
 			sessionStorage.setItem("username", username);
-			sessionStorage.setItem("password", password);
+			
+			sessionStorage.setItem("userRole", user.roleType);
 			console.log(sessionStorage.getItem("username"));
-			console.log(sessionStorage.getItem("password"));
+			//console.log(sessionStorage.getItem("password"));
+			
 			
 			console.log(user);
 			
@@ -62,6 +74,7 @@ app.controller('SignInController', function($scope, $http, $q) {
 			$scope.success = "Successful login";
 		}, function(rejection) {
 			console.log("Rejection of login loop");
+			console.log(rejection)
 			$scope.success = null;
 			$scope.error = "Invalid username or password";
 		});

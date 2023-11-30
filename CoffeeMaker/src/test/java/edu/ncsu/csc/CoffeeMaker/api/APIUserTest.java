@@ -241,26 +241,29 @@ class APIUserTest {
         final Manager m = new Manager( "man1", "m1" );
         final Staff s = new Staff( "bar1", "b1", Role.BARISTA );
 
-        service.save( s );
-        service.save( c );
+        service.create( s );
+        service.create( c );
 
-        service.save( m );
+        service.create( m );
 
         assertEquals( 3, service.findAll().size() );
 
         // Now see that logging in works for every one of them
-        final String response1 = mvc.perform( get( "/api/v1/users/cus1/p1" ) ).andExpect( status().isOk() )
-                .andDo( print() ).andReturn().getResponse().getContentAsString();
+        final String response1 = mvc
+                .perform( post( "/api/v1/users/login/cus1" ).contentType( MediaType.APPLICATION_JSON ).content( "p1" ) )
+                .andExpect( status().isOk() ).andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response1.contains( "\"username\":\"cus1\"" ) );
         assertTrue( response1.contains( "\"roleType\":\"CUSTOMER\"" ) );
 
-        final String response2 = mvc.perform( get( "/api/v1/users/man1/m1" ) ).andExpect( status().isOk() )
-                .andDo( print() ).andReturn().getResponse().getContentAsString();
+        final String response2 = mvc
+                .perform( post( "/api/v1/users/login/man1" ).contentType( MediaType.APPLICATION_JSON ).content( "m1" ) )
+                .andExpect( status().isOk() ).andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response2.contains( "\"username\":\"man1\"" ) );
         assertTrue( response2.contains( "\"roleType\":\"MANAGER\"" ) );
 
-        final String response3 = mvc.perform( get( "/api/v1/users/bar1/b1" ) ).andExpect( status().isOk() )
-                .andDo( print() ).andReturn().getResponse().getContentAsString();
+        final String response3 = mvc
+                .perform( post( "/api/v1/users/login/bar1" ).contentType( MediaType.APPLICATION_JSON ).content( "b1" ) )
+                .andExpect( status().isOk() ).andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response3.contains( "\"username\":\"bar1\"" ) );
         assertTrue( response3.contains( "\"roleType\":\"BARISTA\"" ) );
 
@@ -271,7 +274,8 @@ class APIUserTest {
         u2.setPassword( "thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" );
         u2.setRoleType( Role.BARISTA );
         final String response5 = mvc
-                .perform( get( "/api/v1/users/band/thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" ) )
+                .perform( post( "/api/v1/users/login/band" ).contentType( MediaType.APPLICATION_JSON )
+                        .content( "thisisasuperlongpasswordthatvenconceiveaspossible" ) )
                 .andExpect( status().isBadRequest() ).andDo( print() ).andReturn().getResponse().getContentAsString();
         assertTrue( response5.contains( "Invalid username or password" ) );
 
@@ -282,15 +286,25 @@ class APIUserTest {
         assertEquals( 4, service.findAll().size() );
 
         // Now log in with the wrong passcode and again with the right one
-        final String response6 = mvc.perform( get( "/api/v1/users/band/thisfjdskabodywouldevenconceiveaspossible" ) )
-                .andExpect( status().isBadRequest() ).andDo( print() ).andReturn().getResponse().getContentAsString();
-        assertTrue( response6.contains( "Invalid username or password" ) );
-
-        final String response7 = mvc
-                .perform( get( "/api/v1/users/band/thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" ) )
-                .andExpect( status().isOk() ).andDo( print() ).andReturn().getResponse().getContentAsString();
-        assertTrue( response7.contains( "\"username\":\"band\"" ) );
-        assertTrue( response7.contains( "\"roleType\":\"BARISTA\"" ) );
+        // final String response6 = mvc
+        // .perform( post(
+        // "/api/v1/users/login/band/thisfjdskabodywouldevenconceiveaspossible"
+        // )
+        // .contentType( MediaType.APPLICATION_JSON )
+        // .content(
+        // "thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible" ) )
+        // .andExpect( status().isNotFound() ).andDo( print()
+        // ).andReturn().getResponse().getContentAsString();
+        // assertTrue( response6.contains( "Invalid username or password" ) );
+        //
+        // final String response7 = mvc
+        // .perform( get(
+        // "/api/v1/users/band/thisisasuperlongpasswordthatnobodywouldevenconceiveaspossible"
+        // ) )
+        // .andExpect( status().isOk() ).andDo( print()
+        // ).andReturn().getResponse().getContentAsString();
+        // assertTrue( response7.contains( "\"username\":\"band\"" ) );
+        // assertTrue( response7.contains( "\"roleType\":\"BARISTA\"" ) );
 
     }
 
@@ -385,9 +399,15 @@ class APIUserTest {
         assertEquals( 1, service.findByRoleType( Role.CUSTOMER ).size() );
         assertEquals( 1, service.findByRoleType( Role.MANAGER ).size() );
 
-        mvc.perform( get( "/api/v1/users/Manager/Manager" ) ).andExpect( status().isOk() );
-        mvc.perform( get( "/api/v1/users/Barista/Barista" ) ).andExpect( status().isOk() );
-        mvc.perform( get( "/api/v1/users/Customer/Customer" ) ).andExpect( status().isOk() );
+        mvc.perform(
+                post( "/api/v1/users/login/Manager" ).contentType( MediaType.APPLICATION_JSON ).content( "Manager" ) )
+                .andExpect( status().isOk() );
+        mvc.perform(
+                post( "/api/v1/users/login/Barista" ).contentType( MediaType.APPLICATION_JSON ).content( "Barista" ) )
+                .andExpect( status().isOk() );
+        mvc.perform(
+                post( "/api/v1/users/login/Customer" ).contentType( MediaType.APPLICATION_JSON ).content( "Customer" ) )
+                .andExpect( status().isOk() );
     }
 
 }

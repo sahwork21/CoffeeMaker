@@ -1,7 +1,14 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
-import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
@@ -18,10 +25,17 @@ import edu.ncsu.csc.CoffeeMaker.models.enums.Role;
 public class Customer extends AbstractUser {
 
     /**
+     * The list of orders for this object
+     */
+    @JsonBackReference
+    @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+    private List<CustomerRequest> orders;
+
+    /**
      * Generic customer generator. The role is fixed
      */
     public Customer () {
-
+        orders = new ArrayList<CustomerRequest>();
     }
 
     /**
@@ -34,7 +48,9 @@ public class Customer extends AbstractUser {
      *            the password of the customer
      */
     public Customer ( final String username, final String password ) {
+
         super( username, password, Role.CUSTOMER );
+        orders = new ArrayList<CustomerRequest>();
     }
 
     /**
@@ -50,6 +66,47 @@ public class Customer extends AbstractUser {
         }
 
         return super.checkUser();
+    }
+
+    /**
+     * Get the list of orders for a Customer
+     *
+     * @return the orders for this customer
+     */
+    public List<CustomerRequest> getOrders () {
+        return orders;
+
+    }
+
+    /**
+     * Set the list of orders to contain the input orders
+     *
+     * @param orders
+     *            the list of orders to set for this customer
+     */
+    public void setOrders ( final List<CustomerRequest> orders ) {
+        this.orders = orders;
+    }
+
+    /**
+     * Add an order object to the customer's orders
+     *
+     * @param order
+     *            an order object to add to the list of orders
+     */
+    public void addOrder ( final CustomerRequest order ) {
+        orders.add( order );
+    }
+
+    /**
+     * Remove an order from the list upon completion
+     *
+     * @param req
+     *            the order to remove from the orders list
+     */
+    public void removeOrder ( final CustomerRequest req ) {
+        orders.remove( req );
+
     }
 
 }

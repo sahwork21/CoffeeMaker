@@ -12,11 +12,11 @@
 
 <body ng-controller="ManageBaristasController" class="bg-gray-100">
 	<navbar></navbar>
-	<div class="w-full max-w-7xl mx-auto mt-8 p-3">
+	<div class="w-full max-w-7xl mx-auto mt-14">
 		<!-- Current Baristas List Section -->
 		<div>
-			<h1 class="my-2 text-lg font-semibold text-gray-500">Baristas</h1>
-			<div class="rounded-lg bg-white p-2">
+			<h1 class="text-lg font-semibold text-gray-500">Baristas</h1>
+			<div class="rounded-lg bg-white mt-2 p-2">
 				<p ng-hide="accounts.length > 0" class="font-semibold text-lg text-center text-gray-500 my-2">No
 					baristas currently exist</p>
 
@@ -32,7 +32,7 @@
 		<!-- Create new Barista section -->
 		<form name="form" ng-submit="onSubmit()">
 			<h1 class="my-2 text-lg font-semibold text-gray-500">Create new Barista account</h1>
-			<div class="flex justify-between w-full p-2 rounded-lg bg-white">
+			<div class="flex flex-col sm:flex-row justify-between w-full p-2 rounded-lg bg-white">
 
 				<div class="">
 					<div>
@@ -55,7 +55,7 @@
 				<div class="flex flex-col justify-end">
 					<p ng-show="error" class="text-red-500 text-right">{{error}}</p>
 					<button type="submit"
-						class="w-max p-2 mt-6 ml-auto text-white rounded-lg bg-blue-500 hover:bg-blue-700">Create
+						class="w-full sm:w-max p-2 mt-6 ml-auto text-white rounded-lg bg-blue-500 hover:bg-blue-700">Create
 						account</button>
 
 				</div>

@@ -3,7 +3,6 @@ package edu.ncsu.csc.CoffeeMaker.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,7 +53,7 @@ public class APICoffeeController extends APIController {
      *            amount paid
      * @return The change the customer is due if successful
      */
-    @PreAuthorize ( "hasRole( 'CUSTOMER' )" )
+    // @PreAuthorize ( "hasRole( 'CUSTOMER' )" )
     @PostMapping ( BASE_PATH + "/makecoffee/{name}" )
     public ResponseEntity makeCoffee ( @PathVariable ( "name" ) final String name, @RequestBody final int amtPaid ) {
         final Recipe recipe = recipeService.findByName( name );

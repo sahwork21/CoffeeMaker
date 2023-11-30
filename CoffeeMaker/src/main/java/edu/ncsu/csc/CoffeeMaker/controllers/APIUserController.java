@@ -87,7 +87,7 @@ public class APIUserController extends APIController {
         // We also use this valid flag so people cannot time up if users do or
         // do not exist
         if ( !valid || u != null ) {
-            return new ResponseEntity( "Invalid username or password", HttpStatus.BAD_REQUEST );
+            return new ResponseEntity( errorResponse( "Invalid username or password" ), HttpStatus.BAD_REQUEST );
         }
 
         // The user is valid so save them with the correct information after
@@ -98,13 +98,13 @@ public class APIUserController extends APIController {
 
         if ( user.getRoleType() == Role.BARISTA ) {
             final Staff insertedUser = new Staff( user.getUsername(), user.getPassword(), user.getRoleType() );
-            staffService.save( insertedUser );
+            staffService.create( insertedUser );
             return new ResponseEntity(
                     successResponse( user.getUsername() + " staff account was successfully created" ), HttpStatus.OK );
         }
         else if ( user.getRoleType() == Role.MANAGER ) {
             final Manager insertedUser = new Manager( user.getUsername(), user.getPassword() );
-            managerService.save( insertedUser );
+            managerService.create( insertedUser );
             return new ResponseEntity(
                     successResponse( user.getUsername() + " manager account was successfully created" ),
                     HttpStatus.OK );
@@ -113,14 +113,14 @@ public class APIUserController extends APIController {
             // Create a Customer as a last resort since this isn't a manager or
             // staff type
             final Customer insertedUser = new Customer( user.getUsername(), user.getPassword() );
-            customerService.save( insertedUser );
+            customerService.create( insertedUser );
             return new ResponseEntity(
                     successResponse( user.getUsername() + " customer account was successfully created" ),
                     HttpStatus.OK );
         }
 
         // This response better not be reached ever
-        return new ResponseEntity( "Could not create user", HttpStatus.INTERNAL_SERVER_ERROR );
+        return new ResponseEntity( errorResponse( "Could not create user" ), HttpStatus.INTERNAL_SERVER_ERROR );
 
     }
 
@@ -137,9 +137,9 @@ public class APIUserController extends APIController {
      * @return a response entity of 4XX on incorrect usernames or passwords. 200
      *         and the JSON of user on successful logins
      */
-    @GetMapping ( BASE_PATH + "/users/{username}/{password}" )
+    @PostMapping ( BASE_PATH + "/users/login/{username}" )
     public ResponseEntity loginUser ( @PathVariable ( "username" ) final String username,
-            @PathVariable ( "password" ) final String password ) {
+            @RequestBody final String password ) {
         final AbstractUser user = userService.findByUsername( username );
 
         // If the user is null send back a 400 error since there is no
@@ -148,7 +148,7 @@ public class APIUserController extends APIController {
         // If the username input has incorrect credentials send back a bad
         // request
         if ( user == null || !user.checkPassword( password ) ) {
-            return new ResponseEntity( "Invalid username or password", HttpStatus.BAD_REQUEST );
+            return new ResponseEntity( errorResponse( "Invalid username or password" ), HttpStatus.BAD_REQUEST );
         }
 
         // Now that the passwords match we need to get the more specific object
@@ -176,7 +176,7 @@ public class APIUserController extends APIController {
         }
 
         // This response better not be reached ever
-        return new ResponseEntity( "Could not return user class", HttpStatus.INTERNAL_SERVER_ERROR );
+        return new ResponseEntity( errorResponse( "Could not return user class" ), HttpStatus.INTERNAL_SERVER_ERROR );
 
     }
 
@@ -204,15 +204,76 @@ public class APIUserController extends APIController {
      * Create a manager, barista,and customer. This should only be used for the
      * demo to make generating users easier.
      *
-     * @return an okay response status with a success message
+     * @return an ok response since all the users were created or already exist
      */
     @PostMapping ( BASE_PATH + "/generateusers" )
     public ResponseEntity generateDemoUsers () {
-        customerService.save( new Customer( "Customer", "Customer" ) );
-        staffService.save( new Staff( "Barista", "Barista", Role.BARISTA ) );
-        managerService.save( new Manager( "Manager", "Manager" ) );
 
-        return new ResponseEntity( "Created some demo users", HttpStatus.OK );
+        // Make sure there already isn't a user with matching name
+        if ( customerService.findByUsername( "Customer" ) == null ) {
+            customerService.create( new Customer( "Customer", "Customer" ) );
+        }
+
+        if ( staffService.findByUsername( "Barista" ) == null ) {
+            staffService.create( new Staff( "Barista", "Barista", Role.BARISTA ) );
+        }
+
+        if ( managerService.findByUsername( "Manager" ) == null ) {
+            managerService.create( new Manager( "Manager", "Manager" ) );
+        }
+        return new ResponseEntity( successResponse( "Demo users made" ), HttpStatus.OK );
     }
+
+    // /**
+    // * Login info containing the raw password and username
+    // */
+    // private class LoginInfo {
+    // /**
+    // * username of the login
+    // */
+    // private String username;
+    //
+    // /**
+    // * password of the login
+    // */
+    // private String password;
+    //
+    // /**
+    // * Get the username of the login form
+    // *
+    // * @return username of login info
+    // */
+    // public String getUsername () {
+    // return username;
+    // }
+    //
+    // /**
+    // * Set the username
+    // *
+    // * @param username
+    // * of the form
+    // */
+    // public void setUsername ( final String username ) {
+    // this.username = username;
+    // }
+    //
+    // /**
+    // * Return the password of the form
+    // *
+    // * @return password of the form
+    // */
+    // public String getPassword () {
+    // return password;
+    // }
+    //
+    // /**
+    // * Set the password
+    // *
+    // * @param password
+    // */
+    // public void setPassword ( final String password ) {
+    // this.password = password;
+    // }
+    // }
 
 }

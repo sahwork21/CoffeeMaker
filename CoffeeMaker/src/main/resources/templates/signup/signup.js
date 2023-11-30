@@ -19,7 +19,7 @@ app.controller('SignUpController', function($scope, $http, $q) {
 			console.log(success.data.message);
 			$scope.success = success.data.message; // Set the success message
 		}, function(rejection){
-			console.log("In failure case");
+			console.log("Error: " + rejection.data.message);
 			$scope.success = null;
 			$scope.error = "Invalid Username or Password";
 		});
