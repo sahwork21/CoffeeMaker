@@ -70,4 +70,6 @@ app.controller('CustomerController', function($scope, $http, $q) {
 
     // Fetch orders when the controller is initialized
     $scope.fetchOrders();
+    
+    setInterval($scope.fetchOrders, 500);
 });
