@@ -20,10 +20,53 @@ app.controller('ManagerController', function($scope, $http, $q) {
 			console.log(response);
 			$scope.orders = response.data;
 			console.log($scope.orders);
+			
+			//Modify the most popular recipes
+			$scope.findPopular();
+			
+			
+			//Modify the total orders number
+			
 		});
 		
 		// Populate the most popular recipes from from our list of historic orders
 	}
 
 	$scope.fetchOrders();
+	
+	
+	// Copy of most popular finding
+	// Function to find popular recipes based on order data
+	$scope.findPopular = function() {
+	    var recipeCounts = {}; // Object to store the count of each recipe
+	
+	    // Iterate through orders and count occurrences of each recipe
+	    $scope.orders.forEach(function(order) {
+	        var recipe = order.recipe;
+	        if (recipeCounts[recipe]) {
+	            recipeCounts[recipe]++;
+	        } else {
+	            recipeCounts[recipe] = 1;
+	        }
+	    });
+	
+	    // Convert the recipeCounts object to an array of [recipe, count] pairs
+	    var recipeArray = [];
+	    for (var recipe in recipeCounts) {
+	        recipeArray.push([recipe, recipeCounts[recipe]]);
+	    }
+	
+	    // Sort the recipeArray by count in descending order
+	    recipeArray.sort(function(a, b) {
+	        return b[1] - a[1];
+	    });
+	
+	    // Take the top 3 recipes (or fewer if there are less than 3)
+	    var top3Recipes = recipeArray.slice(0, 3);
+	
+	    // Update $scope.popularRecipes
+	    $scope.popularRecipes = top3Recipes;
+	    // Update Pie chart data based on popularRecipes
+    	//$scope.updatePieChartData();
+	};
 });
